@@ -46,59 +46,59 @@ implemented so far:
 
 ### Core
 
-**Flip** `λfab.fba` used function `f` with arguments in reverse order  
-**Pair** `λabf.fab` construct pair or values to deliver to function `f`  
-**Fst** `λo.o(λab.a)` get first element of a pair  
-**Snd** `λo.o(λab.b)` get second element of a pair  
+**Flip** - `λfab.fba` used function `f` with arguments in reverse order  
+**Pair** - `λabf.fab` construct pair or values to deliver to function `f`  
+**Fst** - `λo.o(λab.a)` get first element of a pair  
+**Snd** - `λo.o(λab.b)` get second element of a pair  
 
 ### Logic
-**True** select first option `λab.a`  
-**False** select second option `λab.b`  
-**And** functional boolean `and`  
-**Or** functional boolean `or`  
-**Not** functional negation  
+**True** - select first option `λab.a`  
+**False** - select second option `λab.b`  
+**And** - functional boolean `and`  
+**Or** - functional boolean `or`  
+**Not** - functional negation  
 
 ### Peano numerals
 
 using Church encoded numerals
 
-**Succ** successor of a nominal  
-**Pred** predecessor or a nominal  
-**N0 .. N9** predefined numerals  
-**Is0** check if numeral is N0  
-**Add** sum 2 numerals  
-**Sub** subtract 2 numeral  
-**Mul** multiply 2 numerals  
-**Pow** numerals power  
-**Eq** check numeral equality  
-**NEq** check numeral inequality  
-**LEq** check numeral `<=` relation  
-**GEq** check numeral `>=` relation  
-**Lt** check numeral `<` relation  
-**Gt** check numeral `>` relation  
+**Succ** - successor of a nominal  
+**Pred** - predecessor or a nominal  
+**N0 .. N9** - predefined numerals  
+**Is0** - check if numeral is N0  
+**Add** - sum 2 numerals  
+**Sub** - subtract 2 numeral  
+**Mul** - multiply 2 numerals  
+**Pow** - numerals power  
+**Eq** - check numeral equality  
+**NEq** - check numeral inequality  
+**LEq** - check numeral `<=` relation  
+**GEq** - check numeral `>=` relation  
+**Lt** - check numeral `<` relation  
+**Gt** - check numeral `>` relation  
 
 ### List functions
-**Head** get first element of a list  
-**Tail** get ramaining of a list (but the head)  
-**Cons** construct a list node  
-**Nil** empty list  
-**Null** check if list is empty  
-**Length** get list length (numeral)  
-**Index** get element at index  
-**Drop** drop elements from list head  
-**Init** get list of all but last element  
-**Last** get last element of a list  
-**Reverse** reverse list order
-**Concat** join 2 lists  
-**Map** map a function over list elements  
-**Filter** filter list elements  
-**FoldL** left fold a list with a function and start value  
-**FoldR** right fold a list with a function and start value  
-**Zip** join 2 lists in a list of pairs with minimal length  
+**Head** - get first element of a list  
+**Tail** - get ramaining of a list (but the head)  
+**Cons** - construct a list node  
+**Nil** - empty list  
+**Null** - check if list is empty  
+**Length** - get list length (numeral)  
+**Index** - get element at index  
+**Drop** - drop elements from list head  
+**Init** - get list of all but last element  
+**Last** - get last element of a list  
+**Reverse** - reverse list order  
+**Concat** - join 2 lists  
+**Map** - map a function over list elements  
+**Filter** - filter list elements  
+**FoldL** - left fold a list with a function and start value  
+**FoldR** - right fold a list with a function and start value  
+**Zip** - join 2 lists in a list of pairs with minimal length  
 
 ### Extras
-**Nothing** `λn.λj.n`  
-**Just** `λxnj.j x`  
+**Nothing** - `λn.λj.n`  
+**Just** - `λxnj.j x`  
 
 ### Runtime
 
@@ -106,9 +106,9 @@ All above types have a runtime function with the same name but with a first low-
 
 ## SKI
 
-**S:=** λfgo.f(g o)  
-**K:=** λab.a  
-**I:=** λo.o  
+**S:=** - λfgo.f(g o)  
+**K:=** - λab.a  
+**I:=** - λo.o  
 
 ### Other combinators
 
