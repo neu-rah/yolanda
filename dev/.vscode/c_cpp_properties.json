@@ -1,0 +1,57 @@
+//
+// !!! WARNING !!! AUTO-GENERATED FILE!
+// PLEASE DO NOT MODIFY IT AND USE "platformio.ini":
+// https://docs.platformio.org/page/projectconf/section_env_build.html#build-flags
+//
+{
+    "configurations": [
+        {
+            "name": "PlatformIO",
+            "includePath": [
+                "/home/azevedo/Work/rsite/uLambda/dev/include",
+                "/home/azevedo/Work/rsite/uLambda/dev/src",
+                "/home/azevedo/Work/rsite/uLambda/src",
+                "/home/azevedo/Work/rsite/uLambda/.git",
+                "/home/azevedo/Work/rsite/uLambda/.vscode",
+                "/home/azevedo/Work/rsite/uLambda/examples",
+                "/home/azevedo/Work/rsite/uLambda/include",
+                "/home/azevedo/Work/rsite/uLambda/lib",
+                "/home/azevedo/Work/rsite/uLambda/mockings",
+                "/home/azevedo/Work/rsite/uLambda/test",
+                "/home/azevedo/Work/rsite/uLambda/dev/.pio/libdeps/native/Unity/src",
+                ""
+            ],
+            "browse": {
+                "limitSymbolsToIncludedHeaders": true,
+                "path": [
+                    "/home/azevedo/Work/rsite/uLambda/dev/include",
+                    "/home/azevedo/Work/rsite/uLambda/dev/src",
+                    "/home/azevedo/Work/rsite/uLambda/src",
+                    "/home/azevedo/Work/rsite/uLambda/.git",
+                    "/home/azevedo/Work/rsite/uLambda/.vscode",
+                    "/home/azevedo/Work/rsite/uLambda/examples",
+                    "/home/azevedo/Work/rsite/uLambda/include",
+                    "/home/azevedo/Work/rsite/uLambda/lib",
+                    "/home/azevedo/Work/rsite/uLambda/mockings",
+                    "/home/azevedo/Work/rsite/uLambda/test",
+                    "/home/azevedo/Work/rsite/uLambda/dev/.pio/libdeps/native/Unity/src",
+                    ""
+                ]
+            },
+            "defines": [
+                "PLATFORMIO=60103",
+                "NO_YO_DEBUG",
+                "REDUCE_ON_COMPLETION",
+                "IO_REBIND",
+                "UNITY_SHORTHAND_AS_RAW",
+                "UNITY_OUTPUT_COLOR",
+                ""
+            ],
+            "compilerPath": "/usr/bin/gcc",
+            "compilerArgs": [
+                ""
+            ]
+        }
+    ],
+    "version": 4
+}
