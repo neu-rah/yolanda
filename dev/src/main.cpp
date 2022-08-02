@@ -115,8 +115,9 @@ auto operator<<(StdIO<E>& io,const O o) ->decltype(io.operator<<(o)) {return io.
 
 int main() {
   clog<<"testing..."<<endl<<flush;
+  clog<<(_false?"yen":"ney");
   // a((const char*)"Ok");
-  io<<(const char*)"enter name:"<<getLine;
+  // io<<(const char*)"enter name:"<<getLine;
   // // io<<getLine;
   // print(id((const char*)"ok"));
   // print(_false(1)(2));

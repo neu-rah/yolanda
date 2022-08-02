@@ -6,8 +6,12 @@
   namespace yo {
 #endif
   using Not=C;
-  using True=K;
-  using False=Expr<True,Id>;
+  struct True:K {
+    operator bool() const {return true;}
+  };
+  struct False:Expr<True,Id> {
+    operator bool() const {return false;}
+  };
 
   constexpr const Not _not;
   constexpr const True _true;
