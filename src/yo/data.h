@@ -27,15 +27,20 @@
   template<bool o> struct StaticBool;
   template<> struct StaticBool<true>:StaticData<bool,true>,True {
     using Def=StaticBool<true>;
+    constexpr operator const bool() const {return true;}
     using Run=This;
     // auto run() const->decltype(*this) {return *this;}
   };
 
   template<> struct StaticBool<false>:StaticData<bool,false>,False {
     using Def=StaticBool<false>;
+    constexpr operator const bool() const {return false;}
     using Run=This;
     // auto run() const->decltype(*this) {return *this;}
   };
+
+  using _T=StaticBool<true>;
+  using _F=StaticBool<false>;
 
   // slow compile of any StaticInt
   // template<int n> struct StaticInt:StaticData<int,n>,Succ::Bind<StaticInt<n-1>> {};
@@ -77,6 +82,7 @@
   //     {return Int(data-1)(std::forward<const F>(f))(f(std::forward<const O>(o)));}
   // };
 
+  using Bool=Data<bool>;
   using Int=Data<unsigned int>;
   using Char=Data<unsigned char>;
   using Float=Data<double>;
