@@ -16,7 +16,8 @@
   struct K:Combinator<K,2> {
     template<typename O,typename P> using Beta=O;
     template<typename O,typename P> static O beta(const O&o,const P&) {return o;}
-  };
+    operator bool() const {return true;}
+};
 
   struct S:Combinator<S,3> {
     template<typename F,typename G,typename O> using Beta=typename F::template Bind<O>::template Bind<typename G::template Bind<O>>;

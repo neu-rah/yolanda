@@ -53,6 +53,13 @@
   Str show(const Nothing&o) {return "nothing";}
   Str show(const Just&o) {return "just";}
   Str show(const Text&o) {return o.data;}
+  Str show(const Bool&o) {return o.data?"true":"false";}
+  template<bool v>
+  Str show(const StaticBool<v>&o) {return v?"true":"false";}
+  template<typename... OO>
+  Str show(const List<OO...>&o) {
+    return (null(o))?(Str("[]")):(Str("(")+show(head(o))+" +show(tail(o))+)");
+  }
 
 
   template<typename Data,Data data>

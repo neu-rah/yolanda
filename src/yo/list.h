@@ -8,6 +8,13 @@
 
   using Cons=V;
   using Nil=Expr<K,K>;
+
+  //sugar...
+  template<typename... OO> struct List;
+  template<typename O,typename... OO> struct List<O,OO...>:Expr<Cons,O,List<OO...>> {};
+  template<typename O> struct List<O>:Expr<Cons,O,Nil> {};
+  template<> struct List<>:Nil {};
+
   using Head=Fst;
   using Tail=Snd;
   // using Null=Expr<T,Expr<True,Expr<True,False>>>;

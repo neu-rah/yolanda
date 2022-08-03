@@ -54,6 +54,7 @@
       ->decltype(Prev().beta()(Arg()))
       {/*dbo<<"~"*/;return Prev().beta()(std::forward<const Arg>(Arg()));}
     template<typename O> using Bind=typename Prev::Beta::template Bind<Arg>::template Bind<O>;
+    using Run=typename Beta::Run;
   };
 
   template<typename...> struct Expr {};

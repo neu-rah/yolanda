@@ -9,7 +9,12 @@
   struct True:K {
     operator bool() const {return true;}
   };
-  struct False:Expr<True,Id> {
+  // struct False:Expr<True,Id> {
+  //   operator bool() const {return false;}
+  // };
+  struct False:Combinator<False,2> {
+    template<typename O,typename P> using Beta=P;
+    template<typename O,typename P> static P beta(const O&o,const P&p) {return p;}
     operator bool() const {return false;}
   };
 

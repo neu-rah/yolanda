@@ -15,7 +15,9 @@
 			"ostream": "cpp",
 			"random": "cpp",
 			"cmath": "cpp",
-			"string": "cpp"
+			"string": "cpp",
+			"array": "cpp",
+			"string_view": "cpp"
 		}
 	}
 }
