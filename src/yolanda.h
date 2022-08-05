@@ -1,5 +1,13 @@
 #pragma once
 
+#ifndef IO_REBIND
+  #define IO_REBIND
+#endif
+
+#ifndef REDUCE_ON_COMPLETION
+  #define REDUCE_ON_COMPLETION
+#endif
+
 #ifdef _S
   #define YO_S_TMP _S
   #undef _S
