@@ -8,11 +8,11 @@
   //we can extract values when we know the result type
   template<typename R,typename E> struct Run;
   template<typename R,typename E> R run(const E&e) {return Run<R,E>::run(e);}
-  template<typename R,typename E> struct Run {static R run(const E&e) {
+  template<typename R,typename E> struct Run {static R run(const E&e) 
     #ifdef YO_DEBUG
-      return ::run<R>(e.beta());}
+      {return ::run<R>(e.beta());}
     #else
-      return yo::run<R>(e.beta());}
+      {return yo::run<R>(e.beta());}
     #endif
   };
   template<typename R> struct Run<R,int> {static int run(const int n) {return n;}};
