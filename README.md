@@ -122,7 +122,7 @@ id
 
 **toInt** convert expression to c++ int (numeral to c++ int)
 
-**show** convert expression to string or String, depending on the platform
+**toStr** convert expression to string or String, depending on the platform
 
 **print** reduces and prints the expression reduction result.
 

@@ -1,6 +1,6 @@
 #pragma once
 #include "io.h"
-#include "show.h"
+#include "toStr.h"
 
 #ifndef YO_DEBUG
   namespace yo {
@@ -10,7 +10,7 @@
   struct PrintIO {
     static void nl() {io<<endl;}
     template<typename O> void operator()(const O&&o) {
-      io<<show(std::forward<const O>(o))<<flush;
+      io<<toStr(std::forward<const O>(o))<<flush;
     }
   };
 
@@ -31,7 +31,7 @@
     template<typename E>
     void print(const E&e) {
       // #ifdef YO_DEBUG
-      //   clog<<show(std::forward<const E>(e))<<" => ";
+      //   clog<<toStr(std::forward<const E>(e))<<" => ";
       // #endif
       stdIO.ret(std::forward<const E>(e));
       stdIO.nl();

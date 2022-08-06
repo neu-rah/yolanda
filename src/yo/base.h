@@ -32,10 +32,10 @@
   namespace yo {
 #endif
 
-  template<typename O> Str show(const O&);
+  template<typename O> Str toStr(const O&);
   template<typename O> Str showType();
   // template<typename O> Str code();
-  // template<typename O> Str show(const O&o);
+  // template<typename O> Str toStr(const O&o);
 
   #ifdef YO_DEBUG
     #define dbo clog

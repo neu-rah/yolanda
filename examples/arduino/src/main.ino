@@ -50,7 +50,7 @@ void setup() {
   clog<<toInt(FoldR::Bind<Add>::Bind<N0>::Bind<L3>())<<endl;
   clog<<toInt(foldr(add)(n0)(l3))<<endl;
   print(toInt(length(filter(std::forward<const Is0>(is0))(cons(std::forward<const N0>(n0))(cons(std::forward<const N0>(n0))(std::forward<const Nil>(nil)))))));
-  clog<<show(just(yes)(nothing)(id))<<endl;
+  clog<<toStr(just(yes)(nothing)(id))<<endl;
   print(toInt(length(l3)));
   print(toInt(length(tail(l3))));
   print(last(l3));

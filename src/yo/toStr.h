@@ -9,101 +9,101 @@
   namespace yo {
 #endif
   #ifdef ARDUINO
-    Str show(const int n) {return Str(n);}
+    Str toStr(const int n) {return Str(n);}
   #else
-    Str show(const int n) {return std::to_string(n);}
+    Str toStr(const int n) {return std::to_string(n);}
   #endif
-  Str show(const unsigned char t) {
+  Str toStr(const unsigned char t) {
     #ifdef ARDUINO
       return Str(t);
     #else
       return Str(1,t);
     #endif
   }
-  Str show(const char* const t) {return t;}
-  Str show(const I&) {return "id";}
-  Str show(const K&o) {return "true";}
-  Str show(const S&o) {return "S";}
-  Str show(const B&o) {return "B";}
-  Str show(const V&o) {return "V";}
-  Str show(const M&o) {return "M";}
-  Str show(const T&o) {return "T";}
-  Str show(const Succ&o) {return "succ";}
-  Str show(const Phi&o) {return "ϕ";}
-  Str show(const Pred&o) {return "pred";}
-  Str show(const False&o) {return "false";}
-  Str show(const Flip&o) {return "flip";}
-  Str show(const Fst&o) {return "fst";}
-  Str show(const Snd&o) {return "snd";}
-  Str show(const Null&o) {return "null";}
-  Str show(const _Length&o) {return "length";}
-  Str show(const Index&o) {return "index";}
-  Str show(const _Last&o) {return "last";}
-  Str show(const _Concat&o) {return "concat";}
-  Str show(const _Init&o) {return "init";}
-  Str show(const _Reverse&o) {return "reverse";}
-  Str show(const _Filter&o) {return "filter";}
-  Str show(const _Map&o) {return "map";}
-  Str show(const _FoldL&o) {return "foldl";}
-  Str show(const _FoldR&o) {return "foldr";}
-  Str show(const _Zip&o) {return "zip";}
-  Str show(const _Nats&o) {return "ℕ";}
-  Str show(const Is0&o) {return "is0";}
-  Str show(const Add&o) {return "add";}
-  Str show(const Nothing&o) {return "nothing";}
-  Str show(const Just&o) {return "just";}
-  Str show(const Text&o) {return o.data;}
-  Str show(const Bool&o) {return o.data?"true":"false";}
+  Str toStr(const char* const t) {return t;}
+  Str toStr(const I&) {return "id";}
+  Str toStr(const K&o) {return "true";}
+  Str toStr(const S&o) {return "S";}
+  Str toStr(const B&o) {return "B";}
+  Str toStr(const V&o) {return "V";}
+  Str toStr(const M&o) {return "M";}
+  Str toStr(const T&o) {return "T";}
+  Str toStr(const Succ&o) {return "succ";}
+  Str toStr(const Phi&o) {return "ϕ";}
+  Str toStr(const Pred&o) {return "pred";}
+  Str toStr(const False&o) {return "false";}
+  Str toStr(const Flip&o) {return "flip";}
+  Str toStr(const Fst&o) {return "fst";}
+  Str toStr(const Snd&o) {return "snd";}
+  Str toStr(const Null&o) {return "null";}
+  Str toStr(const _Length&o) {return "length";}
+  Str toStr(const Index&o) {return "index";}
+  Str toStr(const _Last&o) {return "last";}
+  Str toStr(const _Concat&o) {return "concat";}
+  Str toStr(const _Init&o) {return "init";}
+  Str toStr(const _Reverse&o) {return "reverse";}
+  Str toStr(const _Filter&o) {return "filter";}
+  Str toStr(const _Map&o) {return "map";}
+  Str toStr(const _FoldL&o) {return "foldl";}
+  Str toStr(const _FoldR&o) {return "foldr";}
+  Str toStr(const _Zip&o) {return "zip";}
+  Str toStr(const _Nats&o) {return "ℕ";}
+  Str toStr(const Is0&o) {return "is0";}
+  Str toStr(const Add&o) {return "add";}
+  Str toStr(const Nothing&o) {return "nothing";}
+  Str toStr(const Just&o) {return "just";}
+  Str toStr(const Text&o) {return o.data;}
+  Str toStr(const Bool&o) {return o.data?"true":"false";}
   template<bool v>
-  Str show(const StaticBool<v>&o) {return v?"true":"false";}
+  Str toStr(const StaticBool<v>&o) {return v?"true":"false";}
   // template<typename... OO>
-  // Str show(const List<OO...>&o) {
-  //   return (toBool(null(o)))?(Str("[]")):(Str("(")+show(head(o))+","+show(tail(o))+")");
+  // Str toStr(const List<OO...>&o) {
+  //   return (toBool(null(o)))?(Str("[]")):(Str("(")+toStr(head(o))+","+toStr(tail(o))+")");
   // }
 
 
   template<typename Data,Data data>
-  Str show(const StaticData<Data,data>&o) {return show((Data)o);}
+  Str toStr(const StaticData<Data,data>&o) {return toStr((Data)o);}
   template<int n>
-  Str show(const StaticInt<n>&) {
+  Str toStr(const StaticInt<n>&) {
     #ifdef ARDUINO
       return Str(n);
     #else
       return std::to_string(n);
     #endif
   }
-  // template<typename T> Str show(const Type<T>&o) {return showType<Type<T>>();}
+  // template<typename T> Str toStr(const Type<T>&o) {return showType<Type<T>>();}
 
-  Str show(const Str&o) {return o;}
+  Str toStr(const Str&o) {return o;}
 
   template<typename T>
-  Str show(const Data<T>&o) {return show(o.data);}
+  Str toStr(const Data<T>&o) {return toStr(o.data);}
 
   template<typename Prev,typename Arg,int n>
-  Str show(const Binder<Prev,Arg, n>&o) {return show(Prev())+" "+show(Arg());}
+  Str toStr(const Binder<Prev,Arg, n>&o) {return toStr(Prev())+" "+toStr(Arg());}
 
   template<typename Prev,typename A,typename B,int m,int n>
-  Str show(const Binder<Prev,Binder<A,B,m>,n>&o) {return show(Prev())+"("+show(Binder<A,B,m>())+")";}
+  Str toStr(const Binder<Prev,Binder<A,B,m>,n>&o) {return toStr(Prev())+"("+toStr(Binder<A,B,m>())+")";}
 
   template<typename Prev,typename Arg,int n>
-  Str show(const Lambda<Prev,Arg, n>&o) {return show(o.prev)+" "+show(o.param);}
+  Str toStr(const Lambda<Prev,Arg, n>&o) {return toStr(o.prev)+" "+toStr(o.param);}
 
   template<typename Prev,typename A,typename B,int m,int n>
-  Str show(const Lambda<Prev,Lambda<A,B,m>,n>&o) {return show(o.prev)+"("+show(o.param)+")";}
+  Str toStr(const Lambda<Prev,Lambda<A,B,m>,n>&o) {return toStr(o.prev)+"("+toStr(o.param)+")";}
 
   template<typename R,typename O,typename... OO,Func<R,O,OO...>f>
-  Str show(const Curry<Func<R,O,OO...>,f>&) {return "{c++}";}
+  Str toStr(const Curry<Func<R,O,OO...>,f>&) {return "{c++}";}
 
-  template<> Str show(const Expr<>&){return "";};
+  template<> Str toStr(const Expr<>&){return "";};
   template<typename O,typename...OO>
-  Str show(const Expr<O,OO...>&){return show(O())+" "+show(Expr<OO...>());};
+  Str toStr(const Expr<O,OO...>&){return toStr(O())+" "+toStr(Expr<OO...>());};
 
 
-  // type show -----------------
+  // type toStr -----------------
   template<typename O> struct Show {};
   template<typename Data, Data data>
   struct Show< StaticData<Data,data> > {static Str type(){return showType<const Data>();}};
-  // template<int n> struct Show<StaticData<int,n>> {static Str type(){return show(n);}};
+  // template<int n> struct Show<StaticData<int,n>> {static Str type(){return toStr(n);}};
   template<> struct Show<const int> {static Str type(){return "int";}};
   template<const char* const*text> struct Show<StaticText<text>> {static Str type(){return text[0];}};
   template<> struct Show<Type<int>> {static Str type(){return "Int";}};

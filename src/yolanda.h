@@ -26,7 +26,7 @@
 #include "yo/bool.h"
 #include "yo/peano.h"
 #include "yo/list.h"
-#include "yo/show.h"
+#include "yo/toStr.h"
 #include "yo/print.h"
 #ifdef _S
   #define _S YO_S_TMP
