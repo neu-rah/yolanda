@@ -113,11 +113,36 @@ auto operator<<(StdIO<E>& io,const O o) ->decltype(io.operator<<(o)) {return io.
 // template<typename O> void a(const O&o)  {b(/*forward<const O>*/(o));}
 // template<typename O> void a(const O&&o) {b(/*forward<const O>*/(o));}
 
+class A{};
+
+struct ToBool:Combinator<ToBool,1> {
+  template<typename Cond>
+  using Beta=typename Cond::Run;
+  template<typename Cond> 
+  bool beta(const Cond& cond) const {
+    return cond(Bool(true))(Bool(false)).template runTo<Bool>();
+  }
+  #ifdef REDUCE_ON_COMPLETION
+    template<typename O>
+    auto operator()(const O&o) const 
+      ->decltype(beta(o)) 
+      {return beta(o);}
+  #endif
+};
+
+constexpr const ToBool toBool;
+
 int main() {
   clog<<"testing..."<<endl<<flush;
-  if(Expr<Null,Expr<Tail,List<bool>>>::Run()) clog<<"!";
-  else clog<<"ok";
-  clog<<endl;
+  // if(Expr<Null,Expr<Tail,List<bool>>>::Run()) clog<<"ok"<<endl;
+  // else clog<<"fail"<<endl;
+  // print(null(tail(cons(n0)(nil)))(Bool(true))(Bool(false)));
+  if(toBool(null(tail(cons(n0)(nil))))) clog<<"ok"<<endl;
+  else clog<<"fail"<<endl;
+  // if(null(tail(cons(n0)(nil)))(Bool(true))(Bool(false)).runTo<Bool>()
+  //   // .beta().beta().beta()
+  // ) clog<<"ok"<<endl;
+  // else clog<<"fail"<<endl;
   // a((const char*)"Ok");
   // io<<(const char*)"enter name:"<<getLine;
   // // io<<getLine;

@@ -7,6 +7,15 @@
 #endif
   //we can extract values when we know the result type
   template<typename R,typename E> struct Run;
+  template<typename R> R run(const Bool&e) {return e;}
+  template<typename R> R run(const Int&e) {return e;}
+  template<typename R> R run(const Char&e) {return e;}
+  template<typename R> R run(const Float&e) {return e;}
+  template<typename R> R run(const Text&e) {return e;}
+  template<typename R,const char* const* text> R run(const StaticText<text>&e) {return e;}
+  template<typename R,bool o> R run(const StaticBool<o>&e) {return e;}
+  template<typename R,typename T> R run(const Type<T>&e) {return e;}
+  template<typename R,typename T,T data> R run(const StaticData<T,data>&e) {return e;}
   template<typename R,typename E> R run(const E&e) {return Run<R,E>::run(e);}
   template<typename R,typename E> struct Run {static R run(const E&e) 
     #ifdef YO_DEBUG

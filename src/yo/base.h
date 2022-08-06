@@ -49,6 +49,16 @@
 
   template<typename Prev,typename Arg,int n> struct Binder;
   template<typename Prev,typename Arg,int n> struct Lambda;
+  template<typename T> struct Data;
+  using Bool=Data<bool>;
+  using Int=Data<unsigned int>;
+  using Char=Data<unsigned char>;
+  using Float=Data<double>;
+  struct Text;
+  template<typename  T> struct Type;
+  template<typename T,T data> struct StaticData;
+  template<bool o> struct StaticBool;
+  template<const char* const* text> struct StaticText;
 
   //type equality
   template<typename O> bool EqT(const O,const O) {return true;}

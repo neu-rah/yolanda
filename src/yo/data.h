@@ -24,7 +24,6 @@
     // auto run() const->decltype(*this) {return *this;}
   };
 
-  template<bool o> struct StaticBool;
   template<> struct StaticBool<true>:StaticData<bool,true>,True {
     using Def=StaticBool<true>;
     constexpr operator const bool() const {return true;}
@@ -81,11 +80,6 @@
   //     ->decltype(Int(data-1)(f)(f(o)))
   //     {return Int(data-1)(std::forward<const F>(f))(f(std::forward<const O>(o)));}
   // };
-
-  using Bool=Data<bool>;
-  using Int=Data<unsigned int>;
-  using Char=Data<unsigned char>;
-  using Float=Data<double>;
 
   struct Text:Data<Str> {
     using Base=Data<Str>;
