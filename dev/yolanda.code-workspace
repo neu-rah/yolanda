@@ -17,7 +17,13 @@
 			"cmath": "cpp",
 			"string": "cpp",
 			"array": "cpp",
-			"string_view": "cpp"
+			"string_view": "cpp",
+			"*.tcc": "cpp",
+			"memory": "cpp",
+			"istream": "cpp",
+			"functional": "cpp",
+			"tuple": "cpp",
+			"utility": "cpp"
 		}
 	}
 }

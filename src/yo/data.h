@@ -9,7 +9,7 @@
   //type info----------------------------
   template<typename  T>
   struct Type {
-    // static constexpr const int sz=0;
+    static constexpr const int sz=0;
     using This=Type<T>;
     using Def=T;
     using Run=This;
