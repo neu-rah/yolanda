@@ -153,8 +153,8 @@
   static int _plus1(int n){return n+1;}
   Curry<decltype(&_plus1),&_plus1> plus1;
 
-  // template<typename N>
-  // int toInt(const N&n) {return n(std::forward<const decltype(plus1)>(plus1))(0).template runTo<int>();}
+  template<typename N>
+  int toInt(const N&n) {return n(std::forward<const decltype(plus1)>(plus1))(0).template runTo<int>();}
   template<typename N>
   int toInt(const N&&n) {return n(std::forward<const decltype(plus1)>(plus1))(0).template runTo<int>();}
 #ifndef YO_DEBUG
