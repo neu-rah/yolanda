@@ -8,6 +8,7 @@
 #ifndef YO_DEBUG
   namespace yo {
 #endif
+  struct Show;
   #ifdef ARDUINO
     Str toStr(const int n) {return Str(n);}
   #else
@@ -54,6 +55,7 @@
   Str toStr(const Just&o) {return "just";}
   Str toStr(const Text&o) {return o.data;}
   Str toStr(const Bool&o) {return o.data?"true":"false";}
+  Str toStr(const Show&o) {return "show";}
   template<bool v>
   Str toStr(const StaticBool<v>&o) {return v?"true":"false";}
   // template<typename... OO>
@@ -230,6 +232,20 @@
 
   // template<typename O> Str code() {return "("+Code<O>::code()+")";}
   // template<> Str code<Expr<>>() {return "";}
+
+  struct Show:Combinator<Show,1> {
+    static constexpr const char* name="show";
+    template<typename O> using Beta=StaticText<&name>;
+    template<typename O> static Text beta(const O&o) {
+      return Text(toStr(std::forward<const O>(o)));
+    }
+    #ifdef REDUCE_ON_COMPLETION
+      template<typename O> auto operator()(const O&o) const->decltype(beta(o)) {return beta(o);}
+    #endif
+  };
+
+  constexpr const Show show;
+  
 #ifndef YO_DEBUG
   };
 #endif

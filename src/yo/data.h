@@ -85,6 +85,7 @@
     using Base=Data<Str>;
     using Base::Base;
     const This beta() const {return *this;}
+    operator const char*() {return data.c_str();}
     // auto run() const->decltype(*this) {return *this;}
   };
 #ifndef YO_DEBUG

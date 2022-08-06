@@ -110,6 +110,8 @@ int main() {
 
   // print(tail(List<N0>()));
 
+  clog<<show(n3)<<endl;
+
   if(toBool(null(tail(cons(n0)(nil))))) clog<<"ok"<<endl;
   else clog<<"fail"<<endl;
 
