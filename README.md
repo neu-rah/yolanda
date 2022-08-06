@@ -116,6 +116,16 @@ B,C,M,L,Y,T,V,R,Bb,Id
 
 id
 
+### aux functions
+
+**toBool** convert expression to c++ bool
+
+**toInt** convert expression to c++ int (numeral to c++ int)
+
+**show** convert expression to string or String, depending on the platform
+
+**print** reduces and prints the expression reduction result.
+
 ## sources
 
 https://www.angelfire.com/tx4/cus/combinator/birds.html

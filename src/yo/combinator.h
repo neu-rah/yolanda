@@ -43,6 +43,23 @@
     using Run=This;
     using Beta=This;
   };
+
+  struct ToBool:Combinator<ToBool,1> {
+    template<typename Cond>
+    using Beta=typename Cond::Run;
+    template<typename Cond> 
+    bool beta(const Cond& cond) const {
+      return cond(Bool(true))(Bool(false)).template runTo<Bool>();
+    }
+    #ifdef REDUCE_ON_COMPLETION
+      template<typename O>
+      auto operator()(const O&o) const 
+        ->decltype(beta(o)) 
+        {return beta(o);}
+    #endif
+  };
+
+  constexpr const ToBool toBool;
 #ifndef YO_DEBUG
   };
 #endif
