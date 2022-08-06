@@ -23,6 +23,13 @@
       io.ret(e.beta());
     }
   };
+  template<typename IO,const char* const*text,int n>
+  struct BetaIO<IO,StaticText<text>,n> {
+    void operator()(IO&&io,const StaticText<text>&&e) const {
+      io.ret(e);
+    }
+  };
+  //TODO: other data types here...
 
   template<typename IO,typename E>
   struct BetaIO<IO,E,-1> {
@@ -41,7 +48,7 @@
     static void ret(const unsigned int n) {Fn()(std::forward<const unsigned int>(n));}
     static void ret(const char o) {Fn()(std::forward<const char>(o));}
     static void ret(const unsigned char o) {Fn()(o);}
-    template<const char* const*text> static void ret(const StaticText<text> n) {Fn()(text[0]);}
+    template<const char* const*text> static void ret(const StaticText<text>& n) {Fn()(text[0]);}
     static void ret(const char* t) {Fn()(std::forward<const char*>(t));}
     static void ret(char* t) {Fn()(std::forward<char*>(t));}
     template<typename O>
