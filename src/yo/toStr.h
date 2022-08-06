@@ -100,64 +100,64 @@
 
 
   // type toStr -----------------
-  template<typename O> struct Show {};
+  template<typename O> struct ToStr {};
   template<typename Data, Data data>
-  struct Show< StaticData<Data,data> > {static Str type(){return showType<const Data>();}};
-  // template<int n> struct Show<StaticData<int,n>> {static Str type(){return toStr(n);}};
-  template<> struct Show<const int> {static Str type(){return "int";}};
-  template<const char* const*text> struct Show<StaticText<text>> {static Str type(){return text[0];}};
-  template<> struct Show<Type<int>> {static Str type(){return "Int";}};
-  template<> struct Show<Type<unsigned int>> {static Str type(){return "Int";}};
-  template<> struct Show<Type<bool>> {static Str type() {return "Bool";}};
-  template<> struct Show<Type<const char*>> {static Str type(){return "Str";}};
-  template<> struct Show<Type<const char* const*>> {static Str type(){return "StaticText";}};
-  template<> struct Show<Type<const double>> {static Str type(){return "Double";}};
-  template<> struct Show<I> {static Str type(){return "I";}};
-  template<> struct Show<K> {static Str type(){return "K";}};
-  template<> struct Show<S> {static Str type(){return "S";}};
-  template<> struct Show<B> {static Str type(){return "B";}};
-  template<> struct Show<V> {static Str type(){return "V";}};
-  template<> struct Show<T> {static Str type(){return "T";}};
-  template<> struct Show<M> {static Str type(){return "M";}};
-  template<> struct Show<C> {static Str type(){return "C";}};
-  template<> struct Show<Succ> {static Str type() {return "Succ";}};
-  template<> struct Show<False> {static Str type() {return "False";}};
-  // template<> struct Show<Flip> {static Str type() {return "Flip";}};
-  template<> struct Show<Fst> {static Str type(){return "Fst";}};
-  template<> struct Show<Snd> {static Str type(){return "Snd";}};
-  template<> struct Show<Null> {static Str type() {return "Null";}};
-  template<> struct Show<Index> {static Str type() {return "Index";}};
-  template<> struct Show<_Last> {static Str type() {return "last";}};
-  template<> struct Show<_Concat> {static Str type() {return "Concat";}};
-  template<> struct Show<Is0> {static Str type() {return "Is0";}};
-  template<> struct Show<_Init> {static Str type(){return "Init";}};
-  template<> struct Show<_Length> {static Str type(){return "Length";}};
-  template<> struct Show<_Map> {static Str type(){return "Map";}};
-  template<> struct Show<_FoldL> {static Str type(){return "FoldL";}};
-  template<> struct Show<_FoldR> {static Str type(){return "FoldR";}};
-  template<> struct Show<_Zip> {static Str type(){return "Zip";}};
-  template<> struct Show<Nothing> {static Str type(){return "Nothing";}};
-  template<> struct Show<Just> {static Str type(){return "Just";}};
-  // template<> struct Show<Length> {static Str type(){return "length";}};
+  struct ToStr< StaticData<Data,data> > {static Str type(){return showType<const Data>();}};
+  // template<int n> struct ToStr<StaticData<int,n>> {static Str type(){return toStr(n);}};
+  template<> struct ToStr<const int> {static Str type(){return "int";}};
+  template<const char* const*text> struct ToStr<StaticText<text>> {static Str type(){return text[0];}};
+  template<> struct ToStr<Type<int>> {static Str type(){return "Int";}};
+  template<> struct ToStr<Type<unsigned int>> {static Str type(){return "Int";}};
+  template<> struct ToStr<Type<bool>> {static Str type() {return "Bool";}};
+  template<> struct ToStr<Type<const char*>> {static Str type(){return "Str";}};
+  template<> struct ToStr<Type<const char* const*>> {static Str type(){return "StaticText";}};
+  template<> struct ToStr<Type<const double>> {static Str type(){return "Double";}};
+  template<> struct ToStr<I> {static Str type(){return "I";}};
+  template<> struct ToStr<K> {static Str type(){return "K";}};
+  template<> struct ToStr<S> {static Str type(){return "S";}};
+  template<> struct ToStr<B> {static Str type(){return "B";}};
+  template<> struct ToStr<V> {static Str type(){return "V";}};
+  template<> struct ToStr<T> {static Str type(){return "T";}};
+  template<> struct ToStr<M> {static Str type(){return "M";}};
+  template<> struct ToStr<C> {static Str type(){return "C";}};
+  template<> struct ToStr<Succ> {static Str type() {return "Succ";}};
+  template<> struct ToStr<False> {static Str type() {return "False";}};
+  // template<> struct ToStr<Flip> {static Str type() {return "Flip";}};
+  template<> struct ToStr<Fst> {static Str type(){return "Fst";}};
+  template<> struct ToStr<Snd> {static Str type(){return "Snd";}};
+  template<> struct ToStr<Null> {static Str type() {return "Null";}};
+  template<> struct ToStr<Index> {static Str type() {return "Index";}};
+  template<> struct ToStr<_Last> {static Str type() {return "last";}};
+  template<> struct ToStr<_Concat> {static Str type() {return "Concat";}};
+  template<> struct ToStr<Is0> {static Str type() {return "Is0";}};
+  template<> struct ToStr<_Init> {static Str type(){return "Init";}};
+  template<> struct ToStr<_Length> {static Str type(){return "Length";}};
+  template<> struct ToStr<_Map> {static Str type(){return "Map";}};
+  template<> struct ToStr<_FoldL> {static Str type(){return "FoldL";}};
+  template<> struct ToStr<_FoldR> {static Str type(){return "FoldR";}};
+  template<> struct ToStr<_Zip> {static Str type(){return "Zip";}};
+  template<> struct ToStr<Nothing> {static Str type(){return "Nothing";}};
+  template<> struct ToStr<Just> {static Str type(){return "Just";}};
+  // template<> struct ToStr<Length> {static Str type(){return "length";}};
 
   template<typename Prev,typename Arg,int n>
-  struct Show<Binder<Prev, Arg, n>> {static Str type(){return Show<Prev>::type()+" "+Show<Arg>::type();}};
+  struct ToStr<Binder<Prev, Arg, n>> {static Str type(){return ToStr<Prev>::type()+" "+ToStr<Arg>::type();}};
   template<typename Prev,typename A,typename B,int m,int n>
-  struct Show<Binder<Prev, Binder<A,B,m>, n>> {static Str type(){return Show<Prev>::type()+"("+Show<Binder<A,B,m>>::type()+")";}};
+  struct ToStr<Binder<Prev, Binder<A,B,m>, n>> {static Str type(){return ToStr<Prev>::type()+"("+ToStr<Binder<A,B,m>>::type()+")";}};
 
   template<typename Prev,typename A,typename B,int m,int n>
-  struct Show<Binder<Prev, Lambda<A,B,m>, n>> {static Str type(){return *Show<Prev>::type()+"("+Show<Lambda<A,B,m>>::type()+")";}};
+  struct ToStr<Binder<Prev, Lambda<A,B,m>, n>> {static Str type(){return *ToStr<Prev>::type()+"("+ToStr<Lambda<A,B,m>>::type()+")";}};
 
   template<typename Prev,typename Arg,int n>
-  struct Show<Lambda<Prev, Arg, n>> {static Str type(){return Show<Prev>::type()+" "+Show<Arg>::type();}};
+  struct ToStr<Lambda<Prev, Arg, n>> {static Str type(){return ToStr<Prev>::type()+" "+ToStr<Arg>::type();}};
   template<typename Prev,typename A,typename B,int m,int n>
-  struct Show<const Lambda<Prev, Lambda<A,B,m>, n>> {static Str type(){return showType<Prev>()+"("+showType<Lambda<A,B,m>>()+")";}};
+  struct ToStr<const Lambda<Prev, Lambda<A,B,m>, n>> {static Str type(){return showType<Prev>()+"("+showType<Lambda<A,B,m>>()+")";}};
 
-  template<> struct Show<Expr<>> {static Str type(){return "";}};
+  template<> struct ToStr<Expr<>> {static Str type(){return "";}};
   template<typename O,typename...OO>
-  struct Show<Expr<O,OO...>> {static Str type(){return Show<O>::type()+" "+Show<Expr<OO...>>::type();}};
+  struct ToStr<Expr<O,OO...>> {static Str type(){return ToStr<O>::type()+" "+ToStr<Expr<OO...>>::type();}};
 
-  template<typename O> Str showType() {return Show<O>::type();}
+  template<typename O> Str showType() {return ToStr<O>::type();}
 
   // template<typename E> Str code(const E&e);
 
