@@ -138,6 +138,7 @@
   template<> struct ToStr<_Zip> {static Str type(){return "Zip";}};
   template<> struct ToStr<Nothing> {static Str type(){return "Nothing";}};
   template<> struct ToStr<Just> {static Str type(){return "Just";}};
+  template<> struct ToStr<Show> {static Str type(){return "show";}};
   // template<> struct ToStr<Length> {static Str type(){return "length";}};
 
   template<typename Prev,typename Arg,int n>
