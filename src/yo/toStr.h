@@ -32,6 +32,7 @@
   Str toStr(const Succ&o) {return "succ";}
   Str toStr(const Phi&o) {return "ϕ";}
   Str toStr(const Pred&o) {return "pred";}
+  Str toStr(const True&o) {return "true";}
   Str toStr(const False&o) {return "false";}
   Str toStr(const Flip&o) {return "flip";}
   Str toStr(const Fst&o) {return "fst";}
@@ -58,6 +59,8 @@
   Str toStr(const Show&o) {return "show";}
   template<bool v>
   Str toStr(const StaticBool<v>&o) {return v?"true":"false";}
+  template<const char* const*text>
+  Str toStr(const StaticText<text>&o) {return text[0];}
   // template<typename... OO>
   // Str toStr(const List<OO...>&o) {
   //   return (toBool(null(o)))?(Str("[]")):(Str("(")+toStr(head(o))+","+toStr(tail(o))+")");
@@ -98,7 +101,7 @@
 
   template<> Str toStr(const Expr<>&){return "";};
   template<typename O,typename...OO>
-  Str toStr(const Expr<O,OO...>&){return toStr(O())+" "+toStr(Expr<OO...>());};
+  Str toStr(const Expr<O,OO...>&o){return toStr(typename Expr<O,OO...>::Run());};
 
 
   // type toStr -----------------
@@ -156,9 +159,9 @@
   template<typename Prev,typename A,typename B,int m,int n>
   struct ToStr<const Lambda<Prev, Lambda<A,B,m>, n>> {static Str type(){return showType<Prev>()+"("+showType<Lambda<A,B,m>>()+")";}};
 
-  template<> struct ToStr<Expr<>> {static Str type(){return "";}};
-  template<typename O,typename...OO>
-  struct ToStr<Expr<O,OO...>> {static Str type(){return ToStr<O>::type()+" "+ToStr<Expr<OO...>>::type();}};
+  // template<> struct ToStr<Expr<>> {static Str type(){return "";}};
+  // template<typename O,typename...OO>
+  // struct ToStr<Expr<O,OO...>> {static Str type(){return ToStr<O>::type()+" "+ToStr<Expr<OO...>>::type();}};
 
   template<typename O> Str showType() {return ToStr<O>::type();}
 

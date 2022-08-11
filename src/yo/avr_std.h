@@ -4,7 +4,10 @@
 //sourcing from GNU ISO C++ Library.
 // with minimal changes to make it compile on AVR's
 // we also took only the needed parts as to comvert all the library would be overwhelming.
+
 namespace std {
+
+  // from move.h ------------------------------------------------------------------------
   /// integral_constant
   template<typename _Tp, _Tp __v>
     struct integral_constant
@@ -71,4 +74,5 @@ namespace std {
     "std::std::forward must not be used to convert an rvalue to an lvalue");
       return static_cast<_Tp&&>(__t);
     }
+
 };
