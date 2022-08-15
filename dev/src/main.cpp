@@ -105,16 +105,32 @@ auto operator<<(StdIO<E>& io,const O o) ->decltype(io.operator<<(o)) {return io.
 // };
 // auto _false=_true(id);
 
+const char* op1_text="op1";
+const char* op2_text="op2";
+using MainMenu=Expr<
+  Cons,
+  StaticText<&op1_text>,
+  Expr<
+    Cons,
+    StaticText<&op2_text>,
+    Nil
+  >
+>;
+
+MainMenu mainMenu;
+
 int main() {
   clog<<"testing..."<<endl<<flush;
 
+  print(head(mainMenu));
+
   // print(tail(List<N0>()));
 
-  clog<<show(n5)<<endl;
+  // clog<<show(n5)<<endl;
 
-  if(toBool(null(tail(cons(n0)(nil))))) clog<<"ok"<<endl;
-  else clog<<"fail"<<endl;
+  // if(toBool(null(tail(cons(n0)(nil))))) clog<<"ok"<<endl;
+  // else clog<<"fail"<<endl;
 
-  clog<<"end."<<endl<<flush;
+  // clog<<"end."<<endl<<flush;
   return 0 ;
 }
