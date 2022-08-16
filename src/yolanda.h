@@ -31,3 +31,7 @@
 #ifdef _S
   #define _S YO_S_TMP
 #endif
+
+//sugar
+template<typename O,typename E>
+const O runTo(const E&&e) {return e.template runTo<O>();}

@@ -13,10 +13,7 @@
 
   template<typename IO,typename E>
   struct BetaIO<IO,E,0> {
-    void operator()(IO&&io,const E&&e) const {
-      // clog<<"{λ0}";
-      io.run(e.beta());
-    }
+    void operator()(IO&&io,const E&&e) const {io.run(e.beta());}
   };
 
   template<typename IO,typename E>

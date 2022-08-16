@@ -53,6 +53,7 @@
     using This=StaticText<text>;
     // static constexpr const int sz=0;
     operator const char*() const {return text[0];}
+    operator Str() const {return text[0];}
     using Run=This;
     // auto run() const->decltype(*this) {return *this;}
   };
