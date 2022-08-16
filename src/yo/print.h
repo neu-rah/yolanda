@@ -33,7 +33,7 @@
       // #ifdef YO_DEBUG
       //   clog<<toStr(std::forward<const E>(e))<<" => ";
       // #endif
-      stdIO.ret(std::forward<const E>(e));
+      stdIO.run(std::forward<const E>(e));
       stdIO.nl();
     }
   #endif
