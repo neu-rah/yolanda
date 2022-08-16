@@ -31,7 +31,7 @@
                 ]
             },
             "defines": [
-                "PLATFORMIO=60103",
+                "PLATFORMIO=60104",
                 "NO_YO_DEBUG",
                 "REDUCE_ON_COMPLETION",
                 "IO_REBIND",

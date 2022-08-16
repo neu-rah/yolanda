@@ -9,7 +9,8 @@
   //type info----------------------------
   template<typename  T>
   struct Type {
-    static constexpr const int sz=0;
+    // static constexpr const int sz=0;
+    static constexpr const bool term=true;
     using This=Type<T>;
     using Def=T;
     using Run=This;
@@ -50,7 +51,7 @@
   template<const char* const* text> 
   struct StaticText:StaticData<const char* const*,text> {
     using This=StaticText<text>;
-    static constexpr const int sz=0;
+    // static constexpr const int sz=0;
     operator const char*() const {return text[0];}
     using Run=This;
     // auto run() const->decltype(*this) {return *this;}
