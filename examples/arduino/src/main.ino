@@ -42,7 +42,7 @@ void setup() {
   print(_true(Id()));//using rvalue
   print(_true(id));//using lvalue
   print(zip(l2)(l2));
-  print(toInt(test(n8)));
+  clog<<show(toInt(test(n8)))<<endl;
   using Test=False;
   clog<<(Test::Bind<Type<int>>::Bind<Type<float>>::Run::Def)1.23<<endl;
   clog<<toInt(Expr<Length,Expr<Cons,StaticInt<1>,Nil>>::Run())<<endl;
@@ -61,8 +61,9 @@ void setup() {
   print(drop(n3)(l3));
   print(null(drop(n3)(l3))(yes)(no));
   print(toInt(Expr<Length,Expr<Concat,L3,L2>>()));
-  clog<<showType<StaticData<int,1111>>()<<endl;
-  clog<<showType<Expr<Init,Expr<Cons,StaticInt<1111>,Expr<Cons,StaticInt<1967>,Nil>>>::Run>()<<endl;
+  //showType was buggy
+  // clog<<showType<StaticData<int,1111>>()<<endl;
+  // clog<<showType<Expr<Init,Expr<Cons,StaticInt<1111>,Expr<Cons,StaticInt<1967>,Nil>>>::Run>()<<endl;
   print(toInt(head(drop(n9)(nats))));
   print(_init(l2));
   print(_map(is0)(Expr<Cons,N1,Expr<Cons,N0,Nil>>()));

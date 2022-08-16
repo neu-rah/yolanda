@@ -1,7 +1,7 @@
 #pragma once
 
 #include "bool.h"
-#include "peano.h"
+// #include "peano.h"
 
 #ifndef YO_DEBUG
   namespace yo {

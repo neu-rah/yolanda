@@ -3,6 +3,7 @@
 #include "curry.h"
 #include "core.h"
 #include "bool.h"
+#include "data.h"
 
 #ifndef YO_DEBUG
   namespace yo {
@@ -153,10 +154,12 @@
   static int _plus1(int n){return n+1;}
   Curry<decltype(&_plus1),&_plus1> plus1;
 
+  // template<typename N>
+  // int _toInt(const N&n) {return n(std::forward<const decltype(plus1)>(plus1))(0).template runTo<int>();}
   template<typename N>
-  int toInt(const N&n) {return n(std::forward<const decltype(plus1)>(plus1))(0).template runTo<int>();}
-  template<typename N>
-  int toInt(const N&&n) {return n(std::forward<const decltype(plus1)>(plus1))(0).template runTo<int>();}
+  int _toInt(const N&&n) {return n(std::forward<const decltype(plus1)>(plus1))(0).template runTo<int>();}
+  template<typename N> Int toInt(const N&n) {return Int(_toInt<N> (std::forward<const N>(n)));}
+  template<typename N> Int toInt(const N&&n) {return Int(_toInt<N>(std::forward<const N>(n)));}
 #ifndef YO_DEBUG
   };
 #endif

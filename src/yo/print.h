@@ -19,10 +19,16 @@
     IO<SerialIO> serialIO;
 
     template<typename E>
-    void print(const E&e) {serialIO.run(std::forward<const E>(e));serialIO.nl();}
+    void print(const E&e) {
+      // clog<<"print&";
+      serialIO.run(std::forward<const E>(e));serialIO.nl();}
 
     template<typename E>
-    void print(const E&&e) {serialIO.run(std::forward<const E>(e));serialIO.nl();}
+    void print(const E&&e) {
+      // clog<<"print&&";
+      serialIO.run(std::forward<const E>(e));
+      serialIO.nl();
+    }
 
   #else
     using Std=PrintIO<decltype(clog)&,clog>;
@@ -30,9 +36,9 @@
 
     template<typename E>
     void print(const E&e) {
-      // #ifdef YO_DEBUG
-      //   clog<<toStr(std::forward<const E>(e))<<" => ";
-      // #endif
+      #ifdef YO_DEBUG
+        clog<<toStr(std::forward<const E>(e))<<" => ";
+      #endif
       stdIO.run(std::forward<const E>(e));
       stdIO.nl();
     }
