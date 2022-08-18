@@ -23,6 +23,20 @@
     constexpr operator const T() const {return data;}
     using Run=This;
     // auto run() const->decltype(*this) {return *this;}
+    template<typename R> R runTo() const {return This();}
+  };
+
+  template<typename T>
+  struct Data:Type<T> {
+    using This=Data<T>;
+    const T data;
+    Data(const T&o):data(o) {}
+    Data(const T&&o):data(o) {}
+    operator const T() const {return data;}
+    using Run=This;
+    const This beta() const {return *this;}
+    // auto run() const->decltype(*this) {return *this;}
+    template<typename R> R runTo() const {return *this;}
   };
 
   template<> struct StaticBool<true>:StaticData<bool,true>,True {
@@ -55,18 +69,10 @@
     operator const char*() const {return text[0];}
     operator Str() const {return text[0];}
     using Run=This;
-    // auto run() const->decltype(*this) {return *this;}
-  };
-
-  template<typename T>
-  struct Data:Type<T> {
-    using This=Data<T>;
-    const T data;
-    Data(const T&o):data(o) {}
-    Data(const T&&o):data(o) {}
-    operator const T() const {return data;}
-    using Run=This;
-    const This beta() const {return *this;}
+    template<size_t i> using AT=StaticChar<text[0][i]>;
+    template<size_t i> using Tail=StaticText<&text[1]>;
+    static const Char at(size_t idx) {return Char(text[0][idx]);}
+    // const Text tail() const {return Text(&data[1]);}
     // auto run() const->decltype(*this) {return *this;}
   };
 
@@ -83,12 +89,27 @@
   //     {return Int(data-1)(std::forward<const F>(f))(f(std::forward<const O>(o)));}
   // };
 
+  // struct Bool:Data<bool>/*,Combinator<Bool,2>*/ {
+  //   using This=Bool;
+  //   using Base=Data<bool>;
+  //   using Base::Base;
+  //   using Def=Bool;
+  //   constexpr operator const bool() const {return true;}
+  //   using Run=This;
+  //   //we can NOT write the return type of this because it is runtime parameter dependent
+  //   // template<typename A,typename B>
+  //   // static auto beta(const A&&a,const B&&b)
+  // };
+
   struct Text:Data<Str> {
+    using This=Text;
     using Base=Data<Str>;
     using Base::Base;
     const This beta() const {return *this;}
-    operator const char*() {return data.c_str();}
+    operator const char*() const {return data.c_str();}
     // auto run() const->decltype(*this) {return *this;}
+    const Char at(size_t idx) const {return Char(data[idx]);}
+    const Text tail() const {return Text(&data[1]);}
   };
 #ifndef YO_DEBUG
   };

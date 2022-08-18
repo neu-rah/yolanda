@@ -20,7 +20,7 @@
     template<typename O,typename L,typename R>
     static auto beta(const O&&o,const L&&,const R&&r)
       ->decltype(r(o))
-      {return t(o);}
+      {return r(o);}
   };
   constexpr const Right right;
 #ifndef YO_DEBUG

@@ -51,12 +51,14 @@
   template<typename Prev,typename Arg,int n> struct Lambda;
   template<typename T> struct Data;
   using Bool=Data<bool>;
+  // struct Bool;
   using Int=Data<unsigned int>;
   using Char=Data<unsigned char>;
   using Float=Data<double>;
   struct Text;
   template<typename  T> struct Type;
   template<typename T,T data> struct StaticData;
+  template<unsigned char c> using StaticChar=StaticData<unsigned char,c>;
   template<bool o> struct StaticBool;
   template<const char* const* text> struct StaticText;
 

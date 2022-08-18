@@ -11,17 +11,10 @@
                 "/home/azevedo/Work/rsite/yolanda/dev/include",
                 "/home/azevedo/Work/rsite/yolanda/dev/src",
                 "/home/azevedo/Work/rsite/yolanda/src",
-                "/home/azevedo/.platformio/packages/framework-arduino-avr/cores/arduino",
-                "/home/azevedo/.platformio/packages/framework-arduino-avr/variants/eightanaloginputs",
                 "/home/azevedo/Work/rsite/yolanda/.git",
                 "/home/azevedo/Work/rsite/yolanda/.vscode",
                 "/home/azevedo/Work/rsite/yolanda/examples",
-                "/home/azevedo/Work/rsite/yolanda/dev/.pio/libdeps/nano/Unity/src",
-                "/home/azevedo/.platformio/packages/framework-arduino-avr/libraries/EEPROM/src",
-                "/home/azevedo/.platformio/packages/framework-arduino-avr/libraries/HID/src",
-                "/home/azevedo/.platformio/packages/framework-arduino-avr/libraries/SPI/src",
-                "/home/azevedo/.platformio/packages/framework-arduino-avr/libraries/SoftwareSerial/src",
-                "/home/azevedo/.platformio/packages/framework-arduino-avr/libraries/Wire/src",
+                "/home/azevedo/Work/rsite/yolanda/dev/.pio/libdeps/native/Unity/src",
                 ""
             ],
             "browse": {
@@ -30,37 +23,24 @@
                     "/home/azevedo/Work/rsite/yolanda/dev/include",
                     "/home/azevedo/Work/rsite/yolanda/dev/src",
                     "/home/azevedo/Work/rsite/yolanda/src",
-                    "/home/azevedo/.platformio/packages/framework-arduino-avr/cores/arduino",
-                    "/home/azevedo/.platformio/packages/framework-arduino-avr/variants/eightanaloginputs",
                     "/home/azevedo/Work/rsite/yolanda/.git",
                     "/home/azevedo/Work/rsite/yolanda/.vscode",
                     "/home/azevedo/Work/rsite/yolanda/examples",
-                    "/home/azevedo/Work/rsite/yolanda/dev/.pio/libdeps/nano/Unity/src",
-                    "/home/azevedo/.platformio/packages/framework-arduino-avr/libraries/EEPROM/src",
-                    "/home/azevedo/.platformio/packages/framework-arduino-avr/libraries/HID/src",
-                    "/home/azevedo/.platformio/packages/framework-arduino-avr/libraries/SPI/src",
-                    "/home/azevedo/.platformio/packages/framework-arduino-avr/libraries/SoftwareSerial/src",
-                    "/home/azevedo/.platformio/packages/framework-arduino-avr/libraries/Wire/src",
+                    "/home/azevedo/Work/rsite/yolanda/dev/.pio/libdeps/native/Unity/src",
                     ""
                 ]
             },
             "defines": [
                 "PLATFORMIO=60104",
-                "ARDUINO_AVR_NANO",
-                "YO_DEBUG",
+                "NO_YO_DEBUG",
                 "REDUCE_ON_COMPLETION",
                 "IO_REBIND",
-                "F_CPU=16000000L",
-                "ARDUINO_ARCH_AVR",
-                "ARDUINO=10808",
-                "__AVR_ATmega328P__",
+                "UNITY_SHORTHAND_AS_RAW",
+                "UNITY_OUTPUT_COLOR",
                 ""
             ],
-            "cStandard": "c11",
-            "cppStandard": "c++11",
-            "compilerPath": "/home/azevedo/.platformio/packages/toolchain-atmelavr/bin/avr-gcc",
+            "compilerPath": "/usr/bin/gcc",
             "compilerArgs": [
-                "-mmcu=atmega328p",
                 ""
             ]
         }
