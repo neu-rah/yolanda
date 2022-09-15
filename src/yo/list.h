@@ -347,8 +347,12 @@
 
   // list sugar -----------
   template<typename...OO> struct List;
-  template<typename O,typename...OO> struct List<O,OO...>:Expr<yo::Cons,O,List<OO...>> {};
-  template<> struct List<>:Nil {};
+  template<typename O,typename...OO> struct List<O,OO...>:Expr<yo::Cons,O,List<OO...>> {
+    using Base=Expr<yo::Cons,O,List<OO...>>;
+  };
+  template<> struct List<>:Nil {
+    using Base=Nil;
+  };
 
 
 

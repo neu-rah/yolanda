@@ -1,6 +1,6 @@
 {
     "name": "Yolanda",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "keywords": "functional lazy c++ compiler",
     "description": "micro lambda",
     "homepage": "https://github.com/neu-rah/yolanda",

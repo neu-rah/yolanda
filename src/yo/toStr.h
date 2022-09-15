@@ -64,11 +64,8 @@
   Str toStr(const StaticBool<v>&o) {return v?"true":"false";}
   template<const char* const*text>
   Str toStr(const StaticText<text>&o) {return text[0];}
-  // template<typename... OO>
-  // Str toStr(const List<OO...>&o) {
-  //   return (toBool(null(o)))?(Str("[]")):(Str("(")+toStr(head(o))+","+toStr(tail(o))+")");
-  // }
-
+  template<typename...OO>
+  Str toStr(const List<OO...>&oo) {return toStr((typename List<OO...>::Base&)oo);}
 
   template<typename Data,Data data>
   Str toStr(const StaticData<Data,data>&o) {return toStr((Data)o);}
