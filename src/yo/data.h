@@ -69,8 +69,8 @@
     operator const char*() const {return text[0];}
     operator Str() const {return text[0];}
     using Run=This;
-    template<size_t i> using AT=StaticChar<text[0][i]>;
-    template<size_t i> using Tail=StaticText<&text[1]>;
+    // template<size_t i> using AT=StaticChar<text[0][i]>;
+    // template<size_t i> using Tail=StaticText<&text[1]>;
     static const Char at(size_t idx) {return Char(text[0][idx]);}
     // const Text tail() const {return Text(&data[1]);}
     // auto run() const->decltype(*this) {return *this;}

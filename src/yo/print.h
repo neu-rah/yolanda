@@ -19,23 +19,21 @@
     IO<SerialIO> serialIO;
 
     template<typename E>
-    void print(const E&e) {
-      // clog<<"print&";
+    void _print(const E&e) {
       serialIO.run(std::forward<const E>(e));serialIO.nl();}
 
     template<typename E>
-    void print(const E&&e) {
-      // clog<<"print&&";
+    void _print(const E&&e) {
       serialIO.run(std::forward<const E>(e));
       serialIO.nl();
     }
 
   #else
-    using Std=PrintIO<decltype(clog)&,clog>;
+    using Std=PrintIO<decltype(cout)&,cout>;
     IO<Std> stdIO;
 
     template<typename E>
-    void print(const E&e) {
+    void _print(const E&e) {
       #ifdef YO_DEBUG
         clog<<toStr(std::forward<const E>(e))<<" => ";
       #endif
@@ -44,6 +42,19 @@
     }
   #endif
 
+  struct Print:Combinator<Print,1> {
+    template<typename F> using Beta=Print::Bind<F>;
+    template<typename F>
+    static Print beta(const F&&f)
+      {
+        _print(std::forward<const F>(f));
+        return Print();
+      }
+  };
+
+  constexpr const Print print;
+  Str toStr(const Print&o) {return "print";}
+  
 #ifndef YO_DEBUG
   };
 #endif

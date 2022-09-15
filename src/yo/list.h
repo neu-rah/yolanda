@@ -62,7 +62,7 @@
       ->decltype(head(n(tail)(std::forward<const X>(x))))
       {return head(n(tail)(std::forward<const X>(x)));}
   };
-  constexpr const Index _index;
+  constexpr const Index index;
 
   struct _Last:Combinator<_Last,2> {
     template<typename F,typename O>

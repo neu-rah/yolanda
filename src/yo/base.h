@@ -24,6 +24,7 @@
   namespace yo {using namespace std;};
   using Str=std::string;
   using std::clog;
+  using std::cout;
   using std::endl;
   using std::flush;
 #endif
