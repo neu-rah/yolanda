@@ -13,9 +13,9 @@
   const char* endl="\r\n";
   const char* flush="";
   using Str=String;
-  #ifdef __AVR__
+  // #ifdef __AVR__
     #define clog Serial
-  #endif
+  // #endif
 
   // template<typename O> constexpr O std::forward(const O o) noexcept {return o;}
 #else

@@ -345,6 +345,13 @@
   using Zip=Expr<Y,_Zip>;
   constexpr const Zip zip;
 
+  // list sugar -----------
+  template<typename...OO> struct List;
+  template<typename O,typename...OO> struct List<O,OO...>:Expr<yo::Cons,O,List<OO...>> {};
+  template<> struct List<>:Nil {};
+
+
+
 #ifndef YO_DEBUG
   };
 #endif

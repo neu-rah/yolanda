@@ -108,8 +108,8 @@
     const This beta() const {return *this;}
     operator const char*() const {return data.c_str();}
     // auto run() const->decltype(*this) {return *this;}
-    const Char at(size_t idx) const {return Char(data[idx]);}
-    const Text tail() const {return Text(&data[1]);}
+    // const Char at(size_t idx) const {return Char(data[idx]);}
+    // const Text tail() const {return Text(&data[1]);}
   };
 #ifndef YO_DEBUG
   };

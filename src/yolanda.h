@@ -12,6 +12,10 @@
   #define YO_S_TMP _S
   #undef _S
 #endif
+#ifdef nl
+  #define YO_nl_TMP nl
+  #undef nl
+#endif
 #include "yo/base.h"
 #include "yo/io.h"
 #include "yo/data.h"
@@ -28,8 +32,11 @@
 #include "yo/list.h"
 #include "yo/toStr.h"
 #include "yo/print.h"
-#ifdef _S
+#ifdef YO_S_TMP
   #define _S YO_S_TMP
+#endif
+#ifdef YO_nl_TMP
+  #define nl YO_nl_TMP
 #endif
 
 //sugar
