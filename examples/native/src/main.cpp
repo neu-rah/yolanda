@@ -63,8 +63,8 @@ void setup() {
   print(drop(n3)(l3));
   print(null(drop(n3)(l3))(yes)(no));
   print(toInt(Expr<Length,Expr<Concat,L3,L2>>()));
-  clog<<showType<StaticData<int,1111>>()<<endl;
-  clog<<showType<Expr<Init,Expr<Cons,StaticInt<1111>,Expr<Cons,StaticInt<1967>,Nil>>>::Run>()<<endl;
+  // clog<<showType<StaticData<int,1111>>()<<endl;
+  // clog<<showType<Expr<Init,Expr<Cons,StaticInt<1111>,Expr<Cons,StaticInt<1967>,Nil>>>::Run>()<<endl;
   print(toInt(head(drop(n9)(nats))));
   print(_init(l2));
   print(_map(is0)(Expr<Cons,N1,Expr<Cons,N0,Nil>>()));
@@ -80,8 +80,8 @@ void setup() {
   print(toInt(head(_reverse(l3))));
   
   //why can't this work on AVR's? ------------------------------------------
-  // clog<<toInt(foldl(add)(n0)(_map(snd)(zip(L3())(L2()))))<<endl;
-  // print(toInt(foldl(add)(n0)(_map(snd)(zip(l2)(l3)))));
+  clog<<toInt(foldl(add)(n0)(_map(snd)(zip(L3())(L2()))))<<endl;
+  print(toInt(foldl(add)(n0)(_map(snd)(zip(l2)(l3)))));
 
   //----------------------------------------------------------
   // print(length(nats));//can not ask length of infinit list

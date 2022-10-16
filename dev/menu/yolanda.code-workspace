@@ -1,0 +1,24 @@
+{
+	"folders": [
+		{
+			"path": "../.."
+		},
+		{
+			"path": "../../examples/native"
+		},
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"files.associations": {
+			"*.cps": "javascript",
+			"*.h": "cpp",
+			"*.nc": "gcode",
+			"ostream": "cpp",
+			"random": "cpp",
+			"cmath": "cpp",
+			"string": "cpp"
+		}
+	}
+}
