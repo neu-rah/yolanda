@@ -30,7 +30,7 @@
 #include "yo/bool.h"
 #include "yo/peano.h"
 #include "yo/list.h"
-#include "yo/toStr.h"
+#include "yo/cStr.h"
 #include "yo/print.h"
 #ifdef YO_S_TMP
   #define _S YO_S_TMP

@@ -33,10 +33,10 @@
   namespace yo {
 #endif
 
-  template<typename O> Str toStr(const O&);
+  template<typename O> Str cStr(const O&);
   template<typename O> Str showType();
   // template<typename O> Str code();
-  // template<typename O> Str toStr(const O&o);
+  // template<typename O> Str cStr(const O&o);
 
   #ifdef YO_DEBUG
     #define dbo clog
@@ -51,17 +51,18 @@
   template<typename Prev,typename Arg,int n> struct Binder;
   template<typename Prev,typename Arg,int n> struct Lambda;
   template<typename T> struct Data;
-  using Bool=Data<bool>;
-  // struct Bool;
-  using Int=Data<unsigned int>;
+  // using Bool=Data<bool>;
+  // using Int=Data<unsigned int>;
   using Char=Data<unsigned char>;
+  struct Bool;
+  struct Int;
   using Float=Data<double>;
   struct Text;
   template<typename  T> struct Type;
   template<typename T,T data> struct StaticData;
   template<unsigned char c> using StaticChar=StaticData<unsigned char,c>;
   template<bool o> struct StaticBool;
-  template<const char* const* text> struct StaticText;
+  template<const char* const* text,int i=0> struct StaticText;
 
   //type equality
   template<typename O> bool EqT(const O,const O) {return true;}

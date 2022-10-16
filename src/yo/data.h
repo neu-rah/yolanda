@@ -1,7 +1,6 @@
 #pragma once
 
 #include "bool.h"
-// #include "peano.h"
 
 #ifndef YO_DEBUG
   namespace yo {
@@ -62,44 +61,44 @@
 
   template<int n> using StaticInt=StaticData<int,n>;
 
-  template<const char* const* text> 
+  template<const char* const* text,int i> 
   struct StaticText:StaticData<const char* const*,text> {
     using This=StaticText<text>;
     // static constexpr const int sz=0;
     operator const char*() const {return text[0];}
     operator Str() const {return text[0];}
     using Run=This;
-    // template<size_t i> using AT=StaticChar<text[0][i]>;
-    // template<size_t i> using Tail=StaticText<&text[1]>;
-    static const Char at(size_t idx) {return Char(text[0][idx]);}
-    // const Text tail() const {return Text(&data[1]);}
+    // template<size_t i> using AT=StaticText<text[0][i]>;
+    // template<size_t i> using Tail=StaticText<(const char*const*)&text[0][1]>;
+    // static const Char at(size_t idx) {return Char(text[0][idx]);}
+    // const StaticText tail() const {return StaticText<(const char*const*)&text[0][1]>();}
     // auto run() const->decltype(*this) {return *this;}
   };
 
-  // struct Int:Data<unsigned int>,Combinator<Int,2> {
-  //   using Combinator<Int,2>::sz;
-  //   using This=Int;
-  //   using Base=Data<unsigned int>;
-  //   using Base::Base;
-  //   using Run=This;
-  //   // const This beta() const {return *this;}
-  //   template<typename F,typename O>
-  //   auto beta(const F&&f,const O&&o) const
-  //     ->decltype(Int(data-1)(f)(f(o)))
-  //     {return Int(data-1)(std::forward<const F>(f))(f(std::forward<const O>(o)));}
-  // };
+  struct Int:Data<unsigned int>,Combinator<Int,2> {
+    using Combinator<Int,2>::sz;
+    using This=Int;
+    using Base=Data<unsigned int>;
+    using Base::Base;
+    using Run=This;
+    // const This beta() const {return *this;}
+    template<typename F,typename O>
+    auto beta(const F&&f,const O&&o) const
+      ->decltype(Int(data-1)(f)(f(o)))
+      {return Int(data-1)(std::forward<const F>(f))(f(std::forward<const O>(o)));}
+  };
 
-  // struct Bool:Data<bool>/*,Combinator<Bool,2>*/ {
-  //   using This=Bool;
-  //   using Base=Data<bool>;
-  //   using Base::Base;
-  //   using Def=Bool;
-  //   constexpr operator const bool() const {return true;}
-  //   using Run=This;
-  //   //we can NOT write the return type of this because it is runtime parameter dependent
-  //   // template<typename A,typename B>
-  //   // static auto beta(const A&&a,const B&&b)
-  // };
+  struct Bool:Data<bool>/*,Combinator<Bool,2>*/ {
+    using This=Bool;
+    using Base=Data<bool>;
+    using Base::Base;
+    using Def=Bool;
+    constexpr operator const bool() const {return true;}
+    using Run=This;
+    //we can NOT write the return type of this because it is runtime parameter dependent
+    // template<typename A,typename B>
+    // static auto beta(const A&&a,const B&&b)
+  };
 
   struct Text:Data<Str> {
     using This=Text;

@@ -145,14 +145,14 @@ MainMenu mainMenu;
 // };
 
 int main() {
-  clog<<"testing..."<<endl;
+  cout<<"Name:"<<endl;
   // print(head(mainMenu));
   // print(head(tail(mainMenu)));
   // clog<<runTo<Str>(head(mainMenu))<<endl;
   // io<<length<<io<<cons<<getLine<<nil;
-  auto a=io<<getLine;
-  // io<<toString(a);
-  clog<<"end."<<endl;
+  auto a=cons(Text(io<<getLine))(cons(Text(io<<getLine))(nil));
+  _print(a);
+  // cout<<a<<endl<<"end."<<endl;
   return 0;
 }
 
