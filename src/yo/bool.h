@@ -2,25 +2,14 @@
 
 #include "combinators.h"
 
-#ifndef YO_DEBUG
-  namespace yo {
-#endif
-  using Not=C;
-  struct True:K {
-    operator bool() const {return true;}
-  };
-  // struct False:Expr<True,Id> {
-  //   operator bool() const {return false;}
-  // };
-  struct False:Combinator<False,2> {
-    template<typename O,typename P> using Beta=P;
-    template<typename O,typename P> static P beta(const O&o,const P&p) {return p;}
-    operator bool() const {return false;}
-  };
-
+namespace yo {
+  using True=Alt<K>;
+  using False=Alt<KI>;
+  using Not=Alt<Flip>;
+  
   constexpr const Not _not;
   constexpr const True _true;
-  constexpr const False _false;
+  const False _false;
 
   struct Or:M {};
   constexpr const Or _or;
@@ -31,7 +20,7 @@
     template<typename P,typename Q>  
     static auto beta(const P&p,const Q&q)
       ->decltype(p(q)(p))
-      {return p(std::forward<const Q>(q))(std::forward<const P>(p));}
+      {return p(q)(p);}
   };
   constexpr const And _and;
 
@@ -41,10 +30,7 @@
     template<typename P,typename Q>  
     static auto beta(const P&p,const Q&q)
       ->decltype(p(q)(_not(p)))
-      {return p(std::forward<const Q>(q))(_not(std::forward<const P>(p)));}
+      {return p(q)(_not(p));}
   };
   constexpr const BEq beq;
-
-#ifndef YO_DEBUG
-  };
-#endif
+};

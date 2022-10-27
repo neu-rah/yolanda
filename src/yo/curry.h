@@ -1,60 +1,33 @@
 #pragma once
 
-#include "combinator.h"
+#include "lambda.h"
 
-#ifndef YO_DEBUG
-  namespace yo {
-#endif
-  ////////////////////////////////////////
-  // compile time count items in a list of types
-  template<typename... OO> struct Count;
+namespace yo {
+  //////////////////////////////////////////////
+  template<typename R,typename O,typename... OO> using Func=R(*)(O,OO...);
 
-  template<typename O,typename... OO>
-  struct Count<O,OO...> {
-    constexpr int operator()(){return 1+Count<OO...>()();}
-    constexpr operator int(){return 1+Count<OO...>()();}
-  };
-
-  template<typename O>
-  struct Count<O> {
-    constexpr int operator()(){return 1;}
-    constexpr operator int(){return 1;}
-  };
-
-  template<>
-  struct Count<> {
-    constexpr int operator()(){return 0;}
-    constexpr operator int(){return 0;}
-  };
-
-  ///////////////////////////////////////////////////////////////////////////////
-  //Wire C++ functions
-  // by allowing them to participate on the app chain
   template<typename F,F f> struct Curry;
 
-  template<typename R,typename O,typename... OO,Func<R,O,OO...>f>
+  template<typename R,typename O,typename... OO, Func<R,O,OO...>f>
   struct Curry<Func<R,O,OO...>,f>:Combinator<Curry<Func<R,O,OO...>,f>,(int)Count<O,OO...>()> {
     using This=Curry<Func<R,O,OO...>,f>;
     template<typename Q,typename...QQ> using Beta=R;
     using Base=Combinator<This,(int)Count<O,OO...>()>;
-    // using Base::beta;
-    // template<typename Q>
-    // static R beta(const Q&q) {
-    //   return R(f(run<R,Q>(std::forward<const Q>(q))));
-    // }
-    // template<typename Q,typename...QQ>
-    // static R beta(const Q&q, const QQ&...qq) {
-    //   return R(f(run<R,Q,QQ...>(std::forward<const Q>(q),std::forward<const QQ...>(qq...))));
-    // }
-    template<typename Q>
-    static R beta(const Q&&q) {
-      return R(f(run<R,Q>(std::forward<const Q>(q))));
-    }
-    template<typename Q,typename...QQ>
-    static R beta(const Q&&q, const QQ&&...qq) {
-      return R(f(run<R,Q,QQ...>(std::forward<const Q>(q),std::forward<const QQ...>(qq...))));
-    }
+    template<typename...PP>
+    static auto beta(const PP... oo)->decltype(f(yo::beta(oo)...)) {return f(yo::beta(oo)...);}
   };
-#ifndef YO_DEBUG
-  };
-#endif
+
+
+  struct CurriedTemplateFuncionMarker {};
+  // curry template function
+  // providing its name and arguments count
+  #define CurryTemplateFunction(f,n)\
+    struct f##TemplateCaller:Combinator<f##TemplateCaller,n>,CurriedTemplateFuncionMarker {\
+      template<typename... OO>\
+      static auto beta(const OO... oo)->decltype(f(yo::beta(oo)...)) {return f(yo::beta(oo)...);}\
+      f##TemplateCaller beta() const {return *this;}\
+      template<typename... OO> using Beta=decltype(beta<OO...>(OO{}...));\
+    };\
+    std::ostream& operator<<(std::ostream& out,const f##TemplateCaller) {return out<<("<...>");}\
+    f##TemplateCaller 
+};
