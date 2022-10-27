@@ -33,4 +33,7 @@ namespace yo {
       {return p(q)(_not(p));}
   };
   constexpr const BEq beq;
+
+  template<typename O>
+  bool toBool(const O o) {return o(true)(false);}
 };

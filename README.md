@@ -116,7 +116,7 @@ B,C,M,L,Y,T,V,R,Bb,Id
 
 ### aux functions
 
-~~ **toBool** convert expression to c++ bool ~~
+**toBool** convert expression to c++ bool
 
 **toInt** convert expression to c++ int (numeral to c++ int)
 
