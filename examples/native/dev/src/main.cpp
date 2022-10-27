@@ -25,6 +25,7 @@ using L1=List<N4,N3,N2,N1,N0>;
 
 int main() {
   cout<<"Start -->"<<endl;
+  List<int,const char*>{1,""};
   // cout<<toInt(mul(n2)(mul(n2)(n2)))<<endl;
   cout<<toInt(foldl(mul)(n1)(list(n2,FromInt<120>{})))<<endl;
   // cout<<toInt(FromInt<100>{})<<endl;

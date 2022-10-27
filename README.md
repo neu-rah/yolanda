@@ -15,12 +15,8 @@ This library provides both type level and runtime versions of a lazy functional 
 
 ## Example
 ```c++
-using Test=False;
-clog<<(Test::Bind<Type<int>>::Bind<Type<float>>::Run::Def)1.23<<endl;
-//compile time (typelevel)
-cout<<toInt(Expr<Length,Expr<Cons,StaticInt<1>,Nil>>::Run())<<endl;
-//runtime
-cout<<toInt(length(cons(n1)(nil)))<<endl;
+cout<<toInt(length(list(1,2,3,4,"ok!")))<<endl;
+cout<<toInt(foldl(mul)(n1)(list(n2,FromInt<120>{})))<<endl;
 ```
 ## About
 
@@ -57,6 +53,7 @@ implemented so far:
 **And** - functional boolean `and`  
 **Or** - functional boolean `or`  
 **Not** - functional negation  
+**BEq** - boolean equality
 
 ### Peano numerals
 
@@ -89,6 +86,9 @@ using Church encoded numerals
 **Init** - get list of all but last element  
 **Last** - get last element of a list  
 **Reverse** - reverse list order  
+**Take** - take elements from list start
+**Nats** - list of all natural numbers (infinit list)
+**Range** - range of integers (list)
 **Concat** - join 2 lists  
 **Map** - map a function over list elements  
 **Filter** - filter list elements  
@@ -114,17 +114,26 @@ All above types have a runtime function with the same name but with a first low-
 
 B,C,M,L,Y,T,V,R,Bb,Id
 
-id
-
 ### aux functions
 
-**toBool** convert expression to c++ bool
+~~ **toBool** convert expression to c++ bool ~~
 
 **toInt** convert expression to c++ int (numeral to c++ int)
 
 **toStr** convert expression to string or String, depending on the platform
 
-**print** reduces and prints the expression reduction result.
+~~**print** reduces and prints the expression reduction result.~~
+
+now using c++ ostream for printing
+
+**list** build a polymorphic list
+
+example
+```c++
+List<StaticInt<1>,StaticText<&my_text>>;//compile time list build
+List<int,const char*>{1,""};
+list(1,2,"Ok");//runtime list built
+```
 
 ## sources
 
