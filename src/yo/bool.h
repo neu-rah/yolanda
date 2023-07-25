@@ -39,9 +39,9 @@ namespace yo {
 
   struct FromBool:Combinator<FromBool,3> {
     template<typename B,typename O,typename P>
-    const auto beta(const B b,const O o,const P p) const {return b?o:p;}
+    const auto beta(const B b,const O o,const P p) const->decltype(b?o:p) {return b?o:p;}
     template<typename... OO> using Beta=decltype(beta(OO{}...));
   };
 
-  FromBool fromBool;
+  constexpr const FromBool fromBool;
 };

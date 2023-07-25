@@ -63,6 +63,7 @@ namespace yo {
 
   template<typename O,typename... OO> using Expr=typename _Expr<O,OO...>::Base;
 
+  /// sugar for Expr<condition,then_action,else_action>
   template<typename condition>
   struct If {
     template<typename then_action>
