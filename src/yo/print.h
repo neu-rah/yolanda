@@ -102,6 +102,7 @@ namespace yo {
   ostream& operator<<(ostream& out,const  FoldR)         {return out<< "foldr";}
   ostream& operator<<(ostream& out,const _Zip)           {return out<<"_zip";}
   ostream& operator<<(ostream& out,const  Zip)           {return out<< "zip";}
+  ostream& operator<<(ostream& out,const FromBool o)     {return out<<"fromBool";}
   template<typename... OO>
   ostream& operator<<(ostream& out,const List<OO...> o) {
     if(beta(null(o)(true)(false))) return out<<"[]";

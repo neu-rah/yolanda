@@ -36,4 +36,12 @@ namespace yo {
 
   template<typename O>
   bool toBool(const O o) {return o(true)(false);}
+
+  struct FromBool:Combinator<FromBool,3> {
+    template<typename B,typename O,typename P>
+    const auto beta(const B b,const O o,const P p) const {return b?o:p;}
+    template<typename... OO> using Beta=decltype(beta(OO{}...));
+  };
+
+  FromBool fromBool;
 };
