@@ -8,8 +8,10 @@ namespace yo {
   using std::ostream;
   template<typename Prev,typename Param,int n>
   ostream& operator<<(ostream& out,const Lambda<Prev,Param,n> o) {
-    out<<o.prev<<"("<<o.param<<")";
-    return (true||n>0)?out<<"{"<<n<<"}":out;
+    if(n>0) {
+      out<<o.prev<<"("<<o.param<<")";
+      return out<<"{"<<n<<"}";
+    } else return out<<beta(o);//beta reduce lazyness for output
   }
 
   //curry
