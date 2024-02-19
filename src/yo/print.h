@@ -2,6 +2,7 @@
 
 #include "list.h"
 #include "curry.h"
+#include "maybe.h"
 
 namespace yo {
   //lambda
@@ -33,6 +34,7 @@ namespace yo {
   ostream& operator<<(ostream& out,const V) {return out<<"V";}
   ostream& operator<<(ostream& out,const M) {return out<<"M";}
   ostream& operator<<(ostream& out,const L) {return out<<"L";}
+  ostream& operator<<(ostream& out,const Const) {return out<<"Const";}
   //booleans
   ostream& operator<<(ostream& out,const True)  {return out<<"true";}
   ostream& operator<<(ostream& out,const False) {return out<<"false";}
@@ -105,6 +107,10 @@ namespace yo {
   ostream& operator<<(ostream& out,const _Zip)           {return out<<"_zip";}
   ostream& operator<<(ostream& out,const  Zip)           {return out<< "zip";}
   ostream& operator<<(ostream& out,const FromBool)       {return out<<"fromBool";}
+
+  ostream& operator<<(ostream& out,const Nothing) {return out<<"Nothing";}
+  ostream& operator<<(ostream& out,const Just) {return out<<"Just";}
+
   template<typename... OO>
   ostream& operator<<(ostream& out,const List<OO...> o) {
     if(beta(null(o)(true)(false))) return out<<"[]";

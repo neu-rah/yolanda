@@ -56,6 +56,7 @@ namespace yo {
     template<typename... OO> using Beta=decltype(beta(OO{}...));
   };
 
+  struct Const:K {};
   using Id=Alt<I>;
   using KI=K::Bind<I>;
   using Flip=Alt<C>;
@@ -66,6 +67,7 @@ namespace yo {
   using Fst=Expr<T,K>;
   using Snd=Expr<T,KI>;
 
+  constexpr const Const _const;
   constexpr const I id;
   constexpr const S _S;
   constexpr const B _B;

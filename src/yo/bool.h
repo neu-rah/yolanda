@@ -35,7 +35,7 @@ namespace yo {
   constexpr const BEq beq;
 
   template<typename O>
-  bool toBool(const O o) {return o(true)(false);}
+  bool toBool(const O o) {return beta(o(true)(false));}
 
   struct FromBool:Combinator<FromBool,3> {
     template<typename B,typename O,typename P>
