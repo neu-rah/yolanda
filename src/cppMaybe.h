@@ -33,4 +33,12 @@ namespace cppMaybe {
 
   template<typename O>
   Maybe<O> operator||(Maybe<O> o,Maybe<O> p) {return isJust(o)?o:p;}
+
 };
+
+template<typename O,typename T>
+O& operator<<(O& out,const cppMaybe::Maybe<T> t) {
+  if(cppMaybe::isJust(t)) return out<<cppMaybe::fromJust(t);
+  else return out<<"Nothing";
+}
+
