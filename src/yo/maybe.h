@@ -11,7 +11,8 @@ namespace yo {
 
   //just:=λo.λn.λj.j o
   struct Just:Combinator<Just,3> {
-    template<typename O,typename N,typename J> static auto beta(const O o,const N,const J j)->decltype(j(o)) {return j(o);}
+    template<typename O,typename N,typename J> static auto beta(const O o,const N,const J j)
+      ->decltype(j(o)) {return j(o);}
     template<typename... OO> using Beta=decltype(beta<OO...>(OO{}...));
   };
 
