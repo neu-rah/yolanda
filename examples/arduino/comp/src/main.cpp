@@ -4,7 +4,7 @@
 using namespace yo;
 
 #ifdef ARDUINO
-  #include <Arduino.h>
+  // #include <Arduino.h>
   #include <streamFlow.h>
   using namespace StreamFlow;
   #define cout Serial
