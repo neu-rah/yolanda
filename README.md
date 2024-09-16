@@ -10,23 +10,17 @@ This library provides both type level and runtime versions of a lazy functional 
 - lazy, things only run if needed
 - functional, all things are functions
 - curryed, we can use partial application
-- ~~SKI based, all other combinators are derived~~ not anymore, implemented many others as buitin code to obtain a more compact executable file
-- can fit into MCU's (specially the typelevel layer), hence the C++11 base.
+- type inference
+- can fit into MCU's (specially the typelevel layer), => the C++11 base.
 
 ## Example
 ```c++
-cout<<toInt(length(list(1,2,3,4,"ok!")))<<endl;
-cout<<toInt(foldl(mul)(n1)(list(n2,FromInt<120>{})))<<endl;
+cout<<toInt(length(list(1,2,3,"ok!")))<<endl;
+cout<<toInt(foldl(mul)(n2)(list(n2,n3)))<<endl;
 ```
 ## About
 
 This pseudo-language uses C++11 compiler and works both at typelevel and runtime.
-
-Functions have a duo, all function starting with a capital letter are compile time evaluated (type-level), others will work at runtime (compiled).
-
-**Head** type level, result is a type or dependent type.
-
-**head** runtime level, result is a value
 
 ## Objective
 
