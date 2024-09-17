@@ -10,10 +10,9 @@ template<typename E,typename R> void show(const E e,const R r) {cout<<e<<" = "<<
 template<typename E,typename R> void test(const E e,const R r) {show(e,r);}
 template<typename E> void test(const E e) {show(e,beta(e));}
 
-
-int main() {
+void run() {
   cout<<"Start -->"<<endl;
-  test(id("ok")("zZz"));
+  test(toInt(n2));
   // List<int,const char*>{1,""};
   // cout<<beta(toInt(mul(n2)(mul(n2)(n2))))<<endl;
   // cout<<beta(toInt(foldl(mul)(n1)(list(n2,n3))))<<endl;
@@ -65,5 +64,20 @@ int main() {
   // cout<<beta(last(list(1,"ok!")))<<endl;
   // cout<<beta(fromInt(2))<<endl;
   cout<<"<-- end"<<endl;
-  return 0;
 }
+
+#ifdef ARDUINO
+  void setup() {
+    Serial.begin(115200);
+    while(!Serial);
+    run();
+  }
+
+  void loop() {}
+#else
+  int mnain() {
+    run();
+    return 0;
+  }
+#endif
+
