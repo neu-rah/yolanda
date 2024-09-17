@@ -3,14 +3,14 @@ using namespace yo;
 using namespace std;
 //---------------------------------------
 
-ConstText title_text="just a title";
+const char* title_text="just a title";
 
-int _test(ConstText msg) {cout<<(const char*)"test called, msg:"<<(const char*)msg<<endl;return 1967;}
+int _test(const char* msg) {cout<<(const char*)"test called, msg:"<<(const char*)msg<<endl;return 1967;}
 Curry<decltype(&_test),&_test> test;
 
 template<typename O,typename P>
 int _ttest(const O o,const P p) {cout<<"here we go: "<<o<<","<<p<<endl;return 1111;}
-CurryTemplateFunction(_ttest,2) ttest;
+CurryTemplateFunction(_ttest) ttest;
 
 auto l1=cons("zZz")(nil);
 auto l2=cons("Label")(l1);
@@ -19,25 +19,23 @@ auto l3=cons(n3)(cons(n2)(cons(n1)(nil)));
 
 template<typename O> auto _pred1(const O o)->decltype(gt(o)(n6)){return gt(o)(n6);}
 
-CurryTemplateFunction(_pred1,1) pred1;
+CurryTemplateFunction(_pred1) pred1;
 
 using L1=List<N4,N3,N2,N1,N0>;
 
 int main() {
   cout<<"Start -->"<<endl;
   List<int,const char*>{1,""};
-  // cout<<toInt(mul(n2)(mul(n2)(n2)))<<endl;
-  cout<<toInt(foldl(mul)(n1)(list(n2,FromInt<120>{})))<<endl;
+  // cout<<beta(toInt(mul(n2)(mul(n2)(n2))))<<endl;
+  // cout<<beta(toInt(foldl(mul)(n1)(list(n2,n3))))<<endl;
   // cout<<toInt(FromInt<100>{})<<endl;
   // cout<<list(1,2,3,4,"ok!")<<endl;
-  // cout<<toStr(id("ok ko"))<<endl;
   // cout<<toInt(last(_map(mul(n2))(list(n2,n4))))<<endl;
   // cout<<beta(tail(_map(toInt)(list(n2,n4))))<<endl;
   // auto at=yo::index(list(n2,n4));
   // cout<<beta(toInt(at(n0)))<<endl;
   // cout<<beta(toInt(at(n1)))<<endl;
   // cout<<toStr(tail(list(1,2,3)))<<endl;
-  // cout<<beta(head(_map(toStr)(nats)))<<endl;
   // test.beta("ok");//regular curried function
   // ttest.beta("ok",11);//curried template function
   // ttest("ok")(1111).beta();

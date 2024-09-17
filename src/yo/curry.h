@@ -14,12 +14,12 @@ namespace yo {
   template<typename R,typename O,typename... OO,Func<R,O,OO...> f>
   struct Curry<Func<R,O,OO...>,f>:Combinator<Curry<Func<R,O,OO...>,f>> {
     using This=Curry<Func<R,O,OO...>,f>;
-    using Base=Combinator<This>;
+    // using Base=Combinator<This>;
     // using Base::beta;
-    template<typename P,typename... PP>
-    static cex auto beta(const P o,const PP... oo)
-      ->const When< Count<P,PP...>::value!=Count<O,OO...>::value,None>
-      {return none;}
+    // template<typename P,typename... PP>
+    // static cex auto beta(const P o,const PP... oo)
+    //   ->const When< Count<P,PP...>::value!=Count<O,OO...>::value,None>
+    //   {return none;}
     template<typename P,typename... PP>
     static cex auto beta(const P o,const PP... oo)
       ->const When< Count<P,PP...>::value==Count<O,OO...>::value,decltype(f(yo::beta(o),yo::beta(oo)...))>
