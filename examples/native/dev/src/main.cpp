@@ -76,7 +76,7 @@ void run() {
 
   void loop() {}
 #else
-  int mnain() {
+  int main() {
     run();
     return 0;
   }
