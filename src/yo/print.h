@@ -11,7 +11,12 @@
   using yo::isEmpty;
   using yo::isNone;
   using yo::isAlias;
+  using yo::isLambda;
   using yo::beta;
+
+  #ifdef ARDUINO
+    template<typename O> typename enable_if<!isApp<O>()&&!isLambda<O>()&&!isEmpty<O>(),Serial_>::type& operator<<(Serial_& out,const O o) {out.print(o);return out;}
+  #endif
 
   template<typename Out> Out& operator<<(Out& out,const yo::None) {return out<<"⊥";}
 

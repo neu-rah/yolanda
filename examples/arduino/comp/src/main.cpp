@@ -28,11 +28,12 @@ void run() {
   static cex const auto e2=(_true("ok")("fail")("zZz"));
   static cex const auto e3=(_S(id)(id)(id)("ok")("zZz"));
   static cex const auto e4=(_B(id)(id)("ok")("zZz"));
-  static cex const auto e5=(toInt(n3));//("zZz");
+  static cex const auto e5=(toInt(n3)("zZz"));
   static cex const auto l3=(list(n1,n2,n3));
   static cex const auto e6=(head(drop(n2)(l3)));//mcu stall
   static cex const auto e7=(head(nats));
   static cex const auto e8=(head(_map(toInt)(l3)));
+  static cex const auto e9=FromInt<3>{}(_not)(_true)("is pair")("is odd");
   test(e1);
   test(e2);
   test(e3);
@@ -41,7 +42,7 @@ void run() {
   test(e6);
   test(e7);
   test(e8);
-  test(FromInt<2>{}(_not)(_true)("is pair")("is odd"));
+  test(e9);
 }
 
 #ifdef ARDUINO

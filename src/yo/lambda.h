@@ -9,18 +9,18 @@ using avr_std::is_convertible;
 
 #ifndef cex
   #define cex constexpr
+#endif
+
+#ifdef ARDUINO
+  #include <Arduino.h>
+  #include <streamFlow.h>
+  using namespace StreamFlow;
+  #define cout Serial
+  #define endl "\n\r"
 #else
-  #ifdef ARDUINO
-    // #include <Arduino.h>
-    #include <streamFlow.h>
-    using namespace StreamFlow;
-    #define cout Serial
-    #define endl "\n\r"
-  #else
-    #include <iostream>
-    using std::cout;
-    using std::endl;
-  #endif
+  #include <iostream>
+  using std::cout;
+  using std::endl;
 #endif
 
 namespace yo {
