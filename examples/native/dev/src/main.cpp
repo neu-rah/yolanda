@@ -1,31 +1,20 @@
 #include <yolanda.h>
 using namespace yo;
 using namespace std;
-//---------------------------------------
 
-const char* title_text="just a title";
+//// test ///////////////////////////////////////////////////////////////
+template<typename E> void show(const E e) {cout<<e<<endl;}
+template<typename E> void show(const E e,const E) {cout<<e<<" -> irreducible."<<endl;}
+template<typename E,typename R> void show(const E e,const R r) {cout<<e<<" = "<<r<<endl;}
 
-int _test(const char* msg) {cout<<(const char*)"test called, msg:"<<(const char*)msg<<endl;return 1967;}
-Curry<decltype(&_test),&_test> test;
+template<typename E,typename R> void test(const E e,const R r) {show(e,r);}
+template<typename E> void test(const E e) {show(e,beta(e));}
 
-template<typename O,typename P>
-int _ttest(const O o,const P p) {cout<<"here we go: "<<o<<","<<p<<endl;return 1111;}
-CurryTemplateFunction(_ttest) ttest;
-
-auto l1=cons("zZz")(nil);
-auto l2=cons("Label")(l1);
-
-auto l3=cons(n3)(cons(n2)(cons(n1)(nil)));
-
-template<typename O> auto _pred1(const O o)->decltype(gt(o)(n6)){return gt(o)(n6);}
-
-CurryTemplateFunction(_pred1) pred1;
-
-using L1=List<N4,N3,N2,N1,N0>;
 
 int main() {
   cout<<"Start -->"<<endl;
-  List<int,const char*>{1,""};
+  test(id("ok")("zZz"));
+  // List<int,const char*>{1,""};
   // cout<<beta(toInt(mul(n2)(mul(n2)(n2))))<<endl;
   // cout<<beta(toInt(foldl(mul)(n1)(list(n2,n3))))<<endl;
   // cout<<toInt(FromInt<100>{})<<endl;
