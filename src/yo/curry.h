@@ -26,11 +26,6 @@ namespace yo {
       {return f(yo::beta(o),yo::beta(oo)...);}
   };
 
-  #ifdef YO_PRINT
-    template<typename Out,typename F, F f>
-    Out& operator<<(Out& out,const Curry<F,f>) {return out<<"λ"/*<<"("<<typeid(F).name()<<"@"<<(void*)f<<")"*/;}
-  #endif
-
   // curry template function
   // providing its name
   #ifdef YO_PRINT

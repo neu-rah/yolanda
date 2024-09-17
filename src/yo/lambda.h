@@ -11,6 +11,7 @@ using avr_std::is_convertible;
   #define cex constexpr
 #else
   #ifdef ARDUINO
+    // #include <Arduino.h>
     #include <streamFlow.h>
     using namespace StreamFlow;
     #define cout Serial
@@ -27,7 +28,6 @@ namespace yo {
 
   struct None {};
   cex const None none;
-  template<typename Out> Out& operator<<(Out& out,const None) {return out<<"⊥";}
 
   struct Lambda {};
   struct LambdaApp {};
@@ -147,27 +147,11 @@ namespace yo {
       {return yo::beta(expr(H{},TT{}...,o,oo...));}
   };
 
-  #ifdef YO_VERB
-    template<typename Out> Out& operator<<(Out& out,const Expr<> o) {return out<<"ø";}
-    template<typename Out,typename O,typename... OO> When<!isApp<O>(),Out>& operator<<(Out& out,const Expr<O,OO...> o) {return out<<"["<<o.head<<" "<<o.tail<<"]";}
-    template<typename Out,typename O,typename... OO> When< isApp<O>(),Out>& operator<<(Out& out,const Expr<O,OO...> o) {return out<<"[("<<o.head<<") "<<o.tail<<"]";}
-  #else
-    template<typename Out> Out& operator<<(Out& out,const Expr<> o) {return out;}
-    template<typename Out,typename O,typename... OO> When<!isApp<O>(),Out>& operator<<(Out& out,const Expr<O,OO...> o) {return out<<o.head<<" "<<o.tail;}
-    template<typename Out,typename O,typename... OO> When< isApp<O>(),Out>& operator<<(Out& out,const Expr<O,OO...> o) {return out<<"("<<o.head<<") "<<o.tail;}
-  #endif
-
   //alias (for printing)--
   template<typename Fn> struct Alt:Fn {
     cex operator const Alias() const {return Alias{};}
     template<typename O> cex const Expr<Alt<Fn>,O> operator()(const O o) const {return {*this,o};}
   };
-
-  #ifdef YO_VERB
-    template<typename Out,typename Fn> cex Out& operator<<(Out& out,const Alt<Fn> o) {return out<<"Alt{"<<(Fn&)o<<"}";}
-  #else
-    template<typename Out,typename Fn> cex Out& operator<<(Out& out,const Alt<Fn> o) {return out<<(Fn&)o;}
-  #endif
 
   template<typename Fn>
   struct Combinator:Lambda {

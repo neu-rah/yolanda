@@ -7,3 +7,5 @@
 #include "yo/bool.h"
 #include "yo/peano.h"
 #include "yo/list.h"
+
+#include "yo/print.h"

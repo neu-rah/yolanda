@@ -97,24 +97,4 @@ namespace yo {
   cex const Fst fst;
   cex const Snd snd;
 
-  template<typename Out> Out& operator<<(Out& out,const I) {return out<<"I";}
-  template<typename Out> Out& operator<<(Out& out,const K) {return out<<"K";}
-  template<typename Out> Out& operator<<(Out& out,const S) {return out<<"S";}
-  template<typename Out> Out& operator<<(Out& out,const B) {return out<<"B";}
-  template<typename Out> Out& operator<<(Out& out,const C) {return out<<"C";}
-  template<typename Out> Out& operator<<(Out& out,const W) {return out<<"W";}
-  template<typename Out> Out& operator<<(Out& out,const T) {return out<<"T";}
-  template<typename Out> Out& operator<<(Out& out,const V) {return out<<"V";}
-  template<typename Out> Out& operator<<(Out& out,const M) {return out<<"M";}
-
-  template<typename Out> Out& operator<<(Out& out,const Id) {return out<<"id";}
-  template<typename Out> Out& operator<<(Out& out,const Const) {return out<<"const";}
-  template<typename Out> Out& operator<<(Out& out,const KI) {return out<<"KI";}
-  template<typename Out> Out& operator<<(Out& out,const Flip) {return out<<"flip";}
-  template<typename Out> Out& operator<<(Out& out,const Pair) {return out<<"pair";}
-  template<typename Out> Out& operator<<(Out& out,const L) {return out<<"L";}
-  template<typename Out> Out& operator<<(Out& out,const Y) {return out<<"Y";}
-  template<typename Out> Out& operator<<(Out& out,const Bb) {return out<<"Bb";}
-  template<typename Out> Out& operator<<(Out& out,const Fst) {return out<<"fst";}
-  template<typename Out> Out& operator<<(Out& out,const Snd) {return out<<"snd";}
 };

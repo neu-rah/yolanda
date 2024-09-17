@@ -268,43 +268,4 @@ namespace yo {
 
   // template<typename Out> Out& operator<<(Out& out,const Nil) {return out<<"nil";}
 
-  template<typename Out> Out& operator<<(Out& out,const Cons)           {return out<<"cons";}
-  template<typename Out> Out& operator<<(Out& out,const Nil)            {return out<<"nil";}
-  template<typename Out> Out& operator<<(Out& out,const Head)           {return out<<"head";}
-  template<typename Out> Out& operator<<(Out& out,const Tail)           {return out<<"tail";}
-  template<typename Out> Out& operator<<(Out& out,const Null)           {return out<<"null";}
-  template<typename Out> Out& operator<<(Out& out,const _Length)        {return out<<"_length";}
-  template<typename Out> Out& operator<<(Out& out,const Length)         {return out<<"length";}
-  template<typename Out> Out& operator<<(Out& out,const Drop)           {return out<<"drop";}
-  template<typename Out> Out& operator<<(Out& out,const Index)          {return out<<"index";}
-  template<typename Out> Out& operator<<(Out& out,const _Last)          {return out<<"_last";}
-  template<typename Out> Out& operator<<(Out& out,const Last)           {return out<<"last";}
-  template<typename Out> Out& operator<<(Out& out,const _Concat)        {return out<<"concat";}
-  template<typename Out> Out& operator<<(Out& out,const Concat)         {return out<<"concat";}
-  template<typename Out> Out& operator<<(Out& out,const _Init)          {return out<<"_init";}
-  template<typename Out> Out& operator<<(Out& out,const Init)           {return out<<"init";}
-  template<typename Out> Out& operator<<(Out& out,const _Reverse)       {return out<<"_reverse";}
-  template<typename Out> Out& operator<<(Out& out,const  Reverse)       {return out<< "reverse";}
-  template<typename Out> Out& operator<<(Out& out,const _TakeR)         {return out<<"_taker";}
-  template<typename Out> Out& operator<<(Out& out,const TakeR)          {return out<< "taker";}
-  template<typename Out> Out& operator<<(Out& out,const Take)           {return out<< "take";}
-  template<typename Out> Out& operator<<(Out& out,const Nats)           {return out<<"ℕ";}
-  template<typename Out> Out& operator<<(Out& out,const _Nats)          {return out<<"Nat";}
-  template<typename Out> Out& operator<<(Out& out,const Range)          {return out<<"range";}
-  template<typename Out,typename S> Out& operator<<(Out& out,const Expr<Nats,S> n)  {return out<< "["<<S{}<<"..]";}
-  template<typename Out> Out& operator<<(Out& out,const _Map)           {return out<<"_map";}
-  template<typename Out> Out& operator<<(Out& out,const  Map)           {return out<< "map";}
-  template<typename Out> Out& operator<<(Out& out,const _Filter)        {return out<<"_filter";}
-  template<typename Out> Out& operator<<(Out& out,const  Filter)        {return out<< "filter";}
-  template<typename Out> Out& operator<<(Out& out,const _FoldL)         {return out<<"_foldl";}
-  template<typename Out> Out& operator<<(Out& out,const  FoldL)         {return out<< "foldl";}
-  template<typename Out> Out& operator<<(Out& out,const _FoldR)         {return out<<"_foldr";}
-  template<typename Out> Out& operator<<(Out& out,const  FoldR)         {return out<< "foldr";}
-  template<typename Out> Out& operator<<(Out& out,const _Zip)           {return out<<"_zip";}
-  template<typename Out> Out& operator<<(Out& out,const  Zip)           {return out<< "zip";}
-  template<typename Out> Out& operator<<(Out& out,const FromBool)       {return out<<"fromBool";}
-
-  template<typename Out,typename... OO>
-  When<!isEmpty<Expr<OO...>>(),Out>& operator<<(Out& out,const List<OO...> o)
-    {return out<<beta(head(o))<<":"<<(typename List<OO...>::Tail)beta(tail(o));}
 };

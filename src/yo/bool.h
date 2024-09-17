@@ -44,9 +44,4 @@ namespace yo {
 
   constexpr const FromBool fromBool;
 
-  template<typename Out> Out& operator<<(Out& out,const True) {return out<<"true";}
-  template<typename Out> Out& operator<<(Out& out,const False) {return out<<"false";}
-  template<typename Out> Out& operator<<(Out& out,const Not) {return out<<"not";}
-  template<typename Out> Out& operator<<(Out& out,const Or) {return out<<"or";}
-  template<typename Out> Out& operator<<(Out& out,const And) {return out<<"and";}
 };
