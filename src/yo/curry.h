@@ -33,8 +33,8 @@ namespace yo {
       struct f##TemplateCaller:Combinator<f##TemplateCaller> {\
         template<typename... OO>\
         static cex auto beta(const OO... oo)\
-          ->const decltype(f(oo...))\
-          {return f(oo...);}\
+          ->const decltype(f(beta(oo)...))\
+          {return f(beta(oo)...);}\
       };\
       template<typename Out>\
       Out& operator<<(Out& out,const f##TemplateCaller) {return out<<"{"<<#f<<"}";}\
