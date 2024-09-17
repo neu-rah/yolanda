@@ -12,7 +12,8 @@ template<typename E> void test(const E e) {show(e,beta(e));}
 
 void run() {
   cout<<"Start -->"<<endl;
-  test(head(_map(mul(n2))(list(n1,n2))));
+  static constexpr const auto e1=(head(_map(toInt)(list(n1,n2))));
+  test(e1);
   // List<int,const char*>{1,""};
   // cout<<beta(toInt(mul(n2)(mul(n2)(n2))))<<endl;
   // cout<<beta(toInt(foldl(mul)(n1)(list(n2,n3))))<<endl;
