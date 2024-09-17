@@ -33,8 +33,8 @@ namespace yo {
       struct f##TemplateCaller:Combinator<f##TemplateCaller> {\
         template<typename... OO>\
         static cex auto beta(const OO... oo)\
-          ->const decltype(f(beta(oo)...))\
-          {return f(beta(oo)...);}\
+          ->const decltype(f(yo::beta(oo)...))\
+          {return f(yo::beta(oo)...);}\
       };\
       template<typename Out>\
       Out& operator<<(Out& out,const f##TemplateCaller) {return out<<"{"<<#f<<"}";}\
@@ -45,8 +45,8 @@ namespace yo {
         using Combinator<f##TemplateCaller>::beta;\
         template<typename... OO>\
         static cex auto beta(const OO... oo)\
-          ->const decltype(f(oo...))\
-          {return f(oo...);}\
+          ->const decltype(f(yo::beta(oo)...))\
+          {return f(yo::beta(oo)...);}\
       };\
       cex f##TemplateCaller 
   #endif
