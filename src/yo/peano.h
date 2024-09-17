@@ -139,30 +139,4 @@ namespace yo {
     ->const decltype(beta(n(plus1)(0)))
     {return beta(n(plus1)(0));}
   CurryTemplateFunction(_toInt) toInt;
-
-  template<typename Out> Out& operator<<(Out& out,const N0)   {return out<<"#0";}
-  template<typename Out> Out& operator<<(Out& out,const N1)   {return out<<"#1";}
-  template<typename Out> Out& operator<<(Out& out,const N2)   {return out<<"#2";}
-  template<typename Out> Out& operator<<(Out& out,const N3)   {return out<<"#3";}
-  template<typename Out> Out& operator<<(Out& out,const N4)   {return out<<"#4";}
-  template<typename Out> Out& operator<<(Out& out,const N5)   {return out<<"#5";}
-  template<typename Out> Out& operator<<(Out& out,const N6)   {return out<<"#6";}
-  template<typename Out> Out& operator<<(Out& out,const N7)   {return out<<"#7";}
-  template<typename Out> Out& operator<<(Out& out,const N8)   {return out<<"#8";}
-  template<typename Out> Out& operator<<(Out& out,const N9)   {return out<<"#9";}
-
-  template<typename Out> Out& operator<<(Out& out,const Add)   {return out<<"(+)";}
-  template<typename Out> Out& operator<<(Out& out,const Mul)   {return out<<"(*)";}
-  template<typename Out> Out& operator<<(Out& out,const Pow)   {return out<<"(^)";}
-  template<typename Out> Out& operator<<(Out& out,const Is0)   {return out<<"(0==)";}
-  template<typename Out> Out& operator<<(Out& out,const Succ)  {return out<<"(++)";}
-  template<typename Out> Out& operator<<(Out& out,const Pred)  {return out<<"(--)";}
-  template<typename Out> Out& operator<<(Out& out,const Sub)   {return out<<"(-)";}
-  template<typename Out> Out& operator<<(Out& out,const LEq)   {return out<<"(≤)";}
-  template<typename Out> Out& operator<<(Out& out,const GEq)   {return out<<"(≥)";}
-  template<typename Out> Out& operator<<(Out& out,const GT)    {return out<<"(>)";}
-  template<typename Out> Out& operator<<(Out& out,const LT)    {return out<<"(<)";}
-  template<typename Out> Out& operator<<(Out& out,const Eq)    {return out<<"(=)";}
-  template<typename Out> Out& operator<<(Out& out,const NEq)   {return out<<"(≠)";}
-  template<typename Out,int n> Out& operator<<(Out& out,const FromInt<n>)   {return out<<"fromInt<"<<n<<">";}
 };
