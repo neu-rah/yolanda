@@ -261,6 +261,8 @@ namespace yo {
   template<typename O,typename...OO>
   struct List<O,OO...>:Expr<Cons,O,List<OO...>> {
     using Tail=List<OO...>;
+    using Base=Expr<Cons,O,List<OO...>>;
+    using Base::Base;
     cex List(const O o,const OO... oo):Expr<Cons,O,List<OO...>>(cons,o,List<OO...>(oo...)) {}
   };
 
