@@ -110,6 +110,15 @@
   template<typename Out,int n> Out& operator<<(Out& out,const yo::FromInt<n>)   {return out<<"fromInt<"<<n<<">";}
 
   #ifdef YO_VERB
+    template<typename Out,typename Fn> cex Out& operator<<(Out& out,const Alt<Fn> o) {return out<<"Alt{"<<(Fn&)o<<"}";}
+  #else
+    template<typename Out,typename Fn> cex Out& operator<<(Out& out,const Alt<Fn> o) {return out<<(Fn&)o;}
+  #endif
+
+  template<typename Out,typename F, F f>
+  Out& operator<<(Out& out,const Curry<F,f>) {return out<<"λ"/*<<"("<<typeid(F).name()<<"@"<<(void*)f<<")"*/;}
+
+  #ifdef YO_VERB
     template<typename Out> Out& operator<<(Out& out,const Expr<> o) {return out<<"ø";}
     template<typename Out,typename O,typename... OO> When<!isApp<O>(),Out>& operator<<(Out& out,const Expr<O,OO...> o) {return out<<"["<<o.head<<" "<<o.tail<<"]";}
     template<typename Out,typename O,typename... OO> When< isApp<O>(),Out>& operator<<(Out& out,const Expr<O,OO...> o) {return out<<"[("<<o.head<<") "<<o.tail<<"]";}
@@ -121,17 +130,8 @@
     template<typename Out,typename O,typename... OO> When<!isApp<O>()||isAlias<O>(),Out>& operator<<(Out& out,const Expr<O,OO...> o) {return out<<o.head<<" "<<o.tail;}
   #endif
 
-  #ifdef YO_VERB
-    template<typename Out,typename Fn> cex Out& operator<<(Out& out,const Alt<Fn> o) {return out<<"Alt{"<<(Fn&)o<<"}";}
-  #else
-    template<typename Out,typename Fn> cex Out& operator<<(Out& out,const Alt<Fn> o) {return out<<(Fn&)o;}
-  #endif
-
-  template<typename Out,typename F, F f>
-  Out& operator<<(Out& out,const Curry<F,f>) {return out<<"λ"/*<<"("<<typeid(F).name()<<"@"<<(void*)f<<")"*/;}
-
   template<typename Out,typename... OO>
   When<!isEmpty<Expr<OO...>>(),Out>& operator<<(Out& out,const yo::List<OO...> o)
     {return out<<beta(yo::head(o))<<":"<<(typename yo::List<OO...>::Tail)beta(yo::tail(o));}
 
-
+  
