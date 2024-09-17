@@ -10,6 +10,7 @@
   using yo::isApp;
   using yo::isEmpty;
   using yo::isNone;
+  using yo::isAlias;
   using yo::beta;
 
   template<typename Out> Out& operator<<(Out& out,const yo::None) {return out<<"⊥";}
@@ -108,11 +109,11 @@
     template<typename Out,typename O,typename... OO> When<!isApp<O>(),Out>& operator<<(Out& out,const Expr<O,OO...> o) {return out<<"["<<o.head<<" "<<o.tail<<"]";}
     template<typename Out,typename O,typename... OO> When< isApp<O>(),Out>& operator<<(Out& out,const Expr<O,OO...> o) {return out<<"[("<<o.head<<") "<<o.tail<<"]";}
   #else
-    template<typename Out,typename O,typename... OO> When< isApp<O>(),Out>& operator<<(Out& out,const Expr<O,OO...> o);
-    template<typename Out,typename O,typename... OO> When<!isApp<O>(),Out>& operator<<(Out& out,const Expr<O,OO...> o);
+    template<typename Out,typename O,typename... OO> When< isApp<O>()&&!isAlias<O>(),Out>& operator<<(Out& out,const Expr<O,OO...> o);
+    template<typename Out,typename O,typename... OO> When<!isApp<O>()||isAlias<O>(),Out>& operator<<(Out& out,const Expr<O,OO...> o);
     template<typename Out> Out& operator<<(Out& out,const Expr<> o) {return out;}
-    template<typename Out,typename O,typename... OO> When< isApp<O>(),Out>& operator<<(Out& out,const Expr<O,OO...> o) {return out<<"("<<o.head<<") "<<o.tail;}
-    template<typename Out,typename O,typename... OO> When<!isApp<O>(),Out>& operator<<(Out& out,const Expr<O,OO...> o) {return out<<o.head<<" "<<o.tail;}
+    template<typename Out,typename O,typename... OO> When< isApp<O>()&&!isAlias<O>(),Out>& operator<<(Out& out,const Expr<O,OO...> o) {return out<<"("<<o.head<<") "<<o.tail;}
+    template<typename Out,typename O,typename... OO> When<!isApp<O>()||isAlias<O>(),Out>& operator<<(Out& out,const Expr<O,OO...> o) {return out<<o.head<<" "<<o.tail;}
   #endif
 
   #ifdef YO_VERB

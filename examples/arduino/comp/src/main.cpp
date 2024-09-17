@@ -41,6 +41,7 @@ void run() {
   test(e6);
   test(e7);
   test(e8);
+  test(FromInt<2>{}(_not)(_true)("is pair")("is odd"));
 }
 
 #ifdef ARDUINO
