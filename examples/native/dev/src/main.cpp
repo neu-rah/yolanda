@@ -10,10 +10,24 @@ template<typename E,typename R> void show(const E e,const R r) {cout<<e<<" = "<<
 template<typename E,typename R> void test(const E e,const R r) {show(e,r);}
 template<typename E> void test(const E e) {show(e,beta(e));}
 
+// constexpr const auto soma=[](int a,int b){return a+b;}
+
 void run() {
+  // static cex const auto e1{toInt(head(_map(mul(n2))(list(n3,n2))))};
   cout<<"Start -->"<<endl;
-  static cex const auto e1=toInt(head(_map(mul(n2))(list(n3,n2))));
-  test(e1);
+  // test(e1);
+  #ifdef ARDUINO
+    while(!Serial.available());
+    char u=Serial.read();
+  #else
+    char u;
+    cin>>u;
+  #endif
+  const auto r=head(list(u,4));
+  test(r);
+
+  // cout<<beta(toInt(length(list(1,2,3,"ok!"))))<<endl;
+  // cout<<beta(toInt(foldl(mul)(n2)(list(n2,n3))))<<endl;
   // test(toInt(foldl(mul)(n1)(list(n2,n3))));
   // test(toInt(mul(n2)(mul(n2)(n2))));
   // test(toInt(FromInt<30>{}));
@@ -43,7 +57,7 @@ void run() {
   // cout<<beta(head(l2))<<endl;
   // cout<<beta(head(reverse(l2)))<<endl;
   // cout<<beta(head(nats))<<endl;
-  // cout<<toInt(head(drop(n5)(_map(mul(n2))(nats))))<<endl;
+  // cout<<beta(toInt(head(drop(n5)(_map(mul(n2))(nats)))))<<endl;
   // cout<<beta(head(tail(nats)))<<endl;
   // cout<<beta(head(filter(flip(gt)(n2))(nats)))<<endl;//this is horrible slow to compile and requires more template depth
   // cout<<beta(snd(head(zip(l2)(nats))))<<endl;

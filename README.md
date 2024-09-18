@@ -15,9 +15,21 @@ This library provides both type level and runtime versions of a lazy functional 
 
 ## Example
 ```c++
-cout<<toInt(length(list(1,2,3,"ok!")))<<endl;
-cout<<toInt(foldl(mul)(n2)(list(n2,n3)))<<endl;
+cout<<beta(toInt(length(list(1,2,3,"ok!"))))<<endl;
+cout<<beta(toInt(foldl(mul)(n2)(list(n2,n3))))<<endl;
 ```
+output:
+
+    4  
+    12
+
+## changes
+
+* full rewrite
+* reversed execution queue order for smaller stacks
+* full relly on `decltype(...)`, along with `constexpr` to obtain the type-level/compile-time versions
+* use `beta(...)` function for expression reduction
+
 ## About
 
 This pseudo-language uses C++11 compiler and works both at typelevel and runtime.
@@ -36,63 +48,63 @@ implemented so far:
 
 ### Core
 
-**Flip** - `λfab.fba` used function `f` with arguments in reverse order  
-**Pair** - `λabf.fab` construct pair or values to deliver to function `f`  
-**Fst** - `λo.o(λab.a)` get first element of a pair  
-**Snd** - `λo.o(λab.b)` get second element of a pair  
+**flip** - `λfab.fba` used function `f` with arguments in reverse order  
+**pair** - `λabf.fab` construct pair or values to deliver to function `f`  
+**fst** - `λo.o(λab.a)` get first element of a pair  
+**snd** - `λo.o(λab.b)` get second element of a pair  
 
 ### Logic
-**True** - select first option `λab.a`  
-**False** - select second option `λab.b`  
-**And** - functional boolean `and`  
-**Or** - functional boolean `or`  
-**Not** - functional negation  
-**BEq** - boolean equality
+**_true** - select first option `λab.a`  
+**_false** - select second option `λab.b`  
+**_and** - functional boolean `and`  
+**_or** - functional boolean `or`  
+**_not** - functional negation  
+**beq** - boolean equality
 
 ### Peano numerals
 
 using Church encoded numerals
 
-**Succ** - successor of a nominal  
-**Pred** - predecessor or a nominal  
-**N0 .. N9** - predefined numerals  
-**Is0** - check if numeral is N0  
-**Add** - sum 2 numerals  
-**Sub** - subtract 2 numeral  
-**Mul** - multiply 2 numerals  
-**Pow** - numerals power  
-**Eq** - check numeral equality  
-**NEq** - check numeral inequality  
-**LEq** - check numeral `<=` relation  
-**GEq** - check numeral `>=` relation  
-**Lt** - check numeral `<` relation  
-**Gt** - check numeral `>` relation  
+**succ** - successor of a nominal  
+**pred** - predecessor or a nominal  
+**n0 .. n9** - predefined numerals  
+**is0** - check if numeral is N0  
+**add** - sum 2 numerals  
+**sub** - subtract 2 numeral  
+**mul** - multiply 2 numerals  
+**_pow** - numerals power  
+**eq** - check numeral equality  
+**neq** - check numeral inequality  
+**leq** - check numeral `<=` relation  
+**geq** - check numeral `>=` relation  
+**lt** - check numeral `<` relation  
+**gt** - check numeral `>` relation  
 
 ### List functions
-**Head** - get first element of a list  
-**Tail** - get ramaining of a list (but the head)  
-**Cons** - construct a list node  
-**Nil** - empty list  
-**Null** - check if list is empty  
-**Length** - get list length (numeral)  
-**Index** - get element at index  
-**Drop** - drop elements from list head  
-**Init** - get list of all but last element  
-**Last** - get last element of a list  
-**Reverse** - reverse list order  
-**Take** - take elements from list start
-**Nats** - list of all natural numbers (infinit list)
-**Range** - range of integers (list)
-**Concat** - join 2 lists  
-**Map** - map a function over list elements  
-**Filter** - filter list elements  
-**FoldL** - left fold a list with a function and start value  
-**FoldR** - right fold a list with a function and start value  
-**Zip** - join 2 lists in a list of pairs with minimal length  
+**head** - get first element of a list  
+**tail** - get ramaining of a list (but the head)  
+**cons** - construct a list node  
+**nil** - empty list  
+**null** - check if list is empty  
+**length** - get list length (numeral)  
+**index** - get element at index  
+**drop** - drop elements from list head  
+**init** - get list of all but last element  
+**last** - get last element of a list  
+**reverse** - reverse list order  
+**take** - take elements from list start  
+**nats** - list of all natural numbers as numerals (infinit list)  
+**range** - range of numerals (list)
+**concat** - join 2 lists  
+**_map** - map a function over list elements  
+**filter** - filter list elements  
+**foldl** - left fold a list with a function and start value  
+**foldr** - right fold a list with a function and start value  
+**zip** - join 2 lists in a list of pairs with minimal length  
 
 ### Extras
-**Nothing** - `λn.λj.n`  
-**Just** - `λxnj.j x`  
+~~**Nothing** - `λn.λj.n`~~  
+~~**Just** - `λxnj.j x`~~  
 
 ### Runtime
 
@@ -110,23 +122,24 @@ B,C,M,L,Y,T,V,R,Bb,Id
 
 ### aux functions
 
+**expr** expression builder, returns a chain of function application
+
 **toBool** convert expression to c++ bool
 
 **toInt** convert expression to c++ int (numeral to c++ int)
 
-**toStr** convert expression to string or String, depending on the platform
+~~**toStr** convert expression to string or String, depending on the platform~~
 
 ~~**print** reduces and prints the expression reduction result.~~
 
-now using c++ ostream for printing
+now using c++ `operator<<(...)` for printing
 
 **list** build a polymorphic list
 
 example
 ```c++
-List<StaticInt<1>,StaticText<&my_text>>;//compile time list build
-List<int,const char*>{1,""};
-list(1,2,"Ok");//runtime list built
+constexpr const auto l1=list(1,2,"Ok");//compile time list build
+const auto l2=list(1,2,"Ok");//runtime list build
 ```
 
 ## sources

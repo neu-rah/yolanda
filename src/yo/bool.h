@@ -50,5 +50,6 @@ namespace yo {
     template<typename Out> Out& operator<<(Out& out,const yo::Not) {return out<<"not";}
     template<typename Out> Out& operator<<(Out& out,const yo::Or) {return out<<"or";}
     template<typename Out> Out& operator<<(Out& out,const yo::And) {return out<<"and";}
+    template<typename Out> Out& operator<<(Out& out,const yo::BEq) {return out<<"===";}
   #endif
 };
