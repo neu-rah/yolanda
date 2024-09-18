@@ -121,9 +121,9 @@ namespace yo {
 
   //natural precedence--
   template<typename H,typename... TT>
-  cex auto beta(const Expr<H,TT...> o)
-    ->const When<isApp<H>(),decltype(o.natp())>
-    {cout<<"natp:"<<o<<" -> "<<o.natp()<<endl;return o.natp();}
+  cex auto beta(const Expr<H,TT...> o,const When<isApp<H>(),None> = none)
+    ->const decltype(beta(o.natp()))
+    {return beta(o.natp());}
 
   //irreducible--
   template<typename O> cex const O beta(const O o) {return o;}
@@ -170,4 +170,33 @@ namespace yo {
     template<typename O> cex const Expr<Fn,O> operator()(const O o) const {return {*(Fn*)this,o};}
     template<typename... OO> static cex const None beta(const OO...) {return none;}
   };
+
+// using yo::When;
+// using yo::Expr;
+// using yo::isApp;
+// using yo::isAlias;
+// using yo::isEmpty;
+
+  #ifdef YO_PRINT
+    template<typename Out> Out& operator<<(Out& out,const yo::None) {return out<<"⊥";}
+
+    #ifdef YO_VERB
+      template<typename Out,typename Fn> cex Out& operator<<(Out& out,const yo::Alt<Fn> o) {return out<<"Alt{"<<(Fn&)o<<"}";}
+    #else
+      template<typename Out,typename Fn> cex Out& operator<<(Out& out,const yo::Alt<Fn> o) {return out<<(Fn&)o;}
+    #endif
+
+    #ifdef YO_VERB
+      template<typename Out> Out& operator<<(Out& out,const Expr<> o) {return out<<"ø";}
+      template<typename Out,typename O,typename... OO> When<!isApp<O>(),Out>& operator<<(Out& out,const Expr<O,OO...> o) {return out<<"["<<o.head<<" "<<o.tail<<"]";}
+      template<typename Out,typename O,typename... OO> When< isApp<O>(),Out>& operator<<(Out& out,const Expr<O,OO...> o) {return out<<"[("<<o.head<<") "<<o.tail<<"]";}
+    #else
+      template<typename Out,typename O,typename... OO> When< isApp<O>()&&!isAlias<O>(),Out>& operator<<(Out& out,const Expr<O,OO...> o);
+      template<typename Out,typename O,typename... OO> When<!isApp<O>()||isAlias<O>(),Out>& operator<<(Out& out,const Expr<O,OO...> o);
+      template<typename Out> Out& operator<<(Out& out,const Expr<> o) {return out;}
+      template<typename Out,typename O,typename... OO> When< isApp<O>()&&!isAlias<O>(),Out>& operator<<(Out& out,const Expr<O,OO...> o) {return out<<"("<<o.head<<") "<<o.tail;}
+      template<typename Out,typename O,typename... OO> When<!isApp<O>()||isAlias<O>(),Out>& operator<<(Out& out,const Expr<O,OO...> o) {return out<<o.head<<" "<<o.tail;}
+    #endif
+  #endif
 };
+

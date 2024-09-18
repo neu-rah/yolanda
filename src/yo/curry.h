@@ -50,4 +50,10 @@ namespace yo {
       };\
       cex f##TemplateCaller 
   #endif
+
+  #ifdef YO_PRINT
+    template<typename Out,typename F, F f>
+    Out& operator<<(Out& out,const yo::Curry<F,f>) {return out<<"λ"/*<<"("<<typeid(F).name()<<"@"<<(void*)f<<")"*/;}
+  #endif
+
 };

@@ -97,4 +97,27 @@ namespace yo {
   cex const Fst fst;
   cex const Snd snd;
 
+  #ifdef YO_PRINT
+    template<typename Out> Out& operator<<(Out& out,const yo::I) {return out<<"I";}
+    template<typename Out> Out& operator<<(Out& out,const yo::K) {return out<<"K";}
+    template<typename Out> Out& operator<<(Out& out,const yo::S) {return out<<"S";}
+    template<typename Out> Out& operator<<(Out& out,const yo::B) {return out<<"B";}
+    template<typename Out> Out& operator<<(Out& out,const yo::C) {return out<<"C";}
+    template<typename Out> Out& operator<<(Out& out,const yo::W) {return out<<"W";}
+    template<typename Out> Out& operator<<(Out& out,const yo::T) {return out<<"T";}
+    template<typename Out> Out& operator<<(Out& out,const yo::V) {return out<<"V";}
+    template<typename Out> Out& operator<<(Out& out,const yo::M) {return out<<"M";}
+
+    template<typename Out> Out& operator<<(Out& out,const yo::Id) {return out<<"id";}
+    template<typename Out> Out& operator<<(Out& out,const yo::Const) {return out<<"const";}
+    template<typename Out> Out& operator<<(Out& out,const yo::KI) {return out<<"KI";}
+    template<typename Out> Out& operator<<(Out& out,const yo::Flip) {return out<<"flip";}
+    template<typename Out> Out& operator<<(Out& out,const yo::Pair) {return out<<"pair";}
+    template<typename Out> Out& operator<<(Out& out,const yo::L) {return out<<"L";}
+    template<typename Out> Out& operator<<(Out& out,const yo::Y) {return out<<"Y";}
+    template<typename Out> Out& operator<<(Out& out,const yo::Bb) {return out<<"Bb";}
+    template<typename Out> Out& operator<<(Out& out,const yo::Fst) {return out<<"fst";}
+    template<typename Out> Out& operator<<(Out& out,const yo::Snd) {return out<<"snd";}
+
+  #endif
 };
