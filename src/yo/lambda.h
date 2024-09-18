@@ -5,7 +5,7 @@ using avr_std::enable_if;
 using avr_std::is_same;
 using avr_std::is_convertible;
 
-  // #define cex
+#define cex
 
 #ifndef cex
   #define cex constexpr
@@ -73,10 +73,14 @@ namespace yo {
 
   //// beta
 
-  /*result*/     template<typename Fn,typename R,typename Nx,typename... OO> cex auto br(const R r,const Nx n,const OO...)->const When<!isNone<R>(),decltype(_concat(r,n))>;
-  /*last param*/ template<typename Fn,typename Nx,typename... OO> cex auto br(const None,const Expr<Nx> n,const OO... oo)->const decltype(Fn::beta(oo...,n.head));
-  /*add param*/  template<typename Fn,typename Nx,typename... OO> cex auto br(const None,const Nx n,const OO... oo)->const When<isApp<Nx>()&&(Nx::len()>1),decltype(br<Fn>(Fn::beta(oo...,n.head),n.tail,oo...,n.head))>;
-  /*add item*/   template<typename Fn,typename Nx,typename... OO> cex auto br(const None,const Nx n,const OO... oo)->const When<!isApp<Nx>(),decltype(Fn::beta(oo...,n))>;
+  // /*natural precedence*/ template<typename Fn,typename R,typename Nx,typename... OO>
+  // cex auto br(const R r,const Nx n,const OO...)
+  //   ->const When<isApp<Fn>(),decltype(_concat(r,n))>
+  //   {return Fn{};}
+  /*result*/             template<typename Fn,typename R,typename Nx,typename... OO> cex auto br(const R r,const Nx n,const OO...)->const When<!isNone<R>(),decltype(_concat(r,n))>;
+  /*last param*/         template<typename Fn,typename Nx,typename... OO> cex auto br(const None,const Expr<Nx> n,const OO... oo)->const decltype(Fn::beta(oo...,n.head));
+  /*add param*/          template<typename Fn,typename Nx,typename... OO> cex auto br(const None,const Nx n,const OO... oo)->const When<isApp<Nx>()&&(Nx::len()>1),decltype(br<Fn>(Fn::beta(oo...,n.head),n.tail,oo...,n.head))>;
+  /*add item*/           template<typename Fn,typename Nx,typename... OO> cex auto br(const None,const Nx n,const OO... oo)->const When<!isApp<Nx>(),decltype(Fn::beta(oo...,n))>;
 
   //for debug only--
   template<typename O> cex const O xbeta(const O o) {return o;}
@@ -112,8 +116,14 @@ namespace yo {
   //beta start--
   template<typename H,typename... TT>
   cex auto beta(const Expr<H,TT...> o)
-    ->const decltype(res(br<H>(none,o.tail),o))
+    ->const When<!isApp<H>(),decltype(res(br<H>(none,o.tail),o))>
     {return res(br<H>(none,o.tail),o);}
+
+  //natural precedence--
+  template<typename H,typename... TT>
+  cex auto beta(const Expr<H,TT...> o)
+    ->const When<isApp<H>(),decltype(o.natp())>
+    {cout<<"natp:"<<o<<" -> "<<o.natp()<<endl;return o.natp();}
 
   //irreducible--
   template<typename O> cex const O beta(const O o) {return o;}
@@ -129,12 +139,6 @@ namespace yo {
   cex auto res(const R r,const O)
     ->const When<!isNone<R>(),decltype(beta(r))>
     {return beta(r);}
-
-  //natural precedence--
-  template<typename H,typename... TT,When<isApp<H>(),None> = none>
-  cex auto beta(const Expr<H,TT...> o)
-    ->const decltype(res(_concat(o.head,o.tail),o))  
-    {return res(_concat(o.head,o.tail),o);}
 
   //// lambda application
 
@@ -152,10 +156,7 @@ namespace yo {
     template<typename O> cex const Expr<H,TT...,O> operator()(const O o) const {return {head,tail(o)};}
     cex const This cons(const Empty) const {return *this;}
     template<typename O> cex const Expr<O,H,TT...> cons(const O o) const {return {o,*this};}
-    template<typename O,typename... OO>
-    static cex auto beta(const O o,const OO... oo)
-      ->const decltype(yo::beta(expr(H{},TT{}...,o,oo...)))
-      {return yo::beta(expr(H{},TT{}...,o,oo...));}
+    cex auto natp() const -> const decltype(_concat(head,tail)) {return _concat(head,tail);}
   };
 
   //alias (for printing)--

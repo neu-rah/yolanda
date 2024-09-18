@@ -13,7 +13,9 @@ template<typename E> void test(const E e) {show(e,beta(e));}
 void run() {
   cout<<"Start -->"<<endl;
   // static cex const auto e1=toInt(head(_map(mul(n2))(list(n3,n2))));
-  static cex const auto e2=_FoldL::beta(mul,n1,nil);
+  static cex const auto e2=foldl(mul)(n1)(nil);
+  cout<<e2<<endl;
+  cout<<beta(beta(e2))<<endl;
   // static cex const auto e3=toInt(foldl(mul)(n2)(list(n2,n3)));
   // cout<<e3<<endl;
   // cout<<beta(e3)<<endl;
@@ -37,7 +39,7 @@ void run() {
   // cout<<beta(beta(beta(beta(beta(beta(beta(beta(beta(beta(beta(beta(beta(beta(beta(beta(beta(beta(beta(e3)))))))))))))))))))<<endl;
   // cout<<beta(beta(beta(beta(beta(beta(beta(beta(beta(beta(beta(beta(beta(beta(beta(beta(beta(beta(beta(beta(e3))))))))))))))))))))<<endl;
   // test(e1);
-  test(e2);
+  // test(e2);
   // List<int,const char*>{1,""};
   // cout<<beta(toInt(mul(n2)(mul(n2)(n2))))<<endl;
   // cout<<toInt(FromInt<100>{})<<endl;
