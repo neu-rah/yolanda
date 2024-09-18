@@ -12,30 +12,17 @@ template<typename E> void test(const E e) {show(e,beta(e));}
 
 void run() {
   cout<<"Start -->"<<endl;
-  static cex const auto e1=toInt(head(_map(mul(n2))(list(n3,n2))));
-  static cex const auto e2=toInt(foldl(mul)(n1)(list(n2,n3)));
-  test(e1);
-  test(e2);
-  // List<int,const char*>{1,""};
-  // cout<<beta(toInt(mul(n2)(mul(n2)(n2))))<<endl;
-  // cout<<toInt(FromInt<100>{})<<endl;
-  // cout<<list(1,2,3,4,"ok!")<<endl;
-  // cout<<toInt(last(_map(mul(n2))(list(n2,n4))))<<endl;
-  // cout<<beta(tail(_map(toInt)(list(n2,n4))))<<endl;
-  // auto at=yo::index(list(n2,n4));
-  // cout<<beta(toInt(at(n0)))<<endl;
-  // cout<<beta(toInt(at(n1)))<<endl;
-  // cout<<toStr(tail(list(1,2,3)))<<endl;
-  // test.beta("ok");//regular curried function
-  // ttest.beta("ok",11);//curried template function
-  // ttest("ok")(1111).beta();
-  // cout<<beta(id(test)("ok"))<<endl;
-  // cout<<id(_test)<<endl;
-  // cout<<id(test)<<endl;
-  // beta(T()("1967")(test));
-  // beta(V()("Yay!")(1111)(ttest));
-  // cout<<ttest<<endl;
-  // cout<<toInt(n2)*3<<endl;
+  test(toInt(head(_map(mul(n2))(list(n3,n2)))));
+  test(toInt(foldl(mul)(n1)(list(n2,n3))));
+  test(toInt(mul(n2)(mul(n2)(n2))));
+  test(toInt(FromInt<30>{}));
+  test(toInt(last(_map(mul(n2))(list(n2,n4)))));
+  test(tail(list(2,4,"ok")));
+  test(last(list(2,4,"ok")));
+  static cex const auto at=yo::index(list(2,4));
+  test(at(n0));
+  test(at(n1));
+  cout<<beta(toInt(n2))*3<<endl;
   // cout<<toInt(mul(n2)(n3))*3<<endl;
   // cout<<beta(head(l1))<<endl;
   // cout<<beta(null(nil)("yes")("no"))<<endl;
