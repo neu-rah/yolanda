@@ -5,7 +5,7 @@ using avr_std::enable_if;
 using avr_std::is_same;
 using avr_std::is_convertible;
 
-#define cex
+// #define cex
 
 #ifndef cex
   #define cex constexpr
