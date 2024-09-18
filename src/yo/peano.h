@@ -136,7 +136,7 @@ namespace yo {
 
   template<typename N>
   cex int _toInt(const N n)
-    // ->const decltype(beta(n(plus1)(0)))
+    // ->const decltype(beta(beta(n)(plus1)(0)))
     {return beta(beta(n)(plus1)(0));}
   CurryTemplateFunction(_toInt) toInt;
 };

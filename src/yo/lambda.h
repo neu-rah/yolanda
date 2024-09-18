@@ -63,12 +63,23 @@ namespace yo {
     ->const When< isApp<A>()&& isApp<B>()&&!isEmpty<B>(),decltype(_concat(a.tail,b).cons(a.head))>
     {return _concat(a.tail,b).cons(a.head);}
 
+  //old _concat--
+  // template<typename A> cex A _concat(const A a,const Empty) {return a;}
+  // template<typename A,typename B> cex auto _concat(const A a,const B b)->const When<!isApp<A>()&&!isApp<B>(),decltype(expr(a,b))> {return expr(a,b);}
+  // template<typename A,typename B> cex auto _concat(const A a,const B b)->const When< isApp<A>()&&!isApp<B>(),decltype(a(b))> {return a(b);}
+  // template<typename A,typename B> cex auto _concat(const A a,const B b)->const When<!isApp<A>()&& isApp<B>()&&!isEmpty<B>(),decltype(_concat(expr(a,b.head),b.tail))> {return _concat(expr(a,b.head),b.tail);}
+  // template<typename A,typename B> cex auto _concat(const A a,const B b)->const When< isApp<A>()&& isApp<B>()&&!isEmpty<B>(),decltype(_concat(a(b.head),b.tail))> {return _concat(a(b.head),b.tail);}
+
+
   //// beta
 
   /*result*/     template<typename Fn,typename R,typename Nx,typename... OO> cex auto br(const R r,const Nx n,const OO...)->const When<!isNone<R>(),decltype(_concat(r,n))>;
   /*last param*/ template<typename Fn,typename Nx,typename... OO> cex auto br(const None,const Expr<Nx> n,const OO... oo)->const decltype(Fn::beta(oo...,n.head));
   /*add param*/  template<typename Fn,typename Nx,typename... OO> cex auto br(const None,const Nx n,const OO... oo)->const When<isApp<Nx>()&&(Nx::len()>1),decltype(br<Fn>(Fn::beta(oo...,n.head),n.tail,oo...,n.head))>;
   /*add item*/   template<typename Fn,typename Nx,typename... OO> cex auto br(const None,const Nx n,const OO... oo)->const When<!isApp<Nx>(),decltype(Fn::beta(oo...,n))>;
+
+  //for debug only--
+  template<typename O> cex const O xbeta(const O o) {return o;}
 
   //stop--
   template<typename O> cex const O res(const None,const O o) {return o;}
