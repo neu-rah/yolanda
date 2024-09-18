@@ -12,17 +12,18 @@ template<typename E> void test(const E e) {show(e,beta(e));}
 
 void run() {
   cout<<"Start -->"<<endl;
-  test(toInt(head(_map(mul(n2))(list(n3,n2)))));
-  test(toInt(foldl(mul)(n1)(list(n2,n3))));
-  test(toInt(mul(n2)(mul(n2)(n2))));
-  test(toInt(FromInt<30>{}));
-  test(toInt(last(_map(mul(n2))(list(n2,n4)))));
-  test(tail(list(2,4,"ok")));
-  test(last(list(2,4,"ok")));
-  static cex const auto at=yo::index(list(2,4));
-  test(at(n0));
-  test(at(n1));
-  cout<<beta(toInt(n2))*3<<endl;
+  static cex const auto e1=toInt(head(_map(mul(n2))(list(n3,n2))));
+  test(e1);
+  // test(toInt(foldl(mul)(n1)(list(n2,n3))));
+  // test(toInt(mul(n2)(mul(n2)(n2))));
+  // test(toInt(FromInt<30>{}));
+  // test(toInt(last(_map(mul(n2))(list(n2,n4)))));
+  // test(tail(list(2,4,"ok")));
+  // test(last(list(2,4,"ok")));
+  // static const auto at=yo::index(list(2,4));
+  // test(at(n0));
+  // test(at(n1));
+  // cout<<beta(toInt(n2))*3<<endl;
   // cout<<toInt(mul(n2)(n3))*3<<endl;
   // cout<<beta(head(l1))<<endl;
   // cout<<beta(null(nil)("yes")("no"))<<endl;
