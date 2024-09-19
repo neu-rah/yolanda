@@ -312,7 +312,7 @@ namespace yo {
     template<typename Out,typename O,typename... OO>
     Out& operator<<(Out& out,const List<O,OO...> o){
       if(beta(null(o)(1)(0))) return out;
-      else return out<<beta(fst(o))<<":"<<beta(snd(o));
+      else return out<<beta(head(o))<<":"<<beta(tail(o));
     }
 
   #endif
