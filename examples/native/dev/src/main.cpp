@@ -24,7 +24,7 @@ void run() {
     cin>>u;
   #endif
   // const auto r=head(list(u,4));
-  test(head(tail(list(1967,u,4))));
+  test(head(list(u,u,1,2,3)));//ALERT!-- this makes a HUGE difference (for worst) from the previous version!
 
   // cout<<beta(toInt(length(list(1,2,3,"ok!"))))<<endl;
   // cout<<beta(toInt(foldl(mul)(n2)(list(n2,n3))))<<endl;
