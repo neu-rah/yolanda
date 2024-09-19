@@ -23,8 +23,8 @@ void run() {
     char u;
     cin>>u;
   #endif
-  const auto r=head(list(u,4));
-  test(r);
+  // const auto r=head(list(u,4));
+  test(head(tail(list(1967,u,4))));
 
   // cout<<beta(toInt(length(list(1,2,3,"ok!"))))<<endl;
   // cout<<beta(toInt(foldl(mul)(n2)(list(n2,n3))))<<endl;
