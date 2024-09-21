@@ -12,6 +12,7 @@
 #endif
 
 #include <yolanda.h>
+using namespace yo;
 
 cex const auto e1{id(1967)};
 cex const auto e2{_true(id)(1967)(11)};
