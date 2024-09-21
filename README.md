@@ -60,7 +60,7 @@ implemented so far:
 **_and** - functional boolean `and`  
 **_or** - functional boolean `or`  
 **_not** - functional negation  
-**beq** - boolean equality
+**beq** - boolean equality  
 
 ### Peano numerals
 
@@ -119,14 +119,14 @@ using Church encoded numerals
 
 ### Other combinators
 
-**B:=** - λfgo.f(go)
-**C:=** - λfab.fba
-**M:=** - λo.oo
-**L:=** - CBM
-**Y:=** - SLL
-**T:=** - λof.fo
-**V:=** - λabf.fab
-**Bb:=** - BBB
+**B:=** - λfgo.f(go)  
+**C:=** - λfab.fba  
+**M:=** - λo.oo  
+**L:=** - CBM  
+**Y:=** - SLL  
+**T:=** - λof.fo  
+**V:=** - λabf.fab  
+**Bb:=** - BBB  
 
 ### aux functions
 
