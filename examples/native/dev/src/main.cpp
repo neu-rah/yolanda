@@ -14,6 +14,15 @@
 #include <yolanda.h>
 using namespace yo;
 
+// struct Data:Lambda {
+//   const char* name;
+//   int year;
+//   constexpr Data(const char* n,int y):name(n),year(y) {}
+// };
+
+// template<typename Out>
+// Out& operator<<(Out& out,const Data o) {return out<<"{"<<o.name<<","<<o.year<<"}";}
+
 //// test ///////////////////////////////////////////////////////////////
 template<typename E> void show(const E e) {cout<<e<<endl;}
 template<typename E> void show(const E e,const E) {cout<<e<<" -> irreducible."<<endl;}
@@ -70,8 +79,11 @@ void run() {
   // cout<<beta(head(filter(flip(gt)(n2))(nats)))<<endl;//this is horrible slow to compile and requires more template depth
   // cout<<beta((head(zip(l2)(nats))))<<endl;
   // cout<<beta(toInt(length(take(n2)(l3))))<<endl;
-  cex const auto e=length(take(n2)(l3));
-  cout<<e<<" -> "<<step(e)<<endl;
+  cex const auto i{list(1,2)};
+  auto e=expr(&i,&i);
+  cout<<(uint32_t)e.head<<endl;
+  cout<<(uint32_t)e.tail.head<<endl;
+
   // test(toInt(length(range(n2)(n4))));//long compile!
   // using L1=List<int>;
   // cout<<beta(toInt(length(L1{})))<<endl;

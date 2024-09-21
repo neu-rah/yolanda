@@ -309,11 +309,19 @@ namespace yo {
 
     template<typename Out> Out& operator<<(Out& out,const List<>)  {return out<<"[]";}
 
-    template<typename Out,typename O,typename... OO>
-    Out& operator<<(Out& out,const List<O,OO...> o){
-      if(beta(null(o)(1)(0))) return out;
-      else return out<<beta(head(o))<<":"<<beta(tail(o));
-    }
+    #ifdef YO_VERB
+      template<typename Out,typename O,typename... OO>
+      Out& operator<<(Out& out,const List<O,OO...> o){
+        if(beta(null(o)(1)(0))) return out;
+        else return out<<"(@"<<&beta(head(o))<<"|"<<beta(head(o))<<":"<<beta(tail(o));
+      }
+    #else
+      template<typename Out,typename O,typename... OO>
+      Out& operator<<(Out& out,const List<O,OO...> o){
+        if(beta(null(o)(1)(0))) return out;
+        else return out<<beta(head(o))<<":"<<beta(tail(o));
+      }
+    #endif
 
   #endif
 

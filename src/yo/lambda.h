@@ -44,13 +44,15 @@ namespace yo {
     template<typename O,typename... OO> cex const Expr<H,TT...,O,OO...> concat(const Expr<O,OO...> o) const {return tail.concat(o).cons(head);}
   };
 
+  template<typename... OO> cex const Expr<OO...> expr(const OO... oo) {return Expr<OO...>(oo...);}
+
   #ifdef YO_VERB
     template<typename Out> Out& operator<<(Out& out,const Empty) {return out<<"ø";}
-    template<typename Out,typename... OO> Out& operator<<(Out& out,const Expr<OO...> o) {return out<<"("<<o.head<<":"<<o.tail<<")";}
+    template<typename Out,typename... OO> Out& operator<<(Out& out,const Expr<OO...> o) {return out<<"(@"<<&o.head<<"|"<<o.head<<": @"<<&o.tail<<"|"<<o.tail<<")";}
   #else
     template<typename Out> Out& operator<<(Out& out,const Empty) {return out;}
     template<typename Out,typename O, typename... OO> When<isAlias<O>()||!isApp<O>(),Out>& operator<<(Out& out,const Expr<O,OO...> o) {return out<<o.head<<" "<<o.tail;}
-    template<typename Out,typename O, typename... OO> When< isApp<O>()&&!isAlias<O>(),Out>& operator<<(Out& out,const Expr<O,OO...> o) {return out<<"("<<o.head<<") "<<o.tail;}
+    template<typename Out,typename O, typename... OO> When< isApp<O>()&&!isAlias<O>(),Out>& operator<<(Out& out,const Expr<O,OO...> o) {return out<<o.head<<") "<<o.tail;}
   #endif
 
   //alias (for printing)--
