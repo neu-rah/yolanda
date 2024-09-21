@@ -23,19 +23,19 @@ template<typename E,typename R> void test(const E e,const R r) {show(e,r);}
 template<typename E> void test(const E e) {show(e,beta(e));}
 
 void run() {
-  static cex const auto e1{id(1967)};
-  static cex const auto e2{_true(id)(1967)(11)};
-  static cex const auto e3{_S(id)(id)(id)};
-  static cex const auto l1{list(1)};
-  static cex const auto l3{list(1,2,3)};
-  static cex const auto e4{beta(toInt(length(l3)))};
-  cout<<"start"<<endl;
-  test(empty("ok")("zZz"));
-  test(e1("ok")("zZz"));
-  test(e2("ok")("zZz"));
-  test(e3("ok")("zZz"));
-  test(e4);
-  test(toInt(foldl(mul)(n1)(list(n2,n3))));
+  // static cex const auto e1{id(1967)};
+  // static cex const auto e2{_true(id)(1967)(11)};
+  // static cex const auto e3{_S(id)(id)(id)};
+  // static cex const auto l1{list(1)};
+  // static cex const auto l3{list(1,2,3)};
+  // static cex const auto e4{beta(toInt(length(l3)))};
+  // cout<<"start"<<endl;
+  // test(empty("ok")("zZz"));
+  // test(e1("ok")("zZz"));
+  // test(e2("ok")("zZz"));
+  // test(e3("ok")("zZz"));
+  // test(e4);
+  test(toInt(foldl(mul)(n2)(list(n2,n3))));
   // test(e);
   // test(toInt(foldl(mul)(n1)(list(n2,n3))));
   // test(toInt(mul(n2)(mul(n2)(n2))));
