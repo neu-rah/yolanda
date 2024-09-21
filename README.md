@@ -123,6 +123,10 @@ B,C,M,L,Y,T,V,R,Bb,Id
 
 ### aux functions
 
+**beta** perform full beta reduction, returns the same if irreducible
+
+**step** perform beta reduction step, return None if irreducible
+
 **expr** expression builder, returns a chain of function application
 
 **toBool** convert expression to c++ bool

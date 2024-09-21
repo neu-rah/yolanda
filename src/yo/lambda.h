@@ -49,8 +49,8 @@ namespace yo {
     template<typename Out,typename... OO> Out& operator<<(Out& out,const Expr<OO...> o) {return out<<"("<<o.head<<":"<<o.tail<<")";}
   #else
     template<typename Out> Out& operator<<(Out& out,const Empty) {return out;}
-    template<typename Out,typename O, typename... OO> When<!isApp<O>(),Out>& operator<<(Out& out,const Expr<O,OO...> o) {return out<<o.head<<" "<<o.tail;}
-    template<typename Out,typename O, typename... OO> When< isApp<O>(),Out>& operator<<(Out& out,const Expr<O,OO...> o) {return out<<"("<<o.head<<") "<<o.tail;}
+    template<typename Out,typename O, typename... OO> When<isAlias<O>()||!isApp<O>(),Out>& operator<<(Out& out,const Expr<O,OO...> o) {return out<<o.head<<" "<<o.tail;}
+    template<typename Out,typename O, typename... OO> When< isApp<O>()&&!isAlias<O>(),Out>& operator<<(Out& out,const Expr<O,OO...> o) {return out<<"("<<o.head<<") "<<o.tail;}
   #endif
 
   //alias (for printing)--
@@ -62,6 +62,7 @@ namespace yo {
   template<typename Fn>
   struct Combinator:Lambda {
     template<typename O> cex Expr<Fn,O> operator()(const O o) const {return {*(Fn*)this,o};}
+    // template<typename... OO> cex auto beta(const OO... oo)->const decltype(Fn::delta(oo...)) {return Fn::delta(oo...);}
   };
 
   template<typename C,typename O,typename... OO>

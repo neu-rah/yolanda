@@ -10,7 +10,8 @@ namespace yo {
   const Succ succ;
 
   struct Add:Combinator<Add> {
-    //using Combinator::beta;
+    static cex int beta(int n,int o) {return n+o;}
+    static cex int beta(double n,double o) {return n+o;}
     template<typename N,typename O>
     static cex auto beta(const N n,const O o)
       ->const decltype(n(succ)(o))
@@ -47,7 +48,8 @@ namespace yo {
   cex const N9 n9;
 
   struct Is0:Combinator<Is0> {
-    //using Combinator::beta;
+    static cex bool delta(int n) {return n==0;}
+    static cex bool delta(double n) {return n==0.0;}
     template<typename O>
     static auto beta(const O o)
       ->decltype(o(_true(_false))(_true))
@@ -56,7 +58,6 @@ namespace yo {
   cex const Is0 is0;
 
   struct Phi:Combinator<Phi> {
-    //using Combinator::beta;
     template<typename O>
     static auto beta(const O o)
       ->decltype(_pair(snd(o))(succ(snd(o))))
@@ -64,8 +65,9 @@ namespace yo {
   };
 
   struct Pred:Combinator<Pred> {
-    //using Combinator::beta;
     using N0N0=Expr<Pair,N0,N0>;
+    static int    delta(int n){return n-1;}
+    static double delta(double n){return n-1;}
     template<typename N>
     static auto beta(const N n)
       ->decltype(fst(n(Phi())(N0N0{})))
@@ -74,7 +76,8 @@ namespace yo {
   cex const Pred pred;
 
   struct Sub:Combinator<Sub> {
-    //using Combinator::beta;
+    static cex int delta(int n,int o) {return n-o;}
+    static cex int delta(double n,double o) {return n-o;}
     template<typename N,typename O>
     static auto beta(const N n, const O o)
       ->decltype(o(pred)(n))
@@ -83,7 +86,8 @@ namespace yo {
   cex const Sub sub;
 
   struct LEq:Combinator<LEq> {
-    //using Combinator::beta;
+    static cex  bool delta(int n,int o) {return n<=o;}
+    static cex  bool delta(double n,double o) {return n<=o;}
     template<typename N,typename O>
     static auto beta(const N n,const O o)
       ->decltype(is0(sub(n)(o)))
@@ -92,7 +96,8 @@ namespace yo {
   cex const LEq leq;
 
   struct GEq:Combinator<GEq> {
-    //using Combinator::beta;
+    static cex  bool delta(int n,int o) {return n>=o;}
+    static cex  bool delta(double n,double o) {return n>=o;}
     template<typename N,typename O>
     static auto beta(const N n,const O o)
       ->decltype(is0(sub(o)(n)))
@@ -104,7 +109,8 @@ namespace yo {
   const GT gt;
 
   struct Eq:Combinator<Eq> {
-    //using Combinator::beta;
+    static cex  bool delta(int n,int o) {return n==o;}
+    static cex  bool delta(double n,double o) {return n==o;}
     template<typename N,typename O>
     static auto beta(const N n,const O o)
       ->decltype(_and(leq(n)(o))(leq(o)(n)))
@@ -116,7 +122,8 @@ namespace yo {
   const LT lt;
 
   struct NEq:Combinator<NEq> {
-    //using Combinator::beta;
+    static cex  bool delta(int n,int o) {return n!=o;}
+    static cex  bool delta(double n,double o) {return n!=o;}
     template<typename N,typename O>
     static auto beta(const N n,const O o)
       ->decltype(_or(gt(n)(o))(gt(o)(n)))
@@ -136,8 +143,8 @@ namespace yo {
 
   template<typename N>
   cex auto _toInt(const N n)
-    ->const decltype(beta(beta(n)(plus1)(0)))
-    {return beta(beta(n)(plus1)(0));}
+    ->const decltype(beta(n(plus1)(0)))
+    {return beta(n(plus1)(0));}
   CurryTemplateFunction(_toInt) toInt;
 
   #ifdef YO_PRINT

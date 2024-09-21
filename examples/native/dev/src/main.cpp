@@ -27,17 +27,17 @@ void run() {
   // static cex const auto e2{_true(id)(1967)(11)};
   // static cex const auto e3{_S(id)(id)(id)};
   // static cex const auto l1{list(1)};
+  // static cex const auto l2{list(1,2)};
   // static cex const auto l3{list(1,2,3)};
-  // static cex const auto e4{beta(toInt(length(l3)))};
-  // cout<<"start"<<endl;
+  // static cex const auto e4{toInt(length(l1))};
+  cout<<"start"<<endl;
+  cout<<_false("fail")("ok")<<endl;
   // test(empty("ok")("zZz"));
   // test(e1("ok")("zZz"));
   // test(e2("ok")("zZz"));
   // test(e3("ok")("zZz"));
   // test(e4);
-  test(toInt(foldl(mul)(n2)(list(n2,n3))));
-  // test(e);
-  // test(toInt(foldl(mul)(n1)(list(n2,n3))));
+  // test(toInt(foldl(mul)(n2)(list(n2,n3))));
   // test(toInt(mul(n2)(mul(n2)(n2))));
   // test(toInt(FromInt<30>{}));
   // test(toInt(last(_map(mul(n2))(list(n2,n4)))));
@@ -47,7 +47,7 @@ void run() {
   // test(at(n0));
   // test(at(n1));
   // cout<<beta(toInt(n2))*3<<endl;
-  // cout<<toInt(mul(n2)(n3))*3<<endl;
+  // cout<<beta(toInt(mul(n2)(n3)))*3<<endl;
   // cout<<beta(head(l1))<<endl;
   // cout<<beta(null(nil)("yes")("no"))<<endl;
   // cout<<beta(null(l1)("yes")("no"))<<endl;
@@ -57,25 +57,24 @@ void run() {
   // cout<<beta(Expr<Is0,Expr<Length,Nil>>{}("yes")("no"))<<endl;
   // cout<<length(l1)<<endl;
   // cout<<beta(length(l1))<<endl;
-  // cout<<toInt(length(l1))<<endl;
+  // cout<<beta(toInt(length(l1)))<<endl;
   // cout<<beta(head(l1))<<endl;
   // cout<<beta(length(drop(n1)(l1)))<<endl;
   // cout<<beta(last(l2))<<endl;
-  // cout<<toInt(length(concat(l1)(l2)))<<endl;
-  // cout<<toInt(length(yo::init(l2)))<<endl;
+  // cout<<beta(toInt(length(concat(l1)(l2))))<<endl;
+  // cout<<beta(toInt(length(_init(l2))))<<endl;
   // cout<<beta(head(l2))<<endl;
   // cout<<beta(head(reverse(l2)))<<endl;
   // cout<<beta(head(nats))<<endl;
   // cout<<beta(toInt(head(drop(n5)(_map(mul(n2))(nats)))))<<endl;
-  // cout<<beta(head(tail(nats)))<<endl;
+  // cout<<beta(toInt(head(tail(nats))))<<endl;
   // cout<<beta(head(filter(flip(gt)(n2))(nats)))<<endl;//this is horrible slow to compile and requires more template depth
-  // cout<<beta(snd(head(zip(l2)(nats))))<<endl;
-  // cout<<toInt(length(take(n2)(l3)))<<endl;
-  // cout<<toInt(length(range(n2)(n4)))<<endl;
-  // cout<<toInt(length(L1{}))<<endl;
-  // cout<<toInt(length(list(1,2,3,4,"ok!")))<<endl;
-  // cout<<beta(last(list(1,"ok!")))<<endl;
-  // cout<<beta(fromInt(2))<<endl;
+  // cout<<beta((head(zip(l2)(nats))))<<endl;
+  // cout<<beta(toInt(length(take(n2)(l3))))<<endl;
+  // test(toInt(length(range(n2)(n4))));//long compile!
+  // using L1=List<int>;
+  // cout<<beta(toInt(length(L1{})))<<endl;
+  // cout<<beta(toInt(FromInt<15>()))<<endl;
   cout<<"end"<<endl;
 }
 
