@@ -14,17 +14,26 @@
 #include <yolanda.h>
 using namespace yo;
 
-cex const auto e1{id(1967)};
-cex const auto e2{_true(id)(1967)(11)};
-cex const auto e3{_S(id)(id)(id)};
+//// test ///////////////////////////////////////////////////////////////
+template<typename E> void show(const E e) {cout<<e<<endl;}
+template<typename E> void show(const E e,const E) {cout<<e<<" -> irreducible."<<endl;}
+template<typename E,typename R> void show(const E e,const R r) {cout<<e<<" = "<<r<<endl;}
+
+template<typename E,typename R> void test(const E e,const R r) {show(e,r);}
+template<typename E> void test(const E e) {show(e,beta(e));}
 
 void run() {
+  static cex const auto e1{id(1967)};
+  static cex const auto e2{_true(id)(1967)(11)};
+  static cex const auto e3{_S(id)(id)(id)};
+  static cex const auto l3{list(1,2,3)};
   cout<<"start"<<endl;
-  cout<<beta(empty("ok")("zZz"))<<endl;
-  cout<<beta(e1("ok")("zZz"))<<endl;
-  cout<<beta(e2("ok")("zZz"))<<endl;
-  cout<<beta(e3("ok")("zZz"))<<endl;
-  cout<<beta(toInt(n3))<<endl;
+  test(empty("ok")("zZz"));
+  test(e1("ok")("zZz"));
+  test(e2("ok")("zZz"));
+  test(e3("ok")("zZz"));
+  cout<<l3<<endl;
+  test(toInt(length(l3)));
   cout<<"end"<<endl;
 }
 

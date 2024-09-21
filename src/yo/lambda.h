@@ -43,8 +43,13 @@ namespace yo {
     template<typename O,typename... OO> cex const Expr<H,TT...,O,OO...> concat(const Expr<O,OO...> o) const {return tail.concat(o).cons(head);}
   };
 
-  template<typename Out> Out& operator<<(Out& out,const Empty) {return out<<"ø";}
-  template<typename Out,typename... OO> Out& operator<<(Out& out,const Expr<OO...> o) {return out<<"("<<o.head<<":"<<o.tail<<")";}
+  #ifdef YO_VERB
+    template<typename Out> Out& operator<<(Out& out,const Empty) {return out<<"ø";}
+    template<typename Out,typename... OO> Out& operator<<(Out& out,const Expr<OO...> o) {return out<<"("<<o.head<<":"<<o.tail<<")";}
+  #else
+    template<typename Out> Out& operator<<(Out& out,const Empty) {return out;}
+    template<typename Out,typename... OO> Out& operator<<(Out& out,const Expr<OO...> o) {return out<<o.head<<" "<<o.tail;}
+  #endif
 
   //alias (for printing)--
   template<typename Fn> struct Alt:Fn {

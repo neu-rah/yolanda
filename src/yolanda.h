@@ -5,6 +5,7 @@
 #include "yo/curry.h"
 #include "yo/bool.h"
 #include "yo/peano.h"
+#include "yo/list.h"
 
 #ifdef ARDUINO
 namespace yo {
