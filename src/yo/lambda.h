@@ -20,7 +20,7 @@ namespace yo {
   template<typename O> constexpr When< isApp<O>(),bool> isLambda() {return isApp<typename O::Head>();}
 
   template<typename...> struct Expr;
-  template<> struct Expr<>:LambdaApp {
+  template<> struct Expr<> {
     template<typename O> cex const Expr<O> cons(const O o) const {return o;}
     template<typename O> cex const Expr<O> operator()(const O o) const {return {o};}
     template<typename O> cex const O concat(const O o) const {return o;}

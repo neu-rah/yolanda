@@ -5,3 +5,9 @@
 #include "yo/curry.h"
 #include "yo/bool.h"
 #include "yo/peano.h"
+
+#ifdef ARDUINO
+namespace yo {
+  template<typename O> typename enable_if<!isApp<O>()&&!isLambda<O>()&&!isEmpty<O>(),Serial_>::type& operator<<(Serial_& out,const O o) {out.print(o);return out;}
+};
+#endif

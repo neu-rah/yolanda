@@ -24,7 +24,8 @@ void run() {
   cout<<beta(e1("ok")("zZz"))<<endl;
   cout<<beta(e2("ok")("zZz"))<<endl;
   cout<<beta(e3("ok")("zZz"))<<endl;
-  // cout<<"end"<<endl;
+  cout<<beta(toInt(n3))<<endl;
+  cout<<"end"<<endl;
 }
 
 #ifdef ARDUINO
