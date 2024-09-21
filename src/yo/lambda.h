@@ -8,6 +8,7 @@ namespace yo {
 
   struct None {};
   constexpr const None none;
+  template<typename Out> Out& operator<<(Out& out,const None) {return out<<"⊥";}
 
   struct Lambda {};
   struct LambdaApp {};
@@ -48,7 +49,8 @@ namespace yo {
     template<typename Out,typename... OO> Out& operator<<(Out& out,const Expr<OO...> o) {return out<<"("<<o.head<<":"<<o.tail<<")";}
   #else
     template<typename Out> Out& operator<<(Out& out,const Empty) {return out;}
-    template<typename Out,typename... OO> Out& operator<<(Out& out,const Expr<OO...> o) {return out<<o.head<<" "<<o.tail;}
+    template<typename Out,typename O, typename... OO> When<!isApp<O>(),Out>& operator<<(Out& out,const Expr<O,OO...> o) {return out<<o.head<<" "<<o.tail;}
+    template<typename Out,typename O, typename... OO> When< isApp<O>(),Out>& operator<<(Out& out,const Expr<O,OO...> o) {return out<<"("<<o.head<<") "<<o.tail;}
   #endif
 
   //alias (for printing)--
@@ -75,7 +77,12 @@ namespace yo {
   template<typename C,typename O,typename P,typename Q,typename... OO>
   cex auto step(const Expr<C,O,P,Q,OO...> o)
     -> const Expr<decltype(C::beta(o.tail.head,o.tail.tail.head,o.tail.tail.tail.head)),OO...>
-    {return           {C::beta(o.tail.head,o.tail.tail.head,o.tail.tail.tail.head),o.tail.tail.tail.tail};}
+    {return           {C::beta(o.tail.head, o.tail.tail.head, o.tail.tail.tail.head), o.tail.tail.tail.tail};}
+
+  template<typename C,typename O,typename P,typename Q,typename R,typename... OO>
+  cex auto step(const Expr<C,O,P,Q,R,OO...> o)
+    -> const Expr<decltype(C::beta(o.tail.head, o.tail.tail.head, o.tail.tail.tail.head, o.tail.tail.tail.tail.head)),OO...>
+    {return           {C::beta(o.tail.head, o.tail.tail.head, o.tail.tail.tail.head, o.tail.tail.tail.tail.head), o.tail.tail.tail.tail.tail};}
 
   template<typename O> cex const None step(const O) {return none;}
 

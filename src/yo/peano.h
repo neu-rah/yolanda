@@ -135,8 +135,8 @@ namespace yo {
   cex const Curry<decltype(&_plus1),&_plus1> plus1;
 
   template<typename N>
-  cex int _toInt(const N n)
-    // ->const decltype(beta(beta(n)(plus1)(0)))
+  cex auto _toInt(const N n)
+    ->const decltype(beta(beta(n)(plus1)(0)))
     {return beta(beta(n)(plus1)(0));}
   CurryTemplateFunction(_toInt) toInt;
 

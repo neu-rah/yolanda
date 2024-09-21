@@ -59,6 +59,7 @@ namespace yo {
     static cex auto beta(const O o,const P p,const F f)->decltype(f(o)(p)) {return f(o)(p);}
   };
 
+  // λo.oo
   struct M:Combinator<M> {
     //using Combinator::beta;
     template<typename F>
