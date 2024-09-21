@@ -19,9 +19,10 @@ cout<<beta(toInt(length(list(1,2,3,"ok!"))))<<endl;
 cout<<beta(toInt(foldl(mul)(n2)(list(n2,n3))))<<endl;
 ```
 output:
-
-    4  
-    12
+```text
+4  
+12
+```
 
 ## changes
 
