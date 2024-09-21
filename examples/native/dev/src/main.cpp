@@ -28,10 +28,9 @@ void run() {
   // static cex const auto e3{_S(id)(id)(id)};
   // static cex const auto l1{list(1)};
   // static cex const auto l2{list(1,2)};
-  // static cex const auto l3{list(1,2,3)};
+  static cex const auto l3{list(1,2,3)};
   // static cex const auto e4{toInt(length(l1))};
   cout<<"start"<<endl;
-  cout<<_false("fail")("ok")<<endl;
   // test(empty("ok")("zZz"));
   // test(e1("ok")("zZz"));
   // test(e2("ok")("zZz"));
@@ -71,6 +70,8 @@ void run() {
   // cout<<beta(head(filter(flip(gt)(n2))(nats)))<<endl;//this is horrible slow to compile and requires more template depth
   // cout<<beta((head(zip(l2)(nats))))<<endl;
   // cout<<beta(toInt(length(take(n2)(l3))))<<endl;
+  cex const auto e=length(take(n2)(l3));
+  cout<<e<<" -> "<<step(e)<<endl;
   // test(toInt(length(range(n2)(n4))));//long compile!
   // using L1=List<int>;
   // cout<<beta(toInt(length(L1{})))<<endl;

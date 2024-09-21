@@ -37,11 +37,13 @@ namespace yo {
     static cex auto beta(const O o,const P p)->decltype(o(p)(p)) {return o(p)(p);}
   };
 
+  // λof.fo
   struct T:Combinator<T> {
     template<typename O,typename F>
     static cex auto beta(const O o,const F f)->decltype(f(o)) {return f(o);}
   };
 
+  // λabf.fab
   struct V:Combinator<V> {
     template<typename O,typename P,typename F>
     static cex auto beta(const O o,const P p,const F f)->decltype(f(o)(p)) {return f(o)(p);}

@@ -103,13 +103,13 @@ using Church encoded numerals
 **foldr** - right fold a list with a function and start value  
 **zip** - join 2 lists in a list of pairs with minimal length  
 
-### Extras
-~~**Nothing** - `λn.λj.n`~~  
-~~**Just** - `λxnj.j x`~~  
+### Compile-time
 
-### Runtime
+**use:**
 
-All above types have a runtime function with the same name but with a first low-case letter.
+`constexpr` turn any code into a compile time value
+
+`decltype` get type of expression 
 
 ## SKI
 
@@ -119,7 +119,14 @@ All above types have a runtime function with the same name but with a first low-
 
 ### Other combinators
 
-B,C,M,L,Y,T,V,R,Bb,Id
+**B:=** - λfgo.f(go)
+**C:=** - λfab.fba
+**M:=** - λo.oo
+**L:=** - CBM
+**Y:=** - SLL
+**T:=** - λof.fo
+**V:=** - λabf.fab
+**Bb:=** - BBB
 
 ### aux functions
 
@@ -160,3 +167,19 @@ https://blog.ploeh.dk/2018/06/04/church-encoded-maybe/
 https://www.cl.cam.ac.uk/~rmk35/lambda_calculus/lambda_calculus.html
 
 https://github.com/neu-rah/lpp
+
+https://www.youtube.com/watch?v=3kMvXXGXaws
+
+https://sookocheff.com/post/fp/evaluating-lambda-expressions/
+
+https://groups.seas.harvard.edu/courses/cs152/2021sp/lectures/sld07-lambdacalc.pdf
+
+https://gist.github.com/typesafedev/3465fab6320b39aa09b701a51f394f2d
+
+https://codegolf.stackexchange.com/questions/231911/we-all-know-how-to-ski-but-can-you-bckw
+
+https://en.wikipedia.org/wiki/B,_C,_K,_W_system
+
+https://en.wikipedia.org/wiki/SKI_combinator_calculus
+
+https://en.wikipedia.org/wiki/Combinatory_logic
