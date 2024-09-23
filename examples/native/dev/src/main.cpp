@@ -50,6 +50,7 @@ template<typename... OO> cex const Expr<OO...> expr(const OO... oo) {return Expr
 template<typename Out,typename O,typename... OO> When<!isApp<O>(),Out>& operator<<(Out& out,const Expr<O,OO...> o) {return out<<o.head<<" "<<o.tail;}
 template<typename Out,typename O,typename... OO> When< isApp<O>(),Out>& operator<<(Out& out,const Expr<O,OO...> o) {return out<<"("<<o.head<<") "<<o.tail;}
 
+template<typename O> cex const O concat(const O o,const Empty) {return o;}
 template<typename A, typename B> cex const When<!isApp<A>()&&!isApp<B>(),Expr<A,B>> concat(const A a,const B b) {return {a,b};}
 template<typename A, typename B> cex auto concat(const A a,const B b)->const When< isApp<A>(),decltype(a.concat(b))> {return a.concat(b);}
 template<typename A, typename B> cex auto concat(const A a,const B b)->const When<!isApp<A>()&&isApp<B>(),decltype(b.cons(a))> {return b.cons(a);}
@@ -138,7 +139,6 @@ using Bb=decltype(_B(_B)(_B));//Expr<B,B,B>;
 cex const Bb _Bb;
 template<typename Out> Out& operator<<(Out& out, const Bb) {return out<<"Bb";}
 
-
 //// beta reduction
 template<typename C,typename O,typename... OO>
 cex auto step(const Expr<C,O,OO...> o)
@@ -183,11 +183,15 @@ int main() {
   static cex const auto e4=_B(id)(id)("ok")("zZz");
   static cex const auto e5=_C(_true)("fail")("ok")("zZz");
   static cex const auto e6=_W(_true)("ok")("zZz");
+  static cex const auto e7=_T("ok")(id)("zZz");
+  static cex const auto e8=_V("ok")("fail")(_true)("zZz");
   steps(e1);
   steps(e2);
   steps(e3);
   steps(e4);
   steps(e5);
   steps(e6);
+  steps(e7);
+  steps(e8);
   return 0;
 }
