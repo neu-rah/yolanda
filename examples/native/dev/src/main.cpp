@@ -2,6 +2,7 @@
 using namespace std;
 
 #include <yolanda.h>
+using namespace yo;
 
 //// test ///////////////////////////////////////////////////////////////
 template<typename E> void show(const E e) {cout<<e<<endl;}
