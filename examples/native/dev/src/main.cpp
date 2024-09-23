@@ -102,6 +102,43 @@ struct W:Combinator<W> {
 cex const W _W;
 template<typename Out> Out& operator<<(Out& out, const W) {return out<<"W";}
 
+// λof.fo
+struct T:Combinator<T> {
+  template<typename O,typename F>
+  static cex auto beta(const O o,const F f)->decltype(f(o)) {return f(o);}
+};
+cex const T _T;
+template<typename Out> Out& operator<<(Out& out, const T) {return out<<"T";}
+
+// λabf.fab
+struct V:Combinator<V> {
+  template<typename O,typename P,typename F>
+  static cex auto beta(const O o,const P p,const F f)->decltype(f(o)(p)) {return f(o)(p);}
+};
+cex const V _V;
+template<typename Out> Out& operator<<(Out& out, const V) {return out<<"V";}
+
+// λo.oo
+struct M:Combinator<M> {
+  template<typename F>
+  static cex auto beta(const F f)->decltype(f(f)) {return f(f);}
+};
+cex const M _M;
+template<typename Out> Out& operator<<(Out& out, const M) {return out<<"M";}
+
+using L=decltype(_C(_B)(_M));//Expr<C,B,M>;
+cex const L _L;
+template<typename Out> Out& operator<<(Out& out, const L) {return out<<"L";}
+
+using Y=decltype(_S(_L)(_L));//Expr<S,L,L>;
+cex const Y _Y;
+template<typename Out> Out& operator<<(Out& out, const Y) {return out<<"Y";}
+
+using Bb=decltype(_B(_B)(_B));//Expr<B,B,B>;
+cex const Bb _Bb;
+template<typename Out> Out& operator<<(Out& out, const Bb) {return out<<"Bb";}
+
+
 //// beta reduction
 template<typename C,typename O,typename... OO>
 cex auto step(const Expr<C,O,OO...> o)
