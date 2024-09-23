@@ -32,7 +32,7 @@ namespace yo {
       {return null(x)(cnt)(f(succ(cnt))(tail(x)));}
   };
   cex const _Length _length;
-  using Length=Expr<Y,_Length,N0>;
+  using Length=decltype(_Y(_length)(n0));//Expr<Y,_Length,N0>;
   cex const Length length;
 
   struct Drop:Combinator<Drop> {
@@ -277,7 +277,7 @@ namespace yo {
     template<typename Out> Out& operator<<(Out& out,const yo::Tail)           {return out<<"tail";}
     template<typename Out> Out& operator<<(Out& out,const yo::Null)           {return out<<"null";}
     template<typename Out> Out& operator<<(Out& out,const yo::_Length)        {return out<<"_length";}
-    template<typename Out> Out& operator<<(Out& out,const yo::Length)         {return out<<"length";}
+    // template<typename Out> Out& operator<<(Out& out,const yo::Length)         {return out<<"length";}
     template<typename Out> Out& operator<<(Out& out,const yo::Drop)           {return out<<"drop";}
     template<typename Out> Out& operator<<(Out& out,const yo::Index)          {return out<<"index";}
     template<typename Out> Out& operator<<(Out& out,const yo::_Last)          {return out<<"_last";}

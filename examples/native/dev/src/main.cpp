@@ -37,7 +37,7 @@ void run() {
   // static cex const auto e3{_S(id)(id)(id)};
   // static cex const auto l1{list(1)};
   // static cex const auto l2{list(1,2)};
-  static cex const auto l3{list(1,2,3)};
+  // static cex const auto l3{list(1,2,3)};
   // static cex const auto e4{toInt(length(l1))};
   cout<<"start"<<endl;
   // test(empty("ok")("zZz"));
@@ -76,15 +76,18 @@ void run() {
   // cout<<beta(head(nats))<<endl;
   // cout<<beta(toInt(head(drop(n5)(_map(mul(n2))(nats)))))<<endl;
   // cout<<beta(toInt(head(tail(nats))))<<endl;
-  // cout<<beta(head(filter(flip(gt)(n2))(nats)))<<endl;//this is horrible slow to compile and requires more template depth
+  // cout<<beta(head(filter(flip(gt)(n2))(nats)))<<endl;//this is horrible slow to compile and requires more template depth (not on chain branch! :)
   // cout<<beta((head(zip(l2)(nats))))<<endl;
   // cout<<beta(toInt(length(take(n2)(l3))))<<endl;
-  cex const auto i{list(1,2)};
-  auto e=expr(&i,&i);
-  cout<<(uint32_t)e.head<<endl;
-  cout<<(uint32_t)e.tail.head<<endl;
-
-  // test(toInt(length(range(n2)(n4))));//long compile!
+  // cex const auto i{list(1,2)};
+  cex const auto e=toInt(length(range(n2)(n4)));
+  cout<<"e:"<<e<<endl;
+  cout<<"=>"<<step(e)<<endl;
+  test(e);
+  // cout<<beta(e)<<endl;
+  // cex const auto a=expr(1,2);
+  // cout<<_Y("ok")<<endl;
+  // test(((range(n2)(n4))));//long compile!
   // using L1=List<int>;
   // cout<<beta(toInt(length(L1{})))<<endl;
   // cout<<beta(toInt(FromInt<15>()))<<endl;

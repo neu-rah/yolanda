@@ -51,7 +51,7 @@ namespace yo {
     static cex bool delta(int n) {return n==0;}
     static cex bool delta(double n) {return n==0.0;}
     template<typename O>
-    static auto beta(const O o)
+    cex static auto beta(const O o)
       ->decltype(o(_true(_false))(_true))
       {return    o(_true(_false))(_true);}
   };
@@ -59,7 +59,7 @@ namespace yo {
 
   struct Phi:Combinator<Phi> {
     template<typename O>
-    static auto beta(const O o)
+    cex static auto beta(const O o)
       ->decltype(_pair(snd(o))(succ(snd(o))))
       {return _pair(snd(o))(succ(snd(o)));}
   };
@@ -69,7 +69,7 @@ namespace yo {
     static int    delta(int n){return n-1;}
     static double delta(double n){return n-1;}
     template<typename N>
-    static auto beta(const N n)
+    cex static auto beta(const N n)
       ->decltype(fst(n(Phi())(N0N0{})))
       {return fst(n(Phi())(N0N0{}));}
   };
@@ -79,7 +79,7 @@ namespace yo {
     static cex int delta(int n,int o) {return n-o;}
     static cex int delta(double n,double o) {return n-o;}
     template<typename N,typename O>
-    static auto beta(const N n, const O o)
+    cex static auto beta(const N n, const O o)
       ->decltype(o(pred)(n))
       {return o(pred)(n);}
   };
@@ -89,7 +89,7 @@ namespace yo {
     static cex  bool delta(int n,int o) {return n<=o;}
     static cex  bool delta(double n,double o) {return n<=o;}
     template<typename N,typename O>
-    static auto beta(const N n,const O o)
+    cex static auto beta(const N n,const O o)
       ->decltype(is0(sub(n)(o)))
       {return is0(sub(n)(o));}
   };
@@ -99,7 +99,7 @@ namespace yo {
     static cex  bool delta(int n,int o) {return n>=o;}
     static cex  bool delta(double n,double o) {return n>=o;}
     template<typename N,typename O>
-    static auto beta(const N n,const O o)
+    cex static auto beta(const N n,const O o)
       ->decltype(is0(sub(o)(n)))
       {return is0(sub(o)(n));}
   };
@@ -112,7 +112,7 @@ namespace yo {
     static cex  bool delta(int n,int o) {return n==o;}
     static cex  bool delta(double n,double o) {return n==o;}
     template<typename N,typename O>
-    static auto beta(const N n,const O o)
+    cex static auto beta(const N n,const O o)
       ->decltype(_and(leq(n)(o))(leq(o)(n)))
       {return _and(leq(n)(o))(leq(o)(n));}
   };
@@ -125,7 +125,7 @@ namespace yo {
     static cex  bool delta(int n,int o) {return n!=o;}
     static cex  bool delta(double n,double o) {return n!=o;}
     template<typename N,typename O>
-    static auto beta(const N n,const O o)
+    cex static auto beta(const N n,const O o)
       ->decltype(_or(gt(n)(o))(gt(o)(n)))
       {return _or(gt(n)(o))(gt(o)(n));}
   };

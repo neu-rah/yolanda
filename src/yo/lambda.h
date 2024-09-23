@@ -1,5 +1,13 @@
 #pragma once
 
+#ifdef __AVR__
+  #include "../avr_std.h"
+  using namespace avr_std;
+#else
+  #include <type_traits>
+  using namespace std;
+#endif
+
 // #define cex
 #define cex constexpr
 
@@ -44,6 +52,9 @@ namespace yo {
     template<typename O,typename... OO> cex const Expr<H,TT...,O,OO...> concat(const Expr<O,OO...> o) const {return tail.concat(o).cons(head);}
   };
 
+cex const Empty expr() {return empty;}
+template<typename O,typename... OO> cex const When<!isApp<O>(),Expr<O,OO...>> expr(const O o,const OO... oo) {return Expr<O,OO...>(o,oo...);}
+  template<typename O,typename... OO> cex auto expr(const O o,const OO... oo)->const When< isApp<O>(),decltype(o.concat(expr(oo...)))> {return o.concat(expr(oo...));}
   template<typename... OO> cex const Expr<OO...> expr(const OO... oo) {return Expr<OO...>(oo...);}
 
   #ifdef YO_VERB
@@ -52,7 +63,7 @@ namespace yo {
   #else
     template<typename Out> Out& operator<<(Out& out,const Empty) {return out;}
     template<typename Out,typename O, typename... OO> When<isAlias<O>()||!isApp<O>(),Out>& operator<<(Out& out,const Expr<O,OO...> o) {return out<<o.head<<" "<<o.tail;}
-    template<typename Out,typename O, typename... OO> When< isApp<O>()&&!isAlias<O>(),Out>& operator<<(Out& out,const Expr<O,OO...> o) {return out<<o.head<<") "<<o.tail;}
+    template<typename Out,typename O, typename... OO> When< isApp<O>()&&!isAlias<O>(),Out>& operator<<(Out& out,const Expr<O,OO...> o) {return out<<"("<<o.head<<") "<<o.tail;}
   #endif
 
   //alias (for printing)--
@@ -91,12 +102,13 @@ namespace yo {
 
   template<typename O> cex const O res(const O o,const O) {return o;}
   template<typename O> cex const O res(const None,const O o) {return o;}
-  template<typename R,typename O,When<!isNone<O>()&&!is_same<R,O>::value,bool> = false> cex auto res(const R r,const O)->const decltype(beta(r)) {return beta(r);}
+  template<typename R,typename O,When<!isNone<O>()&&!is_same<R,O>::value,bool> = false> cex auto res(const R r,const O)->const decltype(beta(r)) {return beta(r);}//<--------------
 
   cex const Empty beta(const Empty o) {return o;}
   cex const None beta(const None o) {return o;}
   template<typename O> cex auto beta(const O o)->const When<isNone<decltype(step(o))>(),O> {return o;}
-  template<typename O> cex auto beta(const O o)->const When<!isEmpty<O>()&&!isNone<O>(),decltype(res(step(o),o))> {return res(step(o),o);}
+  template<typename O> cex auto beta(const O o)->const When<!isEmpty<O>()&&!isNone<O>(),decltype(res(step(o),o))> {return res(step(o),o);}//<--------------
   template<typename O> cex auto beta(const Expr<O> o)->const decltype(beta(o.head)) {return beta(o.head);}
-  template<typename O,typename... OO> cex auto beta(const Expr<O,OO...> o)->const decltype(beta(o.head.concat(o.tail))) {return beta(o.head.concat(o.tail));}
+  //this is a problem! huge compile times and failures! this is dealing with natural precedence
+  // template<typename O,typename... OO> cex auto beta(const Expr<O,OO...> o)->const When<isApp<O>(),decltype(beta(o.head.concat(o.tail)))> {return beta(o.head.concat(o.tail));}//<--------------
 };
