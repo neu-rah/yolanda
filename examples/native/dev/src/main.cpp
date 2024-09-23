@@ -27,7 +27,7 @@ int main() {
   static cex const auto e6=_W(_true)("ok")("zZz");
   static cex const auto e7=_T("ok")(id)("zZz");
   static cex const auto e8=_V("ok")("fail")(_true)("zZz");
-  static cex const auto e9=toInt(length(range(n0)(n1)));
+  static cex const auto e9=toInt(length(range(n2)(n4)));
   // steps(e1);
   // steps(e2);
   // steps(e3);
@@ -44,10 +44,13 @@ int main() {
   // test(e6);
   // test(e7);
   // test(e8);
-  // steps(e9);//long compile! abd in error
+  steps(e9);//long compile! and in error
+  // steps(toInt(sub(n4)(n2)));//ok
+  // steps(take(n1)(list(1,2)));
+  // steps(drop(n2)(_map(toInt)(take(n9)(nats))));
   // beta(e9);//  check why this is not working as steps!
   // cout<<beta(null(nil)("yes")("no"))<<endl;
   // cout<<list(1,2,3)<<endl;
-  steps(head(drop(n2)(list(1,2,3))));///in error
+  // steps(toInt(head(drop(n5)(nats))));///in error
   return 0;
 }
