@@ -319,11 +319,10 @@ namespace yo {
         else return out<<"(@"<<&beta(head(o))<<"|"<<beta(head(o))<<":"<<beta(tail(o));
       }
     #else
+      template<typename Out>
+      Out& operator<<(Out& out,const List<> o){return out<<"[]";}
       template<typename Out,typename O,typename... OO>
-      Out& operator<<(Out& out,const List<O,OO...> o){
-        if(beta(null(o)(1)(0))) return out;
-        else return out<<(head(o))<<":"<<(tail(o));
-      }
+      Out& operator<<(Out& out,const List<O,OO...> o){return out<<o.tail.head<<":"<<o.tail.tail.head;}
     #endif
 
   #endif
