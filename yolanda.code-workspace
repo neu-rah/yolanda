@@ -1,0 +1,20 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"name": "yolanda/examples/native/dev",
+			"path": "examples/native/dev"
+		}
+	],
+	"settings": {
+		"files.associations": {
+			"format": "cpp",
+			"ostream": "cpp",
+			"random": "cpp",
+			"cmath": "cpp",
+			"type_traits": "cpp"
+		}
+	}
+}

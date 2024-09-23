@@ -104,7 +104,7 @@ namespace yo {
     template<typename Out> Out& operator<<(Out& out,const yo::Flip) {return out<<"flip";}
     template<typename Out> Out& operator<<(Out& out,const yo::Pair) {return out<<"pair";}
     // template<typename Out> Out& operator<<(Out& out,const yo::L) {return out<<"L";}
-    template<typename Out> Out& operator<<(Out& out,const yo::Y) {return out<<"Y";}
+    // template<typename Out> Out& operator<<(Out& out,const yo::Y) {return out<<"Y";}
     template<typename Out> Out& operator<<(Out& out,const yo::Bb) {return out<<"Bb";}
     template<typename Out> Out& operator<<(Out& out,const yo::Fst) {return out<<"fst";}
     template<typename Out> Out& operator<<(Out& out,const yo::Snd) {return out<<"snd";}

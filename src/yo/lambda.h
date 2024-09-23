@@ -44,7 +44,7 @@ namespace yo {
     template<typename O> cex const Expr<O,H,TT...> cons(const O o) const {return {o,*this};}
     template<typename O> cex const Expr<H,TT...,O> operator()(const O o) const {return {head,tail(o)};}
     template<typename O> cex const Expr<H,TT...,O> _concat(const Expr<O> o) const {return operator()(o.head);}
-    template<typename O,typename... OO> cex const Expr<H,TT...,O,OO...> _concat(const Expr<O,OO...> o) const {return tail._concat(o).cons(head);}
+    template<typename O,typename... OO> cex auto _concat(const Expr<O,OO...> o) const->const decltype(tail._concat(o).cons(head)) {return tail._concat(o).cons(head);}
   };
 
   template<typename O> constexpr bool isNone() {return is_same<O,None>::value;}
@@ -69,7 +69,7 @@ namespace yo {
   //alias (for printing)--
   template<typename Fn> struct Alt:Fn {
     cex operator const Alias() const {return Alias{};}
-    template<typename O> cex const Expr<Alt<Fn>,O> operator()(const O o) const {return {*this,o};}
+    // template<typename O> cex const Expr<Alt<Fn>,O> operator()(const O o) const {return {*this,o};}
   };
 
   template<typename Fn>
@@ -101,6 +101,10 @@ namespace yo {
     {return           _concat(C::beta(o.tail.head, o.tail.tail.head, o.tail.tail.tail.head, o.tail.tail.tail.tail.head), o.tail.tail.tail.tail.tail);}
 
   template<typename O> cex const None step(const O) {return none;}
+
+  cex const Empty beta(const Empty);
+  template<typename O> cex auto beta(const O o)->const When<!isEmpty<O>(),decltype(res(step(o),o))>;
+  template<typename O> cex auto beta(const Expr<O> o)->const decltype(beta(o.head));
 
   //recursion/result--
   template<typename O> cex const O res(const O o,const O) {return o;}

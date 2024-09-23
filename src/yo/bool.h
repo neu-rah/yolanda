@@ -45,8 +45,8 @@ namespace yo {
   constexpr const FromBool fromBool;
 
   #ifdef YO_PRINT
-    template<typename Out> Out& operator<<(Out& out,const yo::True) {return out<<"true";}
-    template<typename Out> Out& operator<<(Out& out,const yo::False) {return out<<"false";}
+    // template<typename Out> Out& operator<<(Out& out,const yo::True) {return out<<"true";}
+    // template<typename Out> Out& operator<<(Out& out,const yo::False) {return out<<"false";}
     template<typename Out> Out& operator<<(Out& out,const yo::Not) {return out<<"not";}
     template<typename Out> Out& operator<<(Out& out,const yo::Or) {return out<<"or";}
     template<typename Out> Out& operator<<(Out& out,const yo::And) {return out<<"and";}

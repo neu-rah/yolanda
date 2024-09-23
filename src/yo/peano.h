@@ -144,20 +144,20 @@ namespace yo {
   template<typename N>
   cex auto _toInt(const N n)
     ->const decltype(n(plus1)(0))
-    {return (n(plus1)(0));}
+    {return n(plus1)(0);}
   CurryTemplateFunction(_toInt) toInt;
 
   #ifdef YO_PRINT
-    template<typename Out> Out& operator<<(Out& out,const yo::N0)   {return out<<"#0";}
-    template<typename Out> Out& operator<<(Out& out,const yo::N1)   {return out<<"#1";}
-    template<typename Out> Out& operator<<(Out& out,const yo::N2)   {return out<<"#2";}
-    template<typename Out> Out& operator<<(Out& out,const yo::N3)   {return out<<"#3";}
-    template<typename Out> Out& operator<<(Out& out,const yo::N4)   {return out<<"#4";}
-    template<typename Out> Out& operator<<(Out& out,const yo::N5)   {return out<<"#5";}
-    template<typename Out> Out& operator<<(Out& out,const yo::N6)   {return out<<"#6";}
-    template<typename Out> Out& operator<<(Out& out,const yo::N7)   {return out<<"#7";}
-    template<typename Out> Out& operator<<(Out& out,const yo::N8)   {return out<<"#8";}
-    template<typename Out> Out& operator<<(Out& out,const yo::N9)   {return out<<"#9";}
+    // template<typename Out> Out& operator<<(Out& out,const yo::N0)   {return out<<"#0";}
+    // template<typename Out> Out& operator<<(Out& out,const yo::N1)   {return out<<"#1";}
+    // template<typename Out> Out& operator<<(Out& out,const yo::N2)   {return out<<"#2";}
+    // template<typename Out> Out& operator<<(Out& out,const yo::N3)   {return out<<"#3";}
+    // template<typename Out> Out& operator<<(Out& out,const yo::N4)   {return out<<"#4";}
+    // template<typename Out> Out& operator<<(Out& out,const yo::N5)   {return out<<"#5";}
+    // template<typename Out> Out& operator<<(Out& out,const yo::N6)   {return out<<"#6";}
+    // template<typename Out> Out& operator<<(Out& out,const yo::N7)   {return out<<"#7";}
+    // template<typename Out> Out& operator<<(Out& out,const yo::N8)   {return out<<"#8";}
+    // template<typename Out> Out& operator<<(Out& out,const yo::N9)   {return out<<"#9";}
 
     template<typename Out> Out& operator<<(Out& out,const yo::Add)   {return out<<"(+)";}
     template<typename Out> Out& operator<<(Out& out,const yo::Mul)   {return out<<"(*)";}

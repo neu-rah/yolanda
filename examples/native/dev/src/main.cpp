@@ -14,7 +14,7 @@ template<typename E> void test(const E e) {show(e,beta(e));}
 
 void steps(const None) {cout<<none<<endl;}
 template<typename O> void steps(const O o) {
-  cout<<o<<" = ";
+  cout<<o<<endl<<" = ";
   steps(step(o));
 }
 
@@ -27,21 +27,27 @@ int main() {
   static cex const auto e6=_W(_true)("ok")("zZz");
   static cex const auto e7=_T("ok")(id)("zZz");
   static cex const auto e8=_V("ok")("fail")(_true)("zZz");
-  steps(e1);
-  steps(e2);
-  steps(e3);
-  steps(e4);
-  steps(e5);
-  steps(e6);
-  steps(e7);
-  steps(e8);
-  test(e1);
-  test(e2);
-  test(e3);
-  test(e4);
-  test(e5);
-  test(e6);
-  test(e7);
-  test(e8);
+  static cex const auto e9=toInt(length(range(n0)(n1)));
+  // steps(e1);
+  // steps(e2);
+  // steps(e3);
+  // steps(e4);
+  // steps(e5);
+  // steps(e6);
+  // steps(e7);
+  // steps(e8);
+  // test(e1);
+  // test(e2);
+  // test(e3);
+  // test(e4);
+  // test(e5);
+  // test(e6);
+  // test(e7);
+  // test(e8);
+  // cout<<list(1,2,3)<<endl;
+  cout<<beta(null(nil)("yes")("no"))<<endl;
+  // steps(e9);//long compile! abd in error
+  // beta(e9);//  check why this is not working as steps!
+  // steps(toInt(head(drop(n3)(nats))));///in error
   return 0;
 }

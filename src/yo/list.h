@@ -148,10 +148,11 @@ namespace yo {
       ->decltype(cons(n)(f(succ(n))))
       {return cons(n)(f(succ(n)));}
   };
-  using NatsN=Expr<Y,_Nats>;
+  using NatsN=decltype(_Y(_Nats{}));//Expr<Y,_Nats>;
   cex NatsN natsn;
 
-  struct Nats:Expr<NatsN,N1> {};
+  // struct Nats:Expr<NatsN,N1> {};
+  using Nats=decltype(natsn(n1));
   cex const Nats nats;
 
   struct Range:Combinator<Range> {
@@ -178,7 +179,7 @@ namespace yo {
           (f(head(o)))
           (g(f)(tail(o))));}  
   };
-  using Map=Expr<Y,_Map>;
+  using Map=decltype(_Y(_Map{}));//Expr<Y,_Map>;
   cex const Map _map;
 
   // λgfx. NULL x NIL (f (CAR x) (PAIR (CAR x)) I (g f (CDR x)))
@@ -204,7 +205,7 @@ namespace yo {
             (g(f)(tail(o)))
           );}
   };
-  using Filter=Expr<Y,_Filter>;
+  using Filter=decltype(_Y(_Filter{}));//Expr<Y,_Filter>;
   cex const Filter filter;
 
   // λgfex. NULL x e (g f (f e (CAR x)) (CDR x))  
@@ -215,7 +216,7 @@ namespace yo {
       ->decltype(null(x)(e)(g(f)(f(e)(head(x)))(tail(x))))
       {return null(x)(e)(g(f)(f(e)(head(x)))(tail(x)));}
   };
-  using FoldL=Expr<Y,_FoldL>;
+  using FoldL=decltype(_Y(_FoldL{}));//Expr<Y,_FoldL>;
   cex const FoldL foldl;
 
   // FOLD-RIGHT := λfex. Y (λgy. NULL y e (f (CAR y) (g (CDR y)))) x
@@ -253,23 +254,24 @@ namespace yo {
         );
       }
   };
-  using Zip=Expr<Y,_Zip>;
+  using Zip=decltype(_Y(_Zip{}));//Expr<Y,_Zip>;
   cex const Zip zip;
 
   // list sugar -----------
   template<typename...OO> struct List;
+  template<typename...OO> cex List<OO...> list(const OO... oo);
+
   template<> struct List<>:Nil {using Nil::Nil;};
+
   template<typename O,typename...OO>
-  struct List<O,OO...>:Expr<Cons,O,List<OO...>> {
+  struct List<O,OO...>:decltype(cons(O{})(List<OO...>{}))/*Expr<Cons,O,List<OO...>>*/ {
     using Tail=List<OO...>;
-    using Base=Expr<Cons,O,List<OO...>>;
+    using Base=decltype(cons(O{})(List<OO...>{}));//Expr<Cons,O,List<OO...>>;
     using Base::Base;
-    cex List(const O o,const OO... oo):Expr<Cons,O,List<OO...>>(cons,o,List<OO...>(oo...)) {}
+    cex List(const O o,const OO... oo):Base(cons(o)(list(oo...))) {}
   };
 
   template<typename...OO> cex List<OO...> list(const OO... oo) {return List<OO...>(oo...);}
-
-  // template<typename Out> Out& operator<<(Out& out,const Nil) {return out<<"nil";}
 
   #ifdef YO_PRINT
     template<typename Out> Out& operator<<(Out& out,const yo::Cons)           {return out<<"cons";}
@@ -308,7 +310,7 @@ namespace yo {
     template<typename Out> Out& operator<<(Out& out,const yo:: Zip)           {return out<< "zip";}
     template<typename Out> Out& operator<<(Out& out,const yo::FromBool)       {return out<<"fromBool";}
 
-    template<typename Out> Out& operator<<(Out& out,const List<>)  {return out<<"[]";}
+    // template<typename Out> Out& operator<<(Out& out,const List<>)  {return out<<"[]";}
 
     #ifdef YO_VERB
       template<typename Out,typename O,typename... OO>
@@ -320,7 +322,7 @@ namespace yo {
       template<typename Out,typename O,typename... OO>
       Out& operator<<(Out& out,const List<O,OO...> o){
         if(beta(null(o)(1)(0))) return out;
-        else return out<<beta(head(o))<<":"<<beta(tail(o));
+        else return out<<(head(o))<<":"<<(tail(o));
       }
     #endif
 
