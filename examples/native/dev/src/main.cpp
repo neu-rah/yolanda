@@ -1,8 +1,6 @@
-#include <iostream>
-using namespace std;
-
 #include <yolanda.h>
 using namespace yo;
+using yo::operator<<;
 
 //// test ///////////////////////////////////////////////////////////////
 template<typename E> void show(const E e) {cout<<e<<endl;}
@@ -44,7 +42,8 @@ int main() {
   // test(e6);
   // test(e7);
   // test(e8);
-  steps(e9);//long compile! and in error
+  steps(e9);//long compile!
+  // steps(head(tail(take(n2)(list(1,2,3)))));
   // steps(toInt(sub(n4)(n2)));//ok
   // steps(take(n1)(list(1,2)));
   // steps(drop(n2)(_map(toInt)(take(n9)(nats))));

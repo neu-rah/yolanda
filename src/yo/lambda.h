@@ -1,16 +1,9 @@
 #pragma once
 
-#ifdef __AVR__
-  #include "../avr_std.h"
-  using namespace avr_std;
-#else
-  #include <type_traits>
-  using namespace std;
-#endif
-
 #define cex constexpr
 
 namespace yo {
+  using namespace StreamFlow;
   template<bool chk,typename T> using When=typename enable_if<chk,T>::type;
 
   struct Lambda{};
@@ -51,6 +44,7 @@ namespace yo {
   template<typename O> constexpr bool isEmpty() {return is_same<O,Empty>::value;}
     template<typename O> constexpr bool isAlias() {return is_convertible<O,Alias>::value;}
   template<typename O> constexpr bool isApp() {return is_convertible<O,App>::value;}
+  template<typename O> constexpr bool isLambda() {return is_convertible<O,Lambda>::value;}
 
   cex const Empty expr() {return empty;}
   template<typename O> cex const When<isApp<O>(),O> expr(const O o) {return o;}
