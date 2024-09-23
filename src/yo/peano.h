@@ -6,7 +6,7 @@
 
 namespace yo {
   // peano ----------------------------------------------
-  using Succ=Expr<S,B>;
+  using Succ=decltype(_S(_B));//Expr<S,B>;
   const Succ succ;
 
   struct Add:Combinator<Add> {
@@ -26,26 +26,26 @@ namespace yo {
   cex const Pow _pow;
 
   using N0=Alt<False>;
-  using N1=Alt<Id>;
-  using N2=Expr<Succ,N1>;
-  using N3=Expr<Succ,N2>;
-  using N4=Expr<Succ,N3>;
-  using N5=Expr<Succ,N4>;
-  using N6=Expr<Succ,N5>;
-  using N7=Expr<Succ,N6>;
-  using N8=Expr<Succ,N7>;
-  using N9=Expr<Succ,N8>;
-
   cex const N0 n0;
+  using N1=Alt<Id>;
   cex const N1 n1;
+  using N2=decltype(succ(n1));//Expr<Succ,N1>;
   cex const N2 n2;
+  using N3=decltype(succ(n2));//Expr<Succ,N2>;
   cex const N3 n3;
+  using N4=decltype(succ(n3));//Expr<Succ,N3>;
   cex const N4 n4;
+  using N5=decltype(succ(n4));//Expr<Succ,N4>;
   cex const N5 n5;
+  using N6=decltype(succ(n5));//Expr<Succ,N5>;
   cex const N6 n6;
+  using N7=decltype(succ(n6));//Expr<Succ,N6>;
   cex const N7 n7;
+  using N8=decltype(succ(n7));//Expr<Succ,N7>;
   cex const N8 n8;
+  using N9=decltype(succ(n8));//Expr<Succ,N8>;
   cex const N9 n9;
+
 
   struct Is0:Combinator<Is0> {
     static cex bool delta(int n) {return n==0;}
@@ -65,7 +65,7 @@ namespace yo {
   };
 
   struct Pred:Combinator<Pred> {
-    using N0N0=Expr<Pair,N0,N0>;
+    using N0N0=decltype(_pair(n0)(n0));//Expr<Pair,N0,N0>;
     static int    delta(int n){return n-1;}
     static double delta(double n){return n-1;}
     template<typename N>
@@ -105,7 +105,7 @@ namespace yo {
   };
   cex const GEq geq;
 
-  using GT=Expr<Bb,Not,LEq>;
+  using GT=decltype(_Bb(_not)(leq));//Expr<Bb,Not,LEq>;
   const GT gt;
 
   struct Eq:Combinator<Eq> {
@@ -118,7 +118,7 @@ namespace yo {
   };
   cex const Eq eq;
 
-  using LT=Expr<Flip,GT>;
+  using LT=decltype(_C(gt));//Expr<Flip,GT>;
   const LT lt;
 
   struct NEq:Combinator<NEq> {
@@ -133,7 +133,7 @@ namespace yo {
 
   //caution this can be damn slow to compile...
   template<int n,typename N=N0>
-  struct FromInt:FromInt<n-1,Expr<Succ,N>> {};
+  struct FromInt:FromInt<n-1,decltype(succ(N{}))> {};
   template<typename N> struct FromInt<0,N>:N {};
 
   ///////////////////////////////////////////////////////////////////////////////
@@ -143,8 +143,8 @@ namespace yo {
 
   template<typename N>
   cex auto _toInt(const N n)
-    ->const decltype(beta(n(plus1)(0)))
-    {return beta(n(plus1)(0));}
+    ->const decltype(n(plus1)(0))
+    {return (n(plus1)(0));}
   CurryTemplateFunction(_toInt) toInt;
 
   #ifdef YO_PRINT
@@ -164,6 +164,7 @@ namespace yo {
     template<typename Out> Out& operator<<(Out& out,const yo::Pow)   {return out<<"(^)";}
     template<typename Out> Out& operator<<(Out& out,const yo::Is0)   {return out<<"(0==)";}
     template<typename Out> Out& operator<<(Out& out,const yo::Succ)  {return out<<"(++)";}
+    template<typename Out> Out& operator<<(Out& out,const yo::Phi)  {return out<<"φ";}
     template<typename Out> Out& operator<<(Out& out,const yo::Pred)  {return out<<"(--)";}
     template<typename Out> Out& operator<<(Out& out,const yo::Sub)   {return out<<"(-)";}
     template<typename Out> Out& operator<<(Out& out,const yo::LEq)   {return out<<"(≤)";}

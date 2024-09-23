@@ -7,7 +7,8 @@ namespace yo {
   struct Cons:V{};
   cex const Cons cons;
 
-  struct Nil:Expr<K,K> {};
+  // struct Nil:Expr<K,K> {};
+  using Nil=decltype(_K(_K));
   const Nil nil;
 
   using Head=Alt<Fst>;
@@ -68,7 +69,7 @@ namespace yo {
           (head(o))
           (f(tail(o))));}
   };
-  using Last=Expr<Y,_Last>;
+  using Last=decltype(_Y(_Last{}));//Expr<Y,_Last>;
   cex const Last last;
 
   struct _Concat:Combinator<_Concat> {
@@ -82,7 +83,7 @@ namespace yo {
           (head(a))
           (f(tail(a))(b)));}
   };
-  using Concat=Expr<Y,_Concat>;
+  using Concat=decltype(_Y(_Concat{}));//Expr<Y,_Concat>;
   cex const Concat concat;
 
   struct _Init:Combinator<_Init> {
@@ -102,7 +103,7 @@ namespace yo {
           (cons(head(o))(f(tail(o))))
         );}
   };
-  using Init=Expr<Y,_Init>;
+  using Init=decltype(_Y(_Init{}));//Expr<Y,_Init>;
   cex const Init _init;
 
   struct _Reverse:Combinator<_Reverse> {
@@ -116,7 +117,7 @@ namespace yo {
         (a)
         (f(cons(head(l))(a))(tail(l)));}
   };
-  using Reverse=Expr<Y,_Reverse,Nil>;
+  using Reverse=decltype(_Y(_Reverse{})(nil));//Expr<Y,_Reverse,Nil>;
   cex const Reverse reverse;
 
   struct _TakeR:Combinator<_TakeR> {
@@ -126,7 +127,7 @@ namespace yo {
       ->decltype(is0(n)(to)(f(_pair(head(from))(to))(pred(n))(tail(from))))
       {return is0(n)(to)(f(_pair(head(from))(to))(pred(n))(tail(from)));}
   };
-  using TakeR=Expr<Y,_TakeR,Nil>;
+  using TakeR=decltype(_Y(_TakeR{})(nil));//Expr<Y,_TakeR,Nil>;
   cex const TakeR taker;
 
   //take n elements from a list
@@ -277,7 +278,7 @@ namespace yo {
     template<typename Out> Out& operator<<(Out& out,const yo::Tail)           {return out<<"tail";}
     template<typename Out> Out& operator<<(Out& out,const yo::Null)           {return out<<"null";}
     template<typename Out> Out& operator<<(Out& out,const yo::_Length)        {return out<<"_length";}
-    // template<typename Out> Out& operator<<(Out& out,const yo::Length)         {return out<<"length";}
+    template<typename Out> Out& operator<<(Out& out,const yo::Length)         {return out<<"length";}
     template<typename Out> Out& operator<<(Out& out,const yo::Drop)           {return out<<"drop";}
     template<typename Out> Out& operator<<(Out& out,const yo::Index)          {return out<<"index";}
     template<typename Out> Out& operator<<(Out& out,const yo::_Last)          {return out<<"_last";}

@@ -67,15 +67,15 @@ namespace yo {
 
   using Id=Alt<I>;
   using Const=Alt<K>;
-  using KI=Expr<K,I>;
+  using KI=decltype(_K(_I));//Expr<K,I>;
   using Flip=Alt<C>;
   using Pair=Alt<V>;
   using L=decltype(_C(_B)(_M));//Expr<C,B,M>;
   cex const L _L;
   using Y=decltype(_S(_L)(_L));//Expr<S,L,L>;
-  using Bb=Expr<B,B,B>;
-  using Fst=Expr<T,K>;
-  using Snd=Expr<T,KI>;
+  using Bb=decltype(_B(_B)(_B));//Expr<B,B,B>;
+  using Fst=decltype(_T(_K));//Expr<T,K>;
+  using Snd=decltype(_T(_K)(_I));//Expr<T,KI>;
 
   cex const Id id;
   cex const Const _const;
@@ -104,7 +104,7 @@ namespace yo {
     template<typename Out> Out& operator<<(Out& out,const yo::Flip) {return out<<"flip";}
     template<typename Out> Out& operator<<(Out& out,const yo::Pair) {return out<<"pair";}
     // template<typename Out> Out& operator<<(Out& out,const yo::L) {return out<<"L";}
-    // template<typename Out> Out& operator<<(Out& out,const yo::Y) {return out<<"Y";}
+    template<typename Out> Out& operator<<(Out& out,const yo::Y) {return out<<"Y";}
     template<typename Out> Out& operator<<(Out& out,const yo::Bb) {return out<<"Bb";}
     template<typename Out> Out& operator<<(Out& out,const yo::Fst) {return out<<"fst";}
     template<typename Out> Out& operator<<(Out& out,const yo::Snd) {return out<<"snd";}
