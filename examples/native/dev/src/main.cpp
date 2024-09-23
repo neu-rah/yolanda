@@ -44,10 +44,10 @@ int main() {
   // test(e6);
   // test(e7);
   // test(e8);
-  // cout<<beta(null(nil)("yes")("no"))<<endl;
-  cout<<list(1,2,3)<<endl;
   // steps(e9);//long compile! abd in error
   // beta(e9);//  check why this is not working as steps!
-  // steps(toInt(head(drop(n3)(nats))));///in error
+  // cout<<beta(null(nil)("yes")("no"))<<endl;
+  // cout<<list(1,2,3)<<endl;
+  steps(head(drop(n2)(list(1,2,3))));///in error
   return 0;
 }

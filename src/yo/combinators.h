@@ -68,6 +68,7 @@ namespace yo {
   using Id=Alt<I>;
   using Const=Alt<K>;
   using KI=decltype(_K(_I));//Expr<K,I>;
+  cex const KI _KI;
   using Flip=Alt<C>;
   using Pair=Alt<V>;
   using L=decltype(_C(_B)(_M));//Expr<C,B,M>;
@@ -75,11 +76,10 @@ namespace yo {
   using Y=decltype(_S(_L)(_L));//Expr<S,L,L>;
   using Bb=decltype(_B(_B)(_B));//Expr<B,B,B>;
   using Fst=decltype(_T(_K));//Expr<T,K>;
-  using Snd=decltype(_T(_K)(_I));//Expr<T,KI>;
+  using Snd=decltype(_T(_KI));//Expr<T,KI>;
 
   cex const Id id;
   cex const Const _const;
-  cex const KI _KI;
   cex const Flip flip;
   cex const Pair _pair;
   cex const Y _Y;
