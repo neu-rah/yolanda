@@ -5,12 +5,13 @@ using namespace std;
 
 template<bool chk,typename T> using When=typename enable_if<chk,T>::type;
 
-struct App{};
 struct Lambda{};
+struct App{};
 struct None{};
 constexpr const None none;
 template<typename Out> Out& operator<<(Out& out, const None) {return out<<"⊥";}
 
+//// lambda expression
 template<typename...> struct Expr;
 
 template<> struct Expr<> {
@@ -53,29 +54,55 @@ template<typename A, typename B> cex const When<!isApp<A>()&&!isApp<B>(),Expr<A,
 template<typename A, typename B> cex auto concat(const A a,const B b)->const When< isApp<A>(),decltype(a.concat(b))> {return a.concat(b);}
 template<typename A, typename B> cex auto concat(const A a,const B b)->const When<!isApp<A>()&&isApp<B>(),decltype(b.cons(a))> {return b.cons(a);}
 
+//// combinators
 template<typename Fn>
 struct Combinator:Lambda {
   template<typename O> cex Expr<Fn,O> operator()(const O o) const {return {*(Fn*)this,o};}
 };
 
+// λo.o
 struct I:Combinator<I> {
   template<typename O> static cex const O beta(const O o) {return o;}
 };
 cex const I id;
 template<typename Out> Out& operator<<(Out& out, const I) {return out<<"id";}
 
+// λab.a
 struct K:Combinator<K> {
   template<typename O,typename P> static cex const O beta(const O o,const P) {return o;}
 };
 cex const K _true;
 template<typename Out> Out& operator<<(Out& out, const K) {return out<<"true";}
 
+// λfgo.fo(go)
 struct S:Combinator<S> {
   template<typename F,typename G,typename O> static cex auto beta(const F f,const G g, const O o)->const decltype(f(o)(g(o))) {return f(o)(g(o));}
 };
 cex const S _S;
 template<typename Out> Out& operator<<(Out& out, const S) {return out<<"S";}
 
+// λfgo.f(go)
+struct B:Combinator<B> {
+  template<typename F,typename G,typename O> static cex auto beta(const F f,const G g, const O o)->const decltype(f(g(o))) {return f(g(o));}
+};
+cex const B _B;
+template<typename Out> Out& operator<<(Out& out, const B) {return out<<"B";}
+
+// λfab.fba
+struct C:Combinator<C> {
+  template<typename F,typename A,typename B> static cex auto beta(const F f,const A a, const B b)->const decltype(f(b)(a)) {return f(b)(a);}
+};
+cex const C _C;
+template<typename Out> Out& operator<<(Out& out, const C) {return out<<"C";}
+
+// λop.opp
+struct W:Combinator<W> {
+  template<typename O,typename P> static cex auto beta(const O o,const P p)->decltype(o(p)(p)) {return o(p)(p);}
+};
+cex const W _W;
+template<typename Out> Out& operator<<(Out& out, const W) {return out<<"W";}
+
+//// beta reduction
 template<typename C,typename O,typename... OO>
 cex auto step(const Expr<C,O,OO...> o)
   -> const decltype(concat(C::beta(o.tail.head),o.tail.tail))
@@ -116,8 +143,14 @@ int main() {
   static cex const auto e1=id("ok")("zZz");
   static cex const auto e2=_true("ok")("fail")("zZz");
   static cex const auto e3=_S(id)(id)(id)("ok")("zZz");
+  static cex const auto e4=_B(id)(id)("ok")("zZz");
+  static cex const auto e5=_C(_true)("fail")("ok")("zZz");
+  static cex const auto e6=_W(_true)("ok")("zZz");
   steps(e1);
   steps(e2);
   steps(e3);
+  steps(e4);
+  steps(e5);
+  steps(e6);
   return 0;
 }
