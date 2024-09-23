@@ -122,13 +122,19 @@ namespace yo {
   cex const TakeR taker;
 
   //take n elements from a list--
-  struct _Take:Combinator<_Take> {
-    template<typename F,typename N,typename O>
-    static cex auto beta(const F f,const N n,const O o) 
-      ->const decltype(_or(is0(n))(null(o))(nil)(cons(head(o))(f(pred(n))(tail(o)))))
-      {return _or(is0(n))(null(o))(nil)(cons(head(o))(f(pred(n))(tail(o))));}
+  struct Take:Combinator<Take> {
+    template<typename N,typename O>//still the most compact one---
+    static cex auto beta(const N n, const O o)
+      ->decltype(reverse(taker(n)(o)))
+      {return reverse(taker(n)(o));}
   };
-  using Take=decltype(_Y(_Take{}));
+  // struct _Take:Combinator<_Take> {
+  //   template<typename F,typename N,typename O>
+  //   static cex auto beta(const F f,const N n,const O o) 
+  //     ->const decltype(_or(is0(n))(null(o))(nil)(cons(head(o))(f(pred(n))(tail(o)))))
+  //     {return _or(is0(n))(null(o))(nil)(cons(head(o))(f(pred(n))(tail(o))));}
+  // };
+  // using Take=decltype(_Y(_Take{}));
   cex const Take take;
 
   //infinit list of numerals starting at N--
@@ -148,11 +154,17 @@ namespace yo {
 
   //build a numerals range list--
   struct Range:Combinator<Range> {
-    template<typename S,typename E>
+    template<typename S,typename E>//still the most compact one---
     static cex auto beta(const S s, const E e)
-      ->const decltype(take(sub(e)(s))(drop(s)(nats)))
-      {return take(sub(e)(s))(drop(s)(nats));}
+      ->decltype(take(sub(e)(s))(natsn(s)))
+      {return take(sub(e)(s))(natsn(s));}
   };
+  // struct Range:Combinator<Range> {
+  //   template<typename S,typename E>
+  //   static cex auto beta(const S s, const E e)
+  //     ->const decltype(take(sub(e)(s))(nats(s)))
+  //     {return take(sub(e)(s))(nats(s));}
+  // };
   cex const Range range;
 
   struct _Map:Combinator<_Map> {
@@ -280,7 +292,7 @@ namespace yo {
     template<typename Out> Out& operator<<(Out& out,const yo:: Reverse)       {return out<< "reverse";}
     template<typename Out> Out& operator<<(Out& out,const yo::_TakeR)         {return out<<"_taker";}
     template<typename Out> Out& operator<<(Out& out,const yo::TakeR)          {return out<< "taker";}
-    template<typename Out> Out& operator<<(Out& out,const yo::_Take)           {return out<< "_take";}
+    // template<typename Out> Out& operator<<(Out& out,const yo::_Take)           {return out<< "_take";}
     template<typename Out> Out& operator<<(Out& out,const yo::Take)           {return out<< "take";}
     template<typename Out> Out& operator<<(Out& out,const yo::Nats)           {return out<<"ℕ";}
     template<typename Out> Out& operator<<(Out& out,const yo::_Nats)          {return out<<"Nat";}
