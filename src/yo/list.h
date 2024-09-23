@@ -122,15 +122,6 @@ namespace yo {
   cex const TakeR taker;
 
   //take n elements from a list--
-  // struct Take:Combinator<Take> {
-  //   template<typename N,typename O>
-  //   static cex auto beta(const N n, const O o)
-  //     ->const decltype(reverse(taker(n)(o)))
-  //     {return reverse(taker(n)(o));}
-  // };
-  // // using Take=decltype(_Y(_Take{}));
-  // cex const Take take;
-
   struct _Take:Combinator<_Take> {
     template<typename F,typename N,typename O>
     static cex auto beta(const F f,const N n,const O o) 
@@ -140,7 +131,7 @@ namespace yo {
   using Take=decltype(_Y(_Take{}));
   cex const Take take;
 
-  //infinit list of numerals starting at N
+  //infinit list of numerals starting at N--
   struct _Nats:Combinator<_Nats> {
     template<typename F,typename N>
     static cex auto  beta(const F f,const N n)
@@ -150,17 +141,12 @@ namespace yo {
   using NatsN=decltype(_Y(_Nats{}));//Expr<Y,_Nats>;
   cex NatsN natsn;
 
+  //natural numbers (numerals), 1 to +∞ --
   // struct Nats:Expr<NatsN,N1> {};
   using Nats=decltype(natsn(n1));
   cex const Nats nats;
 
   //build a numerals range list--
-  // struct Range:Combinator<Range> {
-  //   template<typename S,typename E>
-  //   static cex auto beta(const S s, const E e)
-  //     ->const decltype(take(sub(e)(s))(natsn(s)))
-  //     {return take(sub(e)(s))(natsn(s));}
-  // };
   struct Range:Combinator<Range> {
     template<typename S,typename E>
     static cex auto beta(const S s, const E e)
@@ -311,8 +297,6 @@ namespace yo {
     template<typename Out> Out& operator<<(Out& out,const yo::_Zip)           {return out<<"_zip";}
     template<typename Out> Out& operator<<(Out& out,const yo:: Zip)           {return out<< "zip";}
     template<typename Out> Out& operator<<(Out& out,const yo::FromBool)       {return out<<"fromBool";}
-
-    // template<typename Out> Out& operator<<(Out& out,const List<>)  {return out<<"[]";}
 
     #ifdef YO_VERB
       template<typename Out,typename O,typename... OO>
