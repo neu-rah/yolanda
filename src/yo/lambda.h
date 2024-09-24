@@ -3,7 +3,6 @@
 #define cex constexpr
 
 namespace yo {
-  using namespace StreamFlow;
   template<bool chk,typename T> using When=typename enable_if<chk,T>::type;
 
   struct Lambda{};
@@ -23,7 +22,11 @@ namespace yo {
   };
   using Empty=Expr<>;
   constexpr const Empty empty;
-  template<typename Out> Out& operator<<(Out& out, const Empty) {return out<<"ø";}
+  #ifdef YO_VERB
+    template<typename Out> Out& operator<<(Out& out, const Empty) {return out<<"ø";}
+  #else
+    template<typename Out> Out& operator<<(Out& out, const Empty) {return out;}
+  #endif
 
   template<typename H,typename... TT>
   struct Expr<H,TT...>:App {

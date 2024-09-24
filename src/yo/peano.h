@@ -6,16 +6,18 @@
 
 namespace yo {
   // peano ----------------------------------------------
-  using Succ=decltype(_S(_B));//Expr<S,B>;
+  struct Succ:Combinator<Succ> {
+    static cex int /*delta*/beta(int n) {return n+1;}
+    static cex double /*delta*/beta(double n) {return n+1;}
+    template<typename O> static cex auto beta(const O o)->const decltype(_S(_B)(o)) {return _S(_B)(o);}
+  };
   const Succ succ;
 
   struct Add:Combinator<Add> {
-    static cex int beta(int n,int o) {return n+o;}
-    static cex int beta(double n,double o) {return n+o;}
+    static cex int /*delta*/beta(int n,int o) {return n+o;}
+    static cex double /*delta*/beta(double n,double o) {return n+o;}
     template<typename N,typename O>
-    static cex auto beta(const N n,const O o)
-      ->const decltype(n(succ)(o))
-      {return n(succ)(o);}
+    static cex auto beta(const N n,const O o)->const decltype(n(succ)(o)) {return n(succ)(o);}
   };
   constexpr const Add _add;
 
@@ -48,8 +50,8 @@ namespace yo {
 
 
   struct Is0:Combinator<Is0> {
-    static cex bool delta(int n) {return n==0;}
-    static cex bool delta(double n) {return n==0.0;}
+    static cex bool /*delta*/beta(int n) {return n==0;}
+    static cex bool /*delta*/beta(double n) {return n==0.0;}
     template<typename O>
     cex static auto beta(const O o)
       ->decltype(o(_true(_false))(_true))
@@ -66,8 +68,8 @@ namespace yo {
 
   struct Pred:Combinator<Pred> {
     using N0N0=decltype(_pair(n0)(n0));//Expr<Pair,N0,N0>;
-    static int    delta(int n){return n-1;}
-    static double delta(double n){return n-1;}
+    static int    /*delta*/beta(int n){return n-1;}
+    static double /*delta*/beta(double n){return n-1;}
     template<typename N>
     cex static auto beta(const N n)
       ->decltype(fst(n(Phi())(N0N0{})))
@@ -76,8 +78,8 @@ namespace yo {
   cex const Pred pred;
 
   struct Sub:Combinator<Sub> {
-    static cex int delta(int n,int o) {return n-o;}
-    static cex int delta(double n,double o) {return n-o;}
+    static cex int /*delta*/beta(int n,int o) {return n-o;}
+    static cex double /*delta*/beta(double n,double o) {return n-o;}
     template<typename N,typename O>
     cex static auto beta(const N n, const O o)
       ->decltype(o(pred)(n))
@@ -86,8 +88,8 @@ namespace yo {
   cex const Sub sub;
 
   struct LEq:Combinator<LEq> {
-    static cex  bool delta(int n,int o) {return n<=o;}
-    static cex  bool delta(double n,double o) {return n<=o;}
+    static cex  bool /*delta*/beta(int n,int o) {return n<=o;}
+    static cex  bool /*delta*/beta(double n,double o) {return n<=o;}
     template<typename N,typename O>
     cex static auto beta(const N n,const O o)
       ->decltype(is0(sub(n)(o)))
@@ -96,8 +98,8 @@ namespace yo {
   cex const LEq leq;
 
   struct GEq:Combinator<GEq> {
-    static cex  bool delta(int n,int o) {return n>=o;}
-    static cex  bool delta(double n,double o) {return n>=o;}
+    static cex  bool /*delta*/beta(int n,int o) {return n>=o;}
+    static cex  bool /*delta*/beta(double n,double o) {return n>=o;}
     template<typename N,typename O>
     cex static auto beta(const N n,const O o)
       ->decltype(is0(sub(o)(n)))
@@ -109,8 +111,8 @@ namespace yo {
   const GT gt;
 
   struct Eq:Combinator<Eq> {
-    static cex  bool delta(int n,int o) {return n==o;}
-    static cex  bool delta(double n,double o) {return n==o;}
+    static cex  bool /*delta*/beta(int n,int o) {return n==o;}
+    static cex  bool /*delta*/beta(double n,double o) {return n==o;}
     template<typename N,typename O>
     cex static auto beta(const N n,const O o)
       ->decltype(_and(leq(n)(o))(leq(o)(n)))
@@ -122,8 +124,8 @@ namespace yo {
   const LT lt;
 
   struct NEq:Combinator<NEq> {
-    static cex  bool delta(int n,int o) {return n!=o;}
-    static cex  bool delta(double n,double o) {return n!=o;}
+    static cex  bool /*delta*/beta(int n,int o) {return n!=o;}
+    static cex  bool /*delta*/beta(double n,double o) {return n!=o;}
     template<typename N,typename O>
     cex static auto beta(const N n,const O o)
       ->decltype(_or(gt(n)(o))(gt(o)(n)))

@@ -70,7 +70,7 @@ using Church encoded numerals
 **pred** - predecessor or a nominal  
 **n0 .. n9** - predefined numerals  
 **is0** - check if numeral is N0  
-**add** - sum 2 numerals  
+**_add** - sum 2 numerals  
 **sub** - subtract 2 numeral  
 **mul** - multiply 2 numerals  
 **_pow** - numerals power  
