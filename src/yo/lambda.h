@@ -1,114 +1,112 @@
 #pragma once
 
-#include "base.h"
+#define cex constexpr
 
 namespace yo {
+  using namespace StreamFlow;
+  template<bool chk,typename T> using When=typename enable_if<chk,T>::type;
 
-  template<typename Prev,typename Param>
-  struct App {
-    const Prev prev;
-    const Param param;
-    constexpr App(const Prev o={},const Param p={}):prev(o),param(p) {}
+  struct Lambda{};
+  struct App{};
+  struct Alias {};
+  struct None{};
+  constexpr const None none;
+  template<typename Out> Out& operator<<(Out& out, const None) {return out<<"⊥";}
+
+  //// lambda expression
+  template<typename...> struct Expr;
+
+  template<> struct Expr<> {
+    template<typename O> cex const Expr<O> cons(const O o) const {return o;}
+    template<typename O> cex const Expr<O> operator()(const O o) const {return {o};}
+    template<typename O> cex const O _concat(const O o) const {return o;}
+  };
+  using Empty=Expr<>;
+  constexpr const Empty empty;
+  template<typename Out> Out& operator<<(Out& out, const Empty) {return out<<"ø";}
+
+  template<typename H,typename... TT>
+  struct Expr<H,TT...>:App {
+    using Head=H;
+    using Tail=Expr<TT...>;
+    const Head head;
+    const Tail tail;
+    cex Expr():head(Head{}),tail(Tail{}){}
+    cex Expr(const Head h,const Tail t):head(h),tail(t) {}
+    cex Expr(const Head h,const TT... tt):head(h),tail(Expr<TT...>{tt...}) {}
+    template<typename O> cex const Expr<O,H,TT...> cons(const O o) const {return {o,*this};}
+    template<typename O> cex const Expr<H,TT...,O> operator()(const O o) const {return {head,tail(o)};}
+    template<typename O> cex const Expr<H,TT...,O> _concat(const Expr<O> o) const {return operator()(o.head);}
+    template<typename O,typename... OO> cex auto _concat(const Expr<O,OO...> o) const->const decltype(tail._concat(o).cons(head)) {return tail._concat(o).cons(head);}
   };
 
-  template<typename Prev,typename Param,int n>
-  struct Lambda:App<Prev,Param> {
-    using This=Lambda<Prev,Param,n>;
-    using Base=App<Prev,Param>;
-    using Base::Base;
-    using Base::prev;
-    using Base::param;
-    template<typename O> using Bind=Lambda<This,O,n-1>;
-    template<typename O> Bind<O> operator()(const O o) const {return Bind<O>(*this,o);}
-    template<typename... OO> 
-    auto beta(const OO... oo) const
-      ->decltype(prev.beta(param,oo...))
-      {return prev.beta(param,oo...);}
-    template<typename... OO> using Beta=decltype(This{}.beta<OO...>(OO{}...));
+  template<typename O> constexpr bool isNone() {return is_same<O,None>::value;}
+  template<typename O> constexpr bool isEmpty() {return is_same<O,Empty>::value;}
+    template<typename O> constexpr bool isAlias() {return is_convertible<O,Alias>::value;}
+  template<typename O> constexpr bool isApp() {return is_convertible<O,App>::value;}
+  template<typename O> constexpr bool isLambda() {return is_convertible<O,Lambda>::value;}
+
+  cex const Empty expr() {return empty;}
+  template<typename O> cex const When<isApp<O>(),O> expr(const O o) {return o;}
+  template<typename O,typename... OO> cex const When<!isApp<O>(),Expr<O,OO...>> expr(const O o,const OO... oo) {return Expr<O,OO...>(o,oo...);}
+  template<typename O,typename... OO> cex auto expr(const O o,const OO... oo)->const When< isApp<O>(),decltype(o._concat(expr(oo...)))> {return o._concat(expr(oo...));}
+  template<typename... OO> cex const Expr<OO...> expr(const OO... oo) {return Expr<OO...>(oo...);}
+
+  template<typename Out,typename O,typename... OO> When<!isApp<O>(),Out>& operator<<(Out& out,const Expr<O,OO...> o) {return out<<o.head<<" "<<o.tail;}
+  template<typename Out,typename O,typename... OO> When< isApp<O>(),Out>& operator<<(Out& out,const Expr<O,OO...> o) {return out<<"("<<o.head<<") "<<o.tail;}
+
+  template<typename O> cex const O _concat(const O o,const Empty) {return o;}
+  template<typename A, typename B> cex const When<!isApp<A>()&&!isApp<B>(),Expr<A,B>> _concat(const A a,const B b) {return {a,b};}
+  template<typename A, typename B> cex auto _concat(const A a,const B b)->const When< isApp<A>(),decltype(a._concat(b))> {return a._concat(b);}
+  template<typename A, typename B> cex auto _concat(const A a,const B b)->const When<!isApp<A>()&&isApp<B>(),decltype(b.cons(a))> {return b.cons(a);}
+
+  //alias (for printing)--
+  template<typename Fn> struct Alt:Fn {
+    cex operator const Alias() const {return Alias{};}
+    // template<typename O> cex const Expr<Alt<Fn>,O> operator()(const O o) const {return {*this,o};}
   };
 
-  // template<typename Prev,typename Param>
-  // struct Lambda<Prev,Param,1>:App<Prev,Param> {
-  //   using This=Lambda<Prev,Param,1>;
-  //   using Base=App<Prev,Param>;
-  //   using Base::Base;
-  //   using Base::prev;
-  //   using Base::param;
-  //   template<typename... OO>
-  //   auto beta(const OO... oo) const
-  //     ->decltype(prev.beta(param,oo...))
-  //     {return prev.beta(param,oo...);}
-  //   template<typename... OO> using Beta=decltype(This{}.beta<OO...>(OO{}...));
-  //   template<typename O> using Bind=typename This::template Beta<O>;
-  //   template<typename O> auto operator()(const O o) const->decltype(beta(o)) {return beta(o);}
-  // };
-
-  template<typename Prev,typename Param>
-  struct Lambda<Prev,Param,0>:App<Prev,Param> {
-    using This=Lambda<Prev,Param,0>;
-    using Base=App<Prev,Param>;
-    using Base::Base;
-    using Base::prev;
-    using Base::param;
-    template<typename O> using Bind=Lambda<This,O,-1>;
-    template<typename O> Bind<O> operator()(const O o) const {return Bind<O>(*this,o);}
-    auto beta() const->decltype(prev.beta(param)) {return prev.beta(param);}
-    using Beta=typename Prev::template Beta<Param>;
+  template<typename Fn>
+  struct Combinator:Lambda {
+    template<typename O> cex Expr<Fn,O> operator()(const O o) const {return {*(Fn*)this,o};}
   };
 
-  template<typename Prev,typename Param>
-  struct Lambda<Prev,Param,-1>:App<Prev,Param> {
-    using This=Lambda<Prev,Param,-1>;
-    using Base=App<Prev,Param>;
-    using Base::Base;
-    using Base::prev;
-    using Base::param;
-    template<typename O> using Bind=Lambda<This,O,-1>;
-    template<typename O> Bind<O> operator()(const O o) const {return Bind<O>(*this,o);}
-    auto beta() const->decltype(prev.beta()(param)) {return prev.beta()(param);}
-    using Beta=typename Prev::Beta::template Bind<Param>;
-  };
+  //// beta reduction
 
-  template<typename Def,int n> struct Combinator;
+  //beta steps--
+  template<typename C,typename O,typename... OO>
+  cex auto step(const Expr<C,O,OO...> o)
+    -> const decltype(_concat(C::beta(o.tail.head),o.tail.tail))
+    {return           _concat(C::beta(o.tail.head),o.tail.tail);}
 
-  template<typename Def,int n>
-  struct Combinator {
-    using It=Def;
-    template<typename O> using Bind=Lambda<Def,O,n-1>;
-    template<typename O> Bind<O> operator()(const O o) const {return Bind<O>(Def{},o);}
-    // auto operator()() const->decltype(*(Def*)this) {return *(Def*)this;}
-  };
+  template<typename C,typename O,typename P,typename... OO>
+  cex auto step(const Expr<C,O,P,OO...> o)
+    -> const decltype(_concat(C::beta(o.tail.head,o.tail.tail.head),o.tail.tail.tail))
+    {return           _concat(C::beta(o.tail.head,o.tail.tail.head),o.tail.tail.tail);}
 
-  template<typename Def>
-  struct Combinator<Def,1> {
-    using It=Def;
-    template<typename O> using Bind=typename Lambda<Def,O,0>::Beta;
-    template<typename O> auto operator()(const O o) const
-      ->decltype(Lambda<Def,O,0>(*(Def*)this,o).beta()) 
-      {return Lambda<Def,O,0>(*(Def*)this,o).beta();}
-  };
+  template<typename C,typename O,typename P,typename Q,typename... OO>
+  cex auto step(const Expr<C,O,P,Q,OO...> o)
+    -> const decltype(_concat(C::beta(o.tail.head, o.tail.tail.head, o.tail.tail.tail.head),o.tail.tail.tail.tail))
+    {return           _concat(C::beta(o.tail.head, o.tail.tail.head, o.tail.tail.tail.head),o.tail.tail.tail.tail);}
 
-  //---------------------------------------
-  // beta reduction
-  template<typename O> struct Beta;
-  
-  template<typename O> auto beta(const O o)->decltype(Beta<O>::reduce(o)) {return Beta<O>::reduce(o);}
-  
-  template<typename O> struct Beta {static const O reduce(const O o){return o;}};
-  
-  template<typename Prev,typename Param,int n>
-  struct Beta<Lambda<Prev,Param,n>> {
-    static auto reduce(const Lambda<Prev,Param,n> o)->decltype(o) {return o;}
-  };
+  template<typename C,typename O,typename P,typename Q,typename R,typename... OO>
+  cex auto step(const Expr<C,O,P,Q,R,OO...> o)
+    -> const decltype(_concat(C::beta(o.tail.head, o.tail.tail.head, o.tail.tail.tail.head, o.tail.tail.tail.tail.head), o.tail.tail.tail.tail.tail))
+    {return           _concat(C::beta(o.tail.head, o.tail.tail.head, o.tail.tail.tail.head, o.tail.tail.tail.tail.head), o.tail.tail.tail.tail.tail);}
 
-  template<typename Prev,typename Param>
-  struct Beta<Lambda<Prev,Param,0>> {
-    static auto reduce(const Lambda<Prev,Param,0> o)->decltype(beta(o.beta())) {return beta(o.beta());}
-  };
+  template<typename O> cex const None step(const O) {return none;}
 
-  template<typename Prev,typename Param>
-  struct Beta<Lambda<Prev,Param,-1>> {
-    static auto reduce(const Lambda<Prev,Param,-1> o)->decltype(beta(o.beta())) {return beta(o.beta());}
-  };
+  cex const Empty beta(const Empty);
+  template<typename O> cex auto beta(const O o)->const When<!isEmpty<O>(),decltype(res(step(o),o))>;
+  template<typename O> cex auto beta(const Expr<O> o)->const decltype(beta(o.head));
 
+  //recursion/result--
+  template<typename O> cex const O res(const O o,const O) {return o;}
+  template<typename O> cex const O res(const None,const O o) {return o;}
+  template<typename R,typename O,When<!isNone<O>()&&!is_same<R,O>::value,bool> = false> cex auto res(const R r,const O)->const decltype(beta(r)) {return beta(r);}
+
+  //beta start---
+  cex const Empty beta(const Empty) {return empty;}
+  template<typename O> cex auto beta(const O o)->const When<!isEmpty<O>(),decltype(res(step(o),o))> {return res(step(o),o);}
+  template<typename O> cex auto beta(const Expr<O> o)->const decltype(beta(o.head)) {return beta(o.head);}
 };

@@ -5,58 +5,55 @@
 namespace yo {
   // list --------------------------------------------------
   struct Cons:V{};
-  constexpr const Cons cons;
+  cex const Cons cons;
 
-  struct Nil:Expr<K,K> {};
+  // struct Nil:Expr<K,K> {};
+  using Nil=decltype(_K(_K));
   const Nil nil;
 
-  using Head=Expr<Fst>;
+  using Head=Alt<Fst>;
   const Head head;
 
-  using Tail=Expr<Snd>;
+  using Tail=Alt<Snd>;
   const Tail tail;
 
-  struct Null:Combinator<Null,1> {
-    template<typename O> static auto beta(const O o)
-      ->decltype(o(_true(_true(_false))))
+  struct Null:Combinator<Null> {
+    template<typename O> static cex auto beta(const O o)
+      ->const decltype(o(_true(_true(_false))))
       {return o(_true(_true(_false)));}
-    template<typename... OO> using Beta=decltype(beta(OO{}...));
   };
-  constexpr const Null null;
+  cex const Null null;
 
-  struct _Length:Combinator<_Length,3> {
+  struct _Length:Combinator<_Length> {
     template<typename F,typename Cnt,typename X>
-    static auto beta(const F f,const Cnt cnt,const X x)
-      ->decltype(null(x)(cnt)(f(succ(cnt))(tail(x))))
+    static cex auto beta(const F f,const Cnt cnt,const X x)
+      ->const decltype(null(x)(cnt)(f(succ(cnt))(tail(x))))
       {return null(x)(cnt)(f(succ(cnt))(tail(x)));}
-    template<typename... OO> using Beta=decltype(beta(OO{}...));
   };
-  constexpr const _Length _length;
-  using Length=Y::Bind<_Length>::Bind<N0>;
-  constexpr const Length length;
+  cex const _Length _length;
+  using Length=decltype(_Y(_length)(n0));//Expr<Y,_Length,N0>;
+  cex const Length length;
 
-  struct Drop:Combinator<Drop,2> {
+  struct Drop:Combinator<Drop> {
     template<typename N,typename O>
-    static auto beta(const N n,const O o)
-      ->decltype(n(tail)(o))
+    static cex auto beta(const N n,const O o)
+      ->const decltype(n(tail)(o))
       {return n(tail)(o);}
-    template<typename... OO> using Beta=decltype(beta(OO{}...));
   };
-  constexpr const Drop drop;
+  cex const Drop drop;
 
-  struct Index:Combinator<Index,2> {
+  struct Index:Combinator<Index> {
     template<typename X,typename N>
-    static auto beta(const X x,const N n)
-      ->decltype(head(n(tail)(x)))
+    static cex auto beta(const X x,const N n)
+      ->const decltype(head(n(tail)(x)))
       {return head(n(tail)(x));}
-    template<typename... OO> using Beta=decltype(beta(OO{}...));
   };
-  constexpr const Index index;
+  cex const Index index;
 
-  struct _Last:Combinator<_Last,2> {
+  struct _Last:Combinator<_Last> {
     template<typename F,typename O>
-    static auto beta(const F f, const O o) 
-      ->decltype(null(o)
+    static cex auto beta(const F f, const O o) 
+      ->const decltype(null(o)
         (nil  )
         (null(tail(o))
           (head(o))
@@ -66,29 +63,27 @@ namespace yo {
         (null(tail(o))
           (head(o))
           (f(tail(o))));}
-    template<typename... OO> using Beta=decltype(beta(OO{}...));
   };
-  using Last=Expr<Y,_Last>;
-  constexpr const Last last;
+  using Last=decltype(_Y(_Last{}));//Expr<Y,_Last>;
+  cex const Last last;
 
-  struct _Concat:Combinator<_Concat,3> {
+  struct _Concat:Combinator<_Concat> {
     template<typename F,typename A,typename B>
-    static auto beta(const F f,const A a,const B b)
-      ->decltype(null(a)(b)(cons(head(a))(f(tail(a))(b))))
+    static cex auto beta(const F f,const A a,const B b)
+      ->const decltype(null(a)(b)(cons(head(a))(f(tail(a))(b))))
       {return null(a)
         (b)
         (cons
           (head(a))
           (f(tail(a))(b)));}
-    template<typename... OO> using Beta=decltype(beta(OO{}...));
   };
-  using Concat=Expr<Y,_Concat>;
-  constexpr const Concat concat;
+  using Concat=decltype(_Y(_Concat{}));//Expr<Y,_Concat>;
+  cex const Concat concat;
 
-  struct _Init:Combinator<_Init,2> {
+  struct _Init:Combinator<_Init> {
     template<typename F,typename O>
-    static auto beta(const F f, const O o) 
-      ->decltype(null(o)
+    static cex auto beta(const F f, const O o) 
+      ->const decltype(null(o)
         (nil)
         (null(tail(o))
           (nil)
@@ -100,72 +95,82 @@ namespace yo {
           (nil)
           (cons(head(o))(f(tail(o))))
         );}
-    template<typename... OO> using Beta=decltype(beta(OO{}...));
   };
-  using Init=Expr<Y,_Init>;
-  constexpr const Init init;
+  using Init=decltype(_Y(_Init{}));//Expr<Y,_Init>;
+  cex const Init _init;
 
-  struct _Reverse:Combinator<_Reverse,3> {
+  struct _Reverse:Combinator<_Reverse> {
     template<typename F,typename A,typename L>
-    static auto beta(const F f,const A a,const L l)
-      ->decltype(null(l)
+    static cex auto beta(const F f,const A a,const L l)
+      ->const decltype(null(l)
         (a)
         (f(cons(head(l))(a))(tail(l))))
       {return null(l)
         (a)
         (f(cons(head(l))(a))(tail(l)));}
-    template<typename... OO> using Beta=decltype(beta(OO{}...));
   };
-  using Reverse=Expr<Y,_Reverse,Nil>;
-  constexpr const Reverse reverse;
+  using Reverse=decltype(_Y(_Reverse{})(nil));//Expr<Y,_Reverse,Nil>;
+  cex const Reverse reverse;
 
-  struct _TakeR:Combinator<_TakeR,4> {
+  struct _TakeR:Combinator<_TakeR> {
     template<typename F,typename To,typename N,typename From>
-    static auto beta(const F f,const To to,const N n, const From from)
-      ->decltype(is0(n)(to)(f(_pair(head(from))(to))(pred(n))(tail(from))))
+    static cex auto beta(const F f,const To to,const N n, const From from)
+      ->const decltype(is0(n)(to)(f(_pair(head(from))(to))(pred(n))(tail(from))))
       {return is0(n)(to)(f(_pair(head(from))(to))(pred(n))(tail(from)));}
-    template<typename... OO> using Beta=decltype(beta(OO{}...));
   };
-  using TakeR=Expr<Y,_TakeR,Nil>;
-  constexpr const TakeR taker;
+  using TakeR=decltype(_Y(_TakeR{})(nil));//Expr<Y,_TakeR,Nil>;
+  cex const TakeR taker;
 
-  //take n elements from a list
-  struct Take:Combinator<Take,2> {
-    template<typename N,typename O>
-    static auto beta(const N n, const O o)
+  //take n elements from a list--
+  struct Take:Combinator<Take> {
+    template<typename N,typename O>//still the most compact one---
+    static cex auto beta(const N n, const O o)
       ->decltype(reverse(taker(n)(o)))
       {return reverse(taker(n)(o));}
-    template<typename... OO> using Beta=decltype(beta(OO{}...));
   };
-  constexpr const Take take;
+  // struct _Take:Combinator<_Take> {
+  //   template<typename F,typename N,typename O>
+  //   static cex auto beta(const F f,const N n,const O o) 
+  //     ->const decltype(_or(is0(n))(null(o))(nil)(cons(head(o))(f(pred(n))(tail(o)))))
+  //     {return _or(is0(n))(null(o))(nil)(cons(head(o))(f(pred(n))(tail(o))));}
+  // };
+  // using Take=decltype(_Y(_Take{}));
+  cex const Take take;
 
-   //infinit list of numerals starting at N
-  struct _Nats:Combinator<_Nats,2> {
+  //infinit list of numerals starting at N--
+  struct _Nats:Combinator<_Nats> {
     template<typename F,typename N>
-    static auto  beta(const F f,const N n)
-      ->decltype(cons(n)(f(succ(n))))
+    static cex auto  beta(const F f,const N n)
+      ->const decltype(cons(n)(f(succ(n))))
       {return cons(n)(f(succ(n)));}
-    template<typename... OO> using Beta=decltype(beta(OO{}...));
   };
-  using NatsN=Expr<Y,_Nats>;
-  constexpr NatsN natsn;
+  using NatsN=decltype(_Y(_Nats{}));//Expr<Y,_Nats>;
+  cex NatsN natsn;
 
-  struct Nats:Expr<NatsN,N1> {};
-  constexpr const Nats nats;
+  //natural numbers (numerals), 1 to +∞ --
+  // struct Nats:Expr<NatsN,N1> {};
+  using Nats=decltype(natsn(n1));
+  cex const Nats nats;
 
-  struct Range:Combinator<Range,2> {
-    template<typename S,typename E>
-    static auto beta(const S s, const E e)
+  //build a numerals range list--
+  struct Range:Combinator<Range> {
+    template<typename S,typename E>//still the most compact one---
+    static cex auto beta(const S s, const E e)
       ->decltype(take(sub(e)(s))(natsn(s)))
       {return take(sub(e)(s))(natsn(s));}
-    template<typename... OO> using Beta=decltype(beta(OO{}...));
   };
-  constexpr const Range range;
+  // struct Range:Combinator<Range> {
+  //   template<typename S,typename E>
+  //   static cex auto beta(const S s, const E e)
+  //     ->const decltype(take(sub(e)(s))(nats(s)))
+  //     {return take(sub(e)(s))(nats(s));}
+  // };
+  cex const Range range;
 
-  struct _Map:Combinator<_Map,3> {
+  struct _Map:Combinator<_Map> {
     template<typename G,typename F, typename O>
-    static auto beta(const G g,const F f,const O o)
-      ->decltype(null(o)
+    static cex auto beta(const G g,const F f,const O o)
+      ->const decltype(null(o)
         (nil)
         (cons
           (f(head(o)))
@@ -175,16 +180,15 @@ namespace yo {
         (cons
           (f(head(o)))
           (g(f)(tail(o))));}  
-    template<typename... OO> using Beta=decltype(beta(OO{}...));
   };
-  using Map=Expr<Y,_Map>;
-  constexpr const Map _map;
+  using Map=decltype(_Y(_Map{}));//Expr<Y,_Map>;
+  cex const Map _map;
 
   // λgfx. NULL x NIL (f (CAR x) (PAIR (CAR x)) I (g f (CDR x)))
-  struct _Filter:Combinator<_Filter,3> {
+  struct _Filter:Combinator<_Filter> {
     template<typename G,typename F, typename O>
-    static auto beta(const G g, const F f, const O o)
-      ->decltype(null(o)
+    static cex auto beta(const G g, const F f, const O o)
+      ->const decltype(null(o)
           (nil)
           (f
             (head(o))
@@ -201,44 +205,40 @@ namespace yo {
             (id)
             (g(f)(tail(o)))
           );}
-     template<typename... OO> using Beta=decltype(beta(OO{}...));
   };
-  using Filter=Expr<Y,_Filter>;
-  constexpr const Filter filter;
+  using Filter=decltype(_Y(_Filter{}));//Expr<Y,_Filter>;
+  cex const Filter filter;
 
   // λgfex. NULL x e (g f (f e (CAR x)) (CDR x))  
-  struct _FoldL:Combinator<_FoldL,4> {
+  struct _FoldL:Combinator<_FoldL> {
     template<typename G,typename F,typename E,typename X>
-    static auto beta(const G g,const F f,const E e, const X x)
-      ->decltype(null(x)(e)(g(f)(f(e)(head(x)))(tail(x))))
+    static cex auto beta(const G g,const F f,const E e, const X x)
+      ->const decltype(null(x)(e)(g(f)(f(e)(head(x)))(tail(x))))
       {return null(x)(e)(g(f)(f(e)(head(x)))(tail(x)));}
-     template<typename... OO> using Beta=decltype(beta(OO{}...));
   };
-  using FoldL=Expr<Y,_FoldL>;
-  constexpr const FoldL foldl;
+  using FoldL=decltype(_Y(_FoldL{}));//Expr<Y,_FoldL>;
+  cex const FoldL foldl;
 
   // FOLD-RIGHT := λfex. Y (λgy. NULL y e (f (CAR y) (g (CDR y)))) x
-  struct _FoldR:Combinator<_FoldR,4> {
+  struct _FoldR:Combinator<_FoldR> {
     template<typename F,typename E,typename G,typename H>
-    static auto beta(const F f,const E e,const G g,const H h)
-      ->decltype(null(h)(e)(f(head(h))(g(tail(h)))))
+    static cex auto beta(const F f,const E e,const G g,const H h)
+      ->const decltype(null(h)(e)(f(head(h))(g(tail(h)))))
       {return null(h)(e)(f(head(h))(g(tail(h))));}
-     template<typename... OO> using Beta=decltype(beta(OO{}...));
   };
 
-  struct FoldR:Combinator<FoldR,3> {
+  struct FoldR:Combinator<FoldR> {
     template<typename F,typename E,typename X>
-    static auto beta(const F f,const E e,const X x)
-      ->decltype(Y()(_FoldR()(f)(e))(x))
+    static cex auto beta(const F f,const E e,const X x)
+      ->const decltype(Y()(_FoldR()(f)(e))(x))
       {return Y()(_FoldR()(f)(e))(x);}
-     template<typename... OO> using Beta=decltype(beta(OO{}...));
   };
-  constexpr const FoldR foldr;
+  cex const FoldR foldr;
 
-  struct _Zip:Combinator<_Zip,3> {
+  struct _Zip:Combinator<_Zip> {
     template<typename F,typename A,typename B>
-    static auto beta(const F f,const A a, const B b)
-      ->decltype(_or(null(a))(null(b))
+    static cex auto beta(const F f,const A a, const B b)
+      ->const decltype(_or(null(a))(null(b))
         (nil)
         (cons
           (cons(head(a))(head(b)))
@@ -253,20 +253,76 @@ namespace yo {
         );
       }
   };
-  using Zip=Expr<Y,_Zip>;
-  constexpr const Zip zip;
+  using Zip=decltype(_Y(_Zip{}));//Expr<Y,_Zip>;
+  cex const Zip zip;
 
   // list sugar -----------
   template<typename...OO> struct List;
+  template<typename...OO> cex List<OO...> list(const OO... oo);
+
+  template<> struct List<>:Nil {using Nil::Nil;};
+
   template<typename O,typename...OO>
-  struct List<O,OO...>:Expr<yo::Cons,O,List<OO...>> {
-    List() {}
-    List(const O o,const OO... oo):Expr<yo::Cons,O,List<OO...>>(cons(o)(List<OO...>(oo...))) {}
-  };
-  template<> struct List<>:Nil {
-    using Nil::Nil;
+  struct List<O,OO...>:decltype(cons(O{})(List<OO...>{}))/*Expr<Cons,O,List<OO...>>*/ {
+    using Tail=List<OO...>;
+    using Base=decltype(cons(O{})(List<OO...>{}));//Expr<Cons,O,List<OO...>>;
+    using Base::Base;
+    cex List(const O o,const OO... oo):Base(cons(o)(list(oo...))) {}
   };
 
-  template<typename...OO> List<OO...> list(const OO... oo) {return List<OO...>(oo...);}
-  
+  template<typename...OO> cex List<OO...> list(const OO... oo) {return List<OO...>(oo...);}
+
+  #ifdef YO_PRINT
+    template<typename Out> Out& operator<<(Out& out,const yo::Cons)           {return out<<"cons";}
+    template<typename Out> Out& operator<<(Out& out,const yo::Nil)            {return out<<"nil";}
+    template<typename Out> Out& operator<<(Out& out,const yo::Head)           {return out<<"head";}
+    template<typename Out> Out& operator<<(Out& out,const yo::Tail)           {return out<<"tail";}
+    template<typename Out> Out& operator<<(Out& out,const yo::Null)           {return out<<"null";}
+    template<typename Out> Out& operator<<(Out& out,const yo::_Length)        {return out<<"_length";}
+    template<typename Out> Out& operator<<(Out& out,const yo::Length)         {return out<<"length";}
+    template<typename Out> Out& operator<<(Out& out,const yo::Drop)           {return out<<"drop";}
+    template<typename Out> Out& operator<<(Out& out,const yo::Index)          {return out<<"index";}
+    template<typename Out> Out& operator<<(Out& out,const yo::_Last)          {return out<<"_last";}
+    template<typename Out> Out& operator<<(Out& out,const yo::Last)           {return out<<"last";}
+    template<typename Out> Out& operator<<(Out& out,const yo::_Concat)        {return out<<"concat";}
+    template<typename Out> Out& operator<<(Out& out,const yo::Concat)         {return out<<"concat";}
+    template<typename Out> Out& operator<<(Out& out,const yo::_Init)          {return out<<"_init";}
+    template<typename Out> Out& operator<<(Out& out,const yo::Init)           {return out<<"init";}
+    template<typename Out> Out& operator<<(Out& out,const yo::_Reverse)       {return out<<"_reverse";}
+    template<typename Out> Out& operator<<(Out& out,const yo:: Reverse)       {return out<< "reverse";}
+    template<typename Out> Out& operator<<(Out& out,const yo::_TakeR)         {return out<<"_taker";}
+    template<typename Out> Out& operator<<(Out& out,const yo::TakeR)          {return out<< "taker";}
+    // template<typename Out> Out& operator<<(Out& out,const yo::_Take)           {return out<< "_take";}
+    template<typename Out> Out& operator<<(Out& out,const yo::Take)           {return out<< "take";}
+    template<typename Out> Out& operator<<(Out& out,const yo::Nats)           {return out<<"ℕ";}
+    template<typename Out> Out& operator<<(Out& out,const yo::_Nats)          {return out<<"Nat";}
+    template<typename Out> Out& operator<<(Out& out,const yo::Range)          {return out<<"range";}
+    template<typename Out,typename S> Out& operator<<(Out& out,const Expr<yo::Nats,S> n)  {return out<< "["<<S{}<<"..]";}
+    template<typename Out> Out& operator<<(Out& out,const yo::_Map)           {return out<<"_map";}
+    template<typename Out> Out& operator<<(Out& out,const yo:: Map)           {return out<< "map";}
+    template<typename Out> Out& operator<<(Out& out,const yo::_Filter)        {return out<<"_filter";}
+    template<typename Out> Out& operator<<(Out& out,const yo:: Filter)        {return out<< "filter";}
+    template<typename Out> Out& operator<<(Out& out,const yo::_FoldL)         {return out<<"_foldl";}
+    template<typename Out> Out& operator<<(Out& out,const yo:: FoldL)         {return out<< "foldl";}
+    template<typename Out> Out& operator<<(Out& out,const yo::_FoldR)         {return out<<"_foldr";}
+    template<typename Out> Out& operator<<(Out& out,const yo:: FoldR)         {return out<< "foldr";}
+    template<typename Out> Out& operator<<(Out& out,const yo::_Zip)           {return out<<"_zip";}
+    template<typename Out> Out& operator<<(Out& out,const yo:: Zip)           {return out<< "zip";}
+    template<typename Out> Out& operator<<(Out& out,const yo::FromBool)       {return out<<"fromBool";}
+
+    #ifdef YO_VERB
+      template<typename Out,typename O,typename... OO>
+      Out& operator<<(Out& out,const List<O,OO...> o){
+        if(beta(null(o)(1)(0))) return out;
+        else return out<<"(@"<<&beta(head(o))<<"|"<<beta(head(o))<<":"<<beta(tail(o));
+      }
+    #else
+      template<typename Out>
+      Out& operator<<(Out& out,const List<> o){return out<<"[]";}
+      template<typename Out,typename O,typename... OO>
+      Out& operator<<(Out& out,const List<O,OO...> o){return out<<o.tail.head<<":"<<o.tail.tail.head;}
+    #endif
+
+  #endif
+
 };
