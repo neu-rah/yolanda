@@ -112,4 +112,7 @@ namespace yo {
   cex const Empty beta(const Empty) {return empty;}
   template<typename O> cex auto beta(const O o)->const When<!isEmpty<O>(),decltype(res(step(o),o))> {return res(step(o),o);}
   template<typename O> cex auto beta(const Expr<O> o)->const decltype(beta(o.head)) {return beta(o.head);}
+  //natural precedence -- this fixes the type level construction! runtime precdedence should be handled on construction (less rewrite)
+  template<typename O,typename... OO> cex auto beta(const Expr<O,OO...> o)->const When<!isApp<O>(),decltype(res(step(o),o))> {return res(step(o),o);}
+  template<typename O,typename... OO> cex auto beta(const Expr<O,OO...> o)->const When< isApp<O>(),decltype(beta(o.head._concat(o.tail)))> {return beta(o.head._concat(o.tail));}
 };

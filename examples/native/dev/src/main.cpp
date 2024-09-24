@@ -17,69 +17,65 @@ template<typename O> void steps(const O o) {
 }
 
 void run() {
-  static cex const auto l1{list(1)};
-  static cex const auto l2{list(1,2)};
-  static cex const auto l3{list(1,2,3)};
-  static cex const auto e1=id("ok")("zZz");
-  static cex const auto e2=_true("ok")("fail")("zZz");
-  static cex const auto e3=_S(id)(id)(id)("ok")("zZz");
-  static cex const auto e4=_B(id)(id)("ok")("zZz");
-  static cex const auto e5=_C(_true)("fail")("ok")("zZz");
-  static cex const auto e6=_W(_true)("ok")("zZz");
-  static cex const auto e7=_T("ok")(id)("zZz");
-  static cex const auto e8=_V("ok")("fail")(_true)("zZz");
-  static cex const auto e9=toInt(head(range(n1)(n2)));
-  static cex const auto e10=_add(3)(5);
-  static cex const auto e11{id(1967)};
-  static cex const auto e12{_true(id)(1967)(11)};
-  static cex const auto e13{_S(id)(id)(id)};
+  // static cex const auto l1{list(1)};
+  // static cex const auto l2{list(1,2)};
+  // static cex const auto l3{list(1,2,3)};
+  // static cex const auto e1=id("ok")("zZz");
+  // static cex const auto e2=_true("ok")("fail")("zZz");
+  // static cex const auto e3=_S(id)(id)(id)("ok")("zZz");
+  // static cex const auto e4=_B(id)(id)("ok")("zZz");
+  // static cex const auto e5=_C(_true)("fail")("ok")("zZz");
+  // static cex const auto e6=_W(_true)("ok")("zZz");
+  // static cex const auto e7=_T("ok")(id)("zZz");
+  // static cex const auto e8=_V("ok")("fail")(_true)("zZz");
+  // static cex const auto e9=toInt(head(range(n1)(n2)));
+  // static cex const auto e10=_add(3)(5);
   cout<<"start"<<endl;
-  test(e1);
-  test(e2);
-  test(e3);
-  test(e4);
-  test(e5);
-  test(e6);
-  test(e7);
-  test(e8);
-  test(e1);
-  test(e2);
-  test(e3);
-  test(e4);
-  test(e5);
-  test(e6);
-  test(e7);
-  test(e8);
-  test(e9);
-  test(e10);
-  test(e11);
-  test(e12);
-  test(e13);
+  // test(e1);
+  // test(e2);
+  // test(e3);
+  // test(e4);
+  // test(e5);
+  // test(e6);
+  // test(e7);
+  // test(e8);
+  // test(e1);
+  // test(e2);
+  // test(e3);
+  // test(e4);
+  // test(e5);
+  // test(e6);
+  // test(e7);
+  // test(e8);
+  // test(e9);
+  // test(e10);
+  // test(head(l1));
+  // test(null(nil)("yes")("no"));
+  // test(null(l1)("yes")("no"));
+  // test(is0(n0)("yes")("no"));
+  // test(is0(n1)("yes")("no"));
+
+  //can NOT build from typelevel expressions directly!
+  //natural precedence expansion is not correct!
+  // test(Expr<Is0,Length,Nil>{}("yes")("no"));
+  test(Expr<Is0,Expr<Length,Nil>>{}("yes")("no"));
+  // test(is0(length(nil))("yes")("no"));
+  // test(length(drop(n1)(l1)));
+  // test(last(l2));
+  // test(toInt(length(concat(l1)(l2))));
+  // test(toInt(length(_init(l2))));
+  // test(head(l2));
+  // test(head(reverse(l2)));
+  // test(head(nats));
+  // test(toInt(head(drop(n5)(_map(mul(n2))(nats)))));
+  // test(toInt(head(tail(nats))));
+  // test(head(filter(flip(gt)(n2))(nats)));
+  // test((head(zip(l2)(nats))));
+  // test(toInt(length(take(n2)(l3))));
+
+  //mixing with c++ expr --
   // cout<<beta(toInt(n2))*3<<endl;
   // cout<<beta(toInt(mul(n2)(n3)))*3<<endl;
-  // cout<<beta(head(l1))<<endl;
-  // cout<<beta(null(nil)("yes")("no"))<<endl;
-  // cout<<beta(null(l1)("yes")("no"))<<endl;
-  // cout<<beta(is0(n0))<<endl;
-  // cout<<beta(is0(n1))<<endl;
-  // cout<<l1<<endl;
-  // cout<<beta(Expr<Is0,Expr<Length,Nil>>{}("yes")("no"))<<endl;
-  // cout<<length(l1)<<endl;
-  // cout<<beta(length(l1))<<endl;
-  // cout<<beta(toInt(length(l1)))<<endl;
-  // cout<<beta(head(l1))<<endl;
-  // cout<<beta(length(drop(n1)(l1)))<<endl;
-  // cout<<beta(last(l2))<<endl;
-  // cout<<beta(toInt(length(concat(l1)(l2))))<<endl;
-  // cout<<beta(toInt(length(_init(l2))))<<endl;
-  // cout<<beta(head(l2))<<endl;
-  // cout<<beta(head(reverse(l2)))<<endl;
-  // cout<<beta(head(nats))<<endl;
-  // cout<<beta(toInt(head(drop(n5)(_map(mul(n2))(nats)))))<<endl;
-  // cout<<beta(toInt(head(tail(nats))))<<endl;
-  // cout<<beta(head(filter(flip(gt)(n2))(nats)))<<endl;
-  // cout<<beta((head(zip(l2)(nats))))<<endl;
-  // cout<<beta(toInt(length(take(n2)(l3))))<<endl;
 }
 
 #ifdef ARDUINO
