@@ -1,4 +1,5 @@
 #ifdef ARDUINO
+  #include <Arduino.h>
   #include <streamFlow.h>
   using namespace StreamFlow;
   #define cout Serial
@@ -60,27 +61,29 @@ void run() {
   // test(e8);
   // test(e9);
   // test(e10);
+  // test(e11);
+  // test(e12);
   // test(head(l1));
   // test(null(nil)("yes")("no"));
   // test(null(l1)("yes")("no"));
   // test(is0(n0)("yes")("no"));
   // test(is0(n1)("yes")("no"));
-  test(e11);
   // test(e12);//testing typelevel construct
   // test(length(nil));
-  // cout<<_S.beta('f','g','o')<<endl;
   // test(length(drop(n1)(l1)));
-  // test(last(l2));
-  // test(toInt(length(concat(l1)(l2))));
-  // test(toInt(length(_init(l2))));
   // test(head(l2));
-  // test(head(reverse(l2)));
+  // test(last(l2));
   // test(head(nats));
   // test(toInt(head(drop(n5)(_map(mul(n2))(nats)))));
+  
+  // test(toInt(length(take(n2)(l3))));//esp12 reset
+  // test(toInt(length(concat(l1)(l2))));//esp12 reset
+
+  test(toInt(length(_init(l2))));
+  // test(head(yo::reverse(l2)));
   // test(toInt(head(tail(nats))));
   // test(head(filter(flip(gt)(n2))(nats)));
-  // test((head(zip(l2)(nats))));
-  // test(toInt(length(take(n2)(l3))));
+  // test(toInt(snd(head(zip(l2)(nats)))));
 
   //mixing with c++ expr --
   // cout<<beta(toInt(n2))*3<<endl;
@@ -93,9 +96,10 @@ void run() {
   void setup() {
     Serial.begin(115200);
     while(!Serial);
+    Serial.println("Yolanda 0.3.x");
     run();
   }
-  void loop() {}
+  void loop() {delay(1);}
 #else
   int main() {
     run();

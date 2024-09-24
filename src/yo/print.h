@@ -2,11 +2,19 @@
 
 #include "lambda.h"
 #include "curry.h"
+#include "combinators.h"
 #include "bool.h"
 #include "peano.h"
 #include "list.h" 
 
 namespace yo {
+
+  #ifdef ARDUINO
+    template<typename O>
+    typename enable_if<!isApp<O>()&&!isLambda<O>()&&!yo::isEmpty<O>()&&!isNone<O>(),Serial_>::type&
+    operator<<(Serial_& out,const O o)
+      {out.print(o);return out;}
+  #endif
 
   #ifdef YO_PRINT
     template<typename Out> Out& operator<<(Out& out, const None) {return out<<"⊥";}
@@ -38,14 +46,14 @@ namespace yo {
     template<typename Out> Out& operator<<(Out& out,const yo::KI) {return out<<"KI";}
     template<typename Out> Out& operator<<(Out& out,const yo::Flip) {return out<<"flip";}
     template<typename Out> Out& operator<<(Out& out,const yo::Pair) {return out<<"pair";}
-    // template<typename Out> Out& operator<<(Out& out,const yo::L) {return out<<"L";}
-    // template<typename Out> Out& operator<<(Out& out,const yo::Y) {return out<<"Y";}
+    template<typename Out> Out& operator<<(Out& out,const yo::L) {return out<<"L";}
+    template<typename Out> Out& operator<<(Out& out,const yo::Y) {return out<<"Y";}
     template<typename Out> Out& operator<<(Out& out,const yo::Bb) {return out<<"Bb";}
     template<typename Out> Out& operator<<(Out& out,const yo::Fst) {return out<<"fst";}
     template<typename Out> Out& operator<<(Out& out,const yo::Snd) {return out<<"snd";}
 
-    // template<typename Out> Out& operator<<(Out& out,const yo::True) {return out<<"true";}
-    // template<typename Out> Out& operator<<(Out& out,const yo::False) {return out<<"false";}
+    template<typename Out> Out& operator<<(Out& out,const yo::True) {return out<<"true";}
+    template<typename Out> Out& operator<<(Out& out,const yo::False) {return out<<"false";}
     template<typename Out> Out& operator<<(Out& out,const yo::Not) {return out<<"not";}
     template<typename Out> Out& operator<<(Out& out,const yo::Or) {return out<<"or";}
     template<typename Out> Out& operator<<(Out& out,const yo::And) {return out<<"and";}
@@ -127,6 +135,11 @@ namespace yo {
       template<typename Out,typename O,typename... OO>
       Out& operator<<(Out& out,const List<O,OO...> o){return out<<o.tail.head<<":"<<o.tail.tail.head;}
     #endif
+  #else
+
+    template<typename Out,typename O> When<isLambda<O>(),Out>& operator<<(Out& out,const O) {return out<<"λ";}
+    template<typename Out,typename O> When<isApp<O>(),Out>& operator<<(Out& out,const O o) {return out<<o.head<<" "<<o.tail;}
+    template<typename Out,typename O> When<isEmpty<O>()||isNone<O>(),Out>& operator<<(Out& out,const O) {return out;}
 
   #endif
 };

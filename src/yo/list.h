@@ -263,11 +263,11 @@ namespace yo {
   template<> struct List<>:Nil {using Nil::Nil;};
 
   template<typename O,typename...OO>
-  struct List<O,OO...>:decltype(cons(O{})(List<OO...>{}))/*Expr<Cons,O,List<OO...>>*/ {
+  struct List<O,OO...>:Expr<Cons,O,List<OO...>> {
     using Tail=List<OO...>;
-    using Base=decltype(cons(O{})(List<OO...>{}));//Expr<Cons,O,List<OO...>>;
+    using Base=Expr<Cons,O,List<OO...>>;
     using Base::Base;
-    cex List(const O o,const OO... oo):Base(cons(o)(list(oo...))) {}
+    cex List(const O o,const OO... oo):Base(o,oo...) {}
   };
 
   template<typename...OO> cex List<OO...> list(const OO... oo) {return List<OO...>(oo...);}

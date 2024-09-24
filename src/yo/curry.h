@@ -36,7 +36,6 @@ namespace yo {
   #else
     #define CurryTemplateFunction(f)\
       struct f##TemplateCaller:Combinator<f##TemplateCaller> {\
-        using Combinator<f##TemplateCaller>::beta;\
         template<typename... OO>\
         static cex auto beta(const OO... oo)\
           ->const decltype(f(yo::beta(oo)...))\
