@@ -11,5 +11,12 @@
     },
     "frameworks": "*",
     "platforms": "*",
-    "headers": "yolanda.h"
+    "headers": "yolanda.h",
+    "dependencies": [
+      {
+        "owner": "neu-rah",
+        "name": "streamFlow",
+        "version": "https://github.com/neu-rah/streamFlow.git"
+      }
+    ] 
   }

@@ -140,12 +140,6 @@ using Church encoded numerals
 
 **toInt** convert expression to c++ int (numeral to c++ int)
 
-~~**toStr** convert expression to string or String, depending on the platform~~
-
-~~**print** reduces and prints the expression reduction result.~~
-
-now using c++ `operator<<(...)` for printing
-
 **list** build a polymorphic list
 
 example
@@ -153,6 +147,8 @@ example
 constexpr const auto l1=list(1,2,"Ok");//compile time list build
 const auto l2=list(1,2,"Ok");//runtime list build
 ```
+
+**<<** using c++ `operator<<(...)` for printing
 
 ## sources
 
