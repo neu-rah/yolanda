@@ -256,19 +256,12 @@ namespace yo {
   using Zip=decltype(_Y(_Zip{}));//Expr<Y,_Zip>;
   cex const Zip zip;
 
-  // list sugar -----------
   template<typename...OO> struct List;
-  template<typename...OO> cex List<OO...> list(const OO... oo);
-
-  template<> struct List<>:Nil {using Nil::Nil;};
-
   template<typename O,typename...OO>
-  struct List<O,OO...>:Expr<Cons,O,List<OO...>> {
-    using Tail=List<OO...>;
-    using Base=Expr<Cons,O,List<OO...>>;
-    using Base::Base;
-    cex List(const O o,const OO... oo):Base(o,oo...) {}
+  struct List<O,OO...>:Expr<yo::Cons,O,List<OO...>> {
+    cex List(const O o,const OO... oo):Expr<yo::Cons,O,List<OO...>>(cons,o,List<OO...>(oo...)) {}
   };
+  template<> struct List<>:Nil {using Nil::Nil;};
 
   template<typename...OO> cex List<OO...> list(const OO... oo) {return List<OO...>(oo...);}
 
