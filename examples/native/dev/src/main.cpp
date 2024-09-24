@@ -30,18 +30,18 @@ void run() {
   static cex const auto l1{list(1)};
   static cex const auto l2{list(1,2)};
   static cex const auto l3{list(1,2,3)};
-  static cex const auto e1=id("ok")("zZz");
-  static cex const auto e2=_true("ok")("fail")("zZz");
-  static cex const auto e3=_S(id)(id)(id)("ok")("zZz");
-  static cex const auto e4=_B(id)(id)("ok")("zZz");
-  static cex const auto e5=_C(_true)("fail")("ok")("zZz");
-  static cex const auto e6=_W(_true)("ok")("zZz");
-  static cex const auto e7=_T("ok")(id)("zZz");
-  static cex const auto e8=_V("ok")("fail")(_true)("zZz");
-  static cex const auto e9=toInt(head(range(n1)(n2)));
-  static cex const auto e10=_add(3)(5);
-  static cex const auto e11=is0(length(nil))("yes")("no");
-  static cex const auto e12=Expr<Is0,Expr<Length,Nil>>{}("yes")("no");
+  // static cex const auto e1=id("ok")("zZz");
+  // static cex const auto e2=_true("ok")("fail")("zZz");
+  // static cex const auto e3=_S(id)(id)(id)("ok")("zZz");
+  // static cex const auto e4=_B(id)(id)("ok")("zZz");
+  // static cex const auto e5=_C(_true)("fail")("ok")("zZz");
+  // static cex const auto e6=_W(_true)("ok")("zZz");
+  // static cex const auto e7=_T("ok")(id)("zZz");
+  // static cex const auto e8=_V("ok")("fail")(_true)("zZz");
+  // static cex const auto e9=toInt(head(range(n1)(n2)));
+  // static cex const auto e10=_add(3)(5);
+  // static cex const auto e11=is0(length(nil))("yes")("no");
+  // static cex const auto e12=Expr<Is0,Expr<Length,Nil>>{}("yes")("no");
   cout<<"start"<<endl;
   // test(e1);
   // test(e2);
@@ -79,7 +79,7 @@ void run() {
   // test(toInt(length(take(n2)(l3))));//esp12 reset
   // test(toInt(length(concat(l1)(l2))));//esp12 reset
 
-  test(toInt(length(_init(l2))));
+  steps(toInt(length(l2)));
   // test(head(yo::reverse(l2)));
   // test(toInt(head(tail(nats))));
   // test(head(filter(flip(gt)(n2))(nats)));

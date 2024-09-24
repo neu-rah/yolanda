@@ -10,10 +10,10 @@
 namespace yo {
 
   #ifdef ARDUINO
+    Serial_& operator<<(Serial_& out,void* o) {out.print((int)o);return out;}
     template<typename O>
     typename enable_if<!isApp<O>()&&!isLambda<O>()&&!yo::isEmpty<O>()&&!isNone<O>(),Serial_>::type&
-    operator<<(Serial_& out,const O o)
-      {out.print(o);return out;}
+    operator<<(Serial_& out,const O o)      {out.print(o);return out;}
   #endif
 
   #ifdef YO_PRINT
