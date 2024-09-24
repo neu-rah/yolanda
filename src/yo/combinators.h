@@ -2,6 +2,13 @@
 
 #include "lambda.h"
 
+//esp32 bad macros
+#undef _L
+#undef _S
+#undef _C
+#undef _B
+
+
 namespace yo {
   // λo.o
   struct I:Combinator<I> {template<typename O> static cex const O beta(const O o) {return o;}};

@@ -17,19 +17,21 @@ template<typename O> void steps(const O o) {
 }
 
 void run() {
-  // static cex const auto l1{list(1)};
-  // static cex const auto l2{list(1,2)};
-  // static cex const auto l3{list(1,2,3)};
-  // static cex const auto e1=id("ok")("zZz");
-  // static cex const auto e2=_true("ok")("fail")("zZz");
-  // static cex const auto e3=_S(id)(id)(id)("ok")("zZz");
-  // static cex const auto e4=_B(id)(id)("ok")("zZz");
-  // static cex const auto e5=_C(_true)("fail")("ok")("zZz");
-  // static cex const auto e6=_W(_true)("ok")("zZz");
-  // static cex const auto e7=_T("ok")(id)("zZz");
-  // static cex const auto e8=_V("ok")("fail")(_true)("zZz");
-  // static cex const auto e9=toInt(head(range(n1)(n2)));
-  // static cex const auto e10=_add(3)(5);
+  static cex const auto l1{list(1)};
+  static cex const auto l2{list(1,2)};
+  static cex const auto l3{list(1,2,3)};
+  static cex const auto e1=id("ok")("zZz");
+  static cex const auto e2=_true("ok")("fail")("zZz");
+  static cex const auto e3=_S(id)(id)(id)("ok")("zZz");
+  static cex const auto e4=_B(id)(id)("ok")("zZz");
+  static cex const auto e5=_C(_true)("fail")("ok")("zZz");
+  static cex const auto e6=_W(_true)("ok")("zZz");
+  static cex const auto e7=_T("ok")(id)("zZz");
+  static cex const auto e8=_V("ok")("fail")(_true)("zZz");
+  static cex const auto e9=toInt(head(range(n1)(n2)));
+  static cex const auto e10=_add(3)(5);
+  static cex const auto e11=is0(length(nil))("yes")("no");
+  static cex const auto e12=Expr<Is0,Expr<Length,Nil>>{}("yes")("no");
   cout<<"start"<<endl;
   // test(e1);
   // test(e2);
@@ -54,12 +56,10 @@ void run() {
   // test(null(l1)("yes")("no"));
   // test(is0(n0)("yes")("no"));
   // test(is0(n1)("yes")("no"));
-
-  //can NOT build from typelevel expressions directly!
-  //natural precedence expansion is not correct!
-  // test(Expr<Is0,Length,Nil>{}("yes")("no"));
-  test(Expr<Is0,Expr<Length,Nil>>{}("yes")("no"));
-  // test(is0(length(nil))("yes")("no"));
+  test(e11);
+  // test(e12);//testing typelevel construct
+  // test(length(nil));
+  // cout<<_S.beta('f','g','o')<<endl;
   // test(length(drop(n1)(l1)));
   // test(last(l2));
   // test(toInt(length(concat(l1)(l2))));
@@ -76,6 +76,8 @@ void run() {
   //mixing with c++ expr --
   // cout<<beta(toInt(n2))*3<<endl;
   // cout<<beta(toInt(mul(n2)(n3)))*3<<endl;
+
+  cout<<"end"<<endl;
 }
 
 #ifdef ARDUINO
