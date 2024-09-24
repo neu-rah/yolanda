@@ -10,23 +10,20 @@ namespace yo {
   constexpr Nothing nothing;
 
   //just:=λo.λn.λj.j o
-  struct Just:Combinator<Just,3> {
+  struct Just:Combinator<Just> {
     template<typename O,typename N,typename J> static auto beta(const O o,const N,const J j)
       ->decltype(j(o)) {return j(o);}
-    template<typename... OO> using Beta=decltype(beta<OO...>(OO{}...));
   };
 
   //isNothing (ChurchMaybe m) = m True (const False)
-  struct IsNothing:Combinator<IsNothing,1> {
+  struct IsNothing:Combinator<IsNothing> {
     template<typename M> static auto beta(const M m)->decltype(m(_true)(_const(_false))) {return m(_true)(_const(_false));}
-    template<typename... OO> using Beta=decltype(beta<OO...>(OO{}...));
   };
 
   constexpr IsNothing isNothing;
 
-  struct IsJust:Combinator<IsJust,1> {
+  struct IsJust:Combinator<IsJust> {
     template<typename M> static auto beta(const M m)->decltype(m(_false)(_const(_true))) {return m(_false)(_const(_true));}
-    template<typename... OO> using Beta=decltype(beta<OO...>(OO{}...));
   };
 
   constexpr IsJust isJust;

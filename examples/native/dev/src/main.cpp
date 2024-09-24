@@ -1,6 +1,15 @@
+#ifdef ARDUINO
+  #include <streamFlow.h>
+  using namespace StreamFlow;
+  #define cout Serial
+  #define endl "\n"
+#else
+  #include <iostream>
+  using namespace std;
+#endif
+
 #include <yolanda.h>
 using namespace yo;
-using yo::operator<<;
 
 //// test ///////////////////////////////////////////////////////////////
 template<typename E> void show(const E e) {cout<<e<<endl;}

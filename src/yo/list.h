@@ -272,57 +272,5 @@ namespace yo {
 
   template<typename...OO> cex List<OO...> list(const OO... oo) {return List<OO...>(oo...);}
 
-  #ifdef YO_PRINT
-    template<typename Out> Out& operator<<(Out& out,const yo::Cons)           {return out<<"cons";}
-    template<typename Out> Out& operator<<(Out& out,const yo::Nil)            {return out<<"nil";}
-    template<typename Out> Out& operator<<(Out& out,const yo::Head)           {return out<<"head";}
-    template<typename Out> Out& operator<<(Out& out,const yo::Tail)           {return out<<"tail";}
-    template<typename Out> Out& operator<<(Out& out,const yo::Null)           {return out<<"null";}
-    template<typename Out> Out& operator<<(Out& out,const yo::_Length)        {return out<<"_length";}
-    template<typename Out> Out& operator<<(Out& out,const yo::Length)         {return out<<"length";}
-    template<typename Out> Out& operator<<(Out& out,const yo::Drop)           {return out<<"drop";}
-    template<typename Out> Out& operator<<(Out& out,const yo::Index)          {return out<<"index";}
-    template<typename Out> Out& operator<<(Out& out,const yo::_Last)          {return out<<"_last";}
-    template<typename Out> Out& operator<<(Out& out,const yo::Last)           {return out<<"last";}
-    template<typename Out> Out& operator<<(Out& out,const yo::_Concat)        {return out<<"concat";}
-    template<typename Out> Out& operator<<(Out& out,const yo::Concat)         {return out<<"concat";}
-    template<typename Out> Out& operator<<(Out& out,const yo::_Init)          {return out<<"_init";}
-    template<typename Out> Out& operator<<(Out& out,const yo::Init)           {return out<<"init";}
-    template<typename Out> Out& operator<<(Out& out,const yo::_Reverse)       {return out<<"_reverse";}
-    template<typename Out> Out& operator<<(Out& out,const yo:: Reverse)       {return out<< "reverse";}
-    template<typename Out> Out& operator<<(Out& out,const yo::_TakeR)         {return out<<"_taker";}
-    template<typename Out> Out& operator<<(Out& out,const yo::TakeR)          {return out<< "taker";}
-    // template<typename Out> Out& operator<<(Out& out,const yo::_Take)           {return out<< "_take";}
-    template<typename Out> Out& operator<<(Out& out,const yo::Take)           {return out<< "take";}
-    template<typename Out> Out& operator<<(Out& out,const yo::Nats)           {return out<<"ℕ";}
-    template<typename Out> Out& operator<<(Out& out,const yo::_Nats)          {return out<<"Nat";}
-    template<typename Out> Out& operator<<(Out& out,const yo::Range)          {return out<<"range";}
-    template<typename Out,typename S> Out& operator<<(Out& out,const Expr<yo::Nats,S> n)  {return out<< "["<<S{}<<"..]";}
-    template<typename Out> Out& operator<<(Out& out,const yo::_Map)           {return out<<"_map";}
-    template<typename Out> Out& operator<<(Out& out,const yo:: Map)           {return out<< "map";}
-    template<typename Out> Out& operator<<(Out& out,const yo::_Filter)        {return out<<"_filter";}
-    template<typename Out> Out& operator<<(Out& out,const yo:: Filter)        {return out<< "filter";}
-    template<typename Out> Out& operator<<(Out& out,const yo::_FoldL)         {return out<<"_foldl";}
-    template<typename Out> Out& operator<<(Out& out,const yo:: FoldL)         {return out<< "foldl";}
-    template<typename Out> Out& operator<<(Out& out,const yo::_FoldR)         {return out<<"_foldr";}
-    template<typename Out> Out& operator<<(Out& out,const yo:: FoldR)         {return out<< "foldr";}
-    template<typename Out> Out& operator<<(Out& out,const yo::_Zip)           {return out<<"_zip";}
-    template<typename Out> Out& operator<<(Out& out,const yo:: Zip)           {return out<< "zip";}
-    template<typename Out> Out& operator<<(Out& out,const yo::FromBool)       {return out<<"fromBool";}
-
-    #ifdef YO_VERB
-      template<typename Out,typename O,typename... OO>
-      Out& operator<<(Out& out,const List<O,OO...> o){
-        if(beta(null(o)(1)(0))) return out;
-        else return out<<"(@"<<&beta(head(o))<<"|"<<beta(head(o))<<":"<<beta(tail(o));
-      }
-    #else
-      template<typename Out>
-      Out& operator<<(Out& out,const List<> o){return out<<"[]";}
-      template<typename Out,typename O,typename... OO>
-      Out& operator<<(Out& out,const List<O,OO...> o){return out<<o.tail.head<<":"<<o.tail.tail.head;}
-    #endif
-
-  #endif
-
+  
 };

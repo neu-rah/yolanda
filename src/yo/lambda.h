@@ -10,8 +10,7 @@ namespace yo {
   struct Alias {};
   struct None{};
   constexpr const None none;
-  template<typename Out> Out& operator<<(Out& out, const None) {return out<<"⊥";}
-
+  
   //// lambda expression
   template<typename...> struct Expr;
 
@@ -22,12 +21,6 @@ namespace yo {
   };
   using Empty=Expr<>;
   constexpr const Empty empty;
-  #ifdef YO_VERB
-    template<typename Out> Out& operator<<(Out& out, const Empty) {return out<<"ø";}
-  #else
-    template<typename Out> Out& operator<<(Out& out, const Empty) {return out;}
-  #endif
-
   template<typename H,typename... TT>
   struct Expr<H,TT...>:App {
     using Head=H;
@@ -54,9 +47,6 @@ namespace yo {
   template<typename O,typename... OO> cex const When<!isApp<O>(),Expr<O,OO...>> expr(const O o,const OO... oo) {return Expr<O,OO...>(o,oo...);}
   template<typename O,typename... OO> cex auto expr(const O o,const OO... oo)->const When< isApp<O>(),decltype(o._concat(expr(oo...)))> {return o._concat(expr(oo...));}
   template<typename... OO> cex const Expr<OO...> expr(const OO... oo) {return Expr<OO...>(oo...);}
-
-  template<typename Out,typename O,typename... OO> When<!isApp<O>(),Out>& operator<<(Out& out,const Expr<O,OO...> o) {return out<<o.head<<" "<<o.tail;}
-  template<typename Out,typename O,typename... OO> When< isApp<O>(),Out>& operator<<(Out& out,const Expr<O,OO...> o) {return out<<"("<<o.head<<") "<<o.tail;}
 
   template<typename O> cex const O _concat(const O o,const Empty) {return o;}
   template<typename A, typename B> cex const When<!isApp<A>()&&!isApp<B>(),Expr<A,B>> _concat(const A a,const B b) {return {a,b};}
