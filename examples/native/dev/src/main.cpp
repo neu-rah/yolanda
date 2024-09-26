@@ -61,7 +61,7 @@ cex const Expr<int,int> a{1,2};
 //// combinators //////////////////////////////////////////////
 template<typename Fn>
 struct Combinator {
-  template<typename O> cex const Expr<Fn,O> operator()(const O& o) {return {*(Fn*)this,o};}
+  template<typename O> cex const Expr<Fn,O> operator()(const O& o) const {return {*(Fn*)this,o};}
 };
 
 struct I:Combinator<I> {
@@ -89,6 +89,7 @@ int main() {
   const auto e2=expr(3,4);
   cout<<e1<<endl;
   cout<<e1<<"+"<<e2<<"="<<e1(e2)<<endl;
+  cout<<_S.beta(_I,_I,_I)<<endl;
   cout<<"end"<<endl;
   return 0;
 }
