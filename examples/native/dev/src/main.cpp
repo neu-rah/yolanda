@@ -1,5 +1,19 @@
-#include <iostream>
-using namespace std;
+#ifdef ARDUINO
+  #include <Arduino.h>
+// #endif
+// #ifdef __AVR__
+  #include <streamFlow.h>
+  using namespace StreamFlow;
+  #define cout Serial
+  #define endl "\n"
+  #ifdef __AVR__
+    #include <avr_std.h>
+    using namespace avr_std;
+  #endif
+#else
+  #include <iostream>
+  using namespace std;
+#endif
 
 #define cex
 // #define cex constexpr
@@ -152,13 +166,9 @@ template<typename O> void steps(const O o) {
 
 /////////////////////////////////////////////////////////
 int main() {
-  // cout<<expr(1,2)<<endl;
-  // const auto e1=expr(1,2);
-  // const auto e2=expr(3,4);
-  // cout<<e1<<endl;
-  // cout<<e1<<"+"<<e2<<"="<<e1(e2)<<endl;
-  steps(_I(1));
-  steps(_S(_I)(_I)(_I));
+  cout<<_I("ok")<<endl;
+  // test(_I("ok"));
+  // step(_S(_I)(_I)(_I));
   cout<<"end"<<endl;
   return 0;
 }
