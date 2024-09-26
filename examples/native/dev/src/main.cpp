@@ -45,6 +45,18 @@ template<typename Out> Out& operator<<(Out& out,const Empty&) {return out<<"ø";
 template<typename Out,typename O> Out& operator<<(Out& out,const Expr<O>& o) {return out<<o.head;}
 template<typename Out,typename O,typename... OO> Out& operator<<(Out& out,const Expr<O,OO...>& o) {return out<<o.head<<" "<<o.tail;}
 
+template<typename Fn>
+struct Combinator {
+  template<typename O> cex const Expr<Fn,O> operator()(const O& o) {return {*(Fn*)this,o};}
+};
+
+struct I:Combinator<I> {
+  template<typename O> cex const O& beta(const O& o) {return o;}
+};
+cex const I id;
+template<typename Out> Out& operator<<(Out& out,const I&) {return out<<"id";}
+
+/////////////////////////////////////////////////////////
 cex const int d=11;
 cex const int y=1967;
 cex const char* n="rui";
@@ -55,7 +67,9 @@ int main() {
   cout<<"x:"<<x<<endl;
   cout<<x.cons(11)<<endl;
   cout<<x(11)<<endl;
-  cout<<expr(1,2,3,"Ok")<<endl;
+  cout<<expr(1,2,3,"Ok")("zZz")<<endl;
+  cout<<id("Ok")("zZz")<<endl;
+  cout<<id.beta("ok")<<endl;
   cout<<"end"<<endl;
   return 0;
 }
