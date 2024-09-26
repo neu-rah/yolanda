@@ -13,6 +13,7 @@ struct App {};
 template<typename...> struct Expr;
 
 template<> struct Expr<> {
+  cex Expr() {}
   template<typename O> cex const Expr<O> operator()(const O& o) {return {o};}
 };
 using Empty=Expr<>;
@@ -76,11 +77,16 @@ template<typename Out> Out& operator<<(Out& out,const S&) {return out<<"S";}
 
 /////////////////////////////////////////////////////////
 int main() {
+  static cex const int a=1;
+  static cex const int b=2;
+  static cex const int c=3;
+  static cex const int d=4;
+  static cex const auto e1=expr(a,b);
+  static cex const auto e2=expr(c,d);
+
   // const auto r=_S.beta(_I,_I,_I);
   // cout<<_S<<"->"<<r.head<<"+"<<r.tail.head<<"+"<<r.tail.tail<<endl;
   cout<<expr(1,2)<<endl;
-  const auto e1=expr(1,2);
-  const auto e2=expr(3,4);
   cout<<e1<<endl;
   cout<<e1<<"+"<<e2<<"="<<e1(e2)<<endl;
   cout<<"end"<<endl;
