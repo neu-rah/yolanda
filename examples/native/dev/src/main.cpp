@@ -50,6 +50,7 @@ struct Expr<H>:App {
   const Tail tail;
   cex Expr(const H& h):head(h),tail(empty) {}
   template<typename O> cex const Expr<O,H> cons(const O& o) const {return {o,head};}
+  cex const Expr<H,const char*> operator()(const char* o) const {return {head,o};}
   template<typename O> cex const Expr<H,O> operator()(const O& o) const {return {head,o};}
   template<typename O> cex const Expr<H,O> _concat(const Expr<O>& o) const {return operator()(o.head);}
   template<typename O,typename... OO> cex auto _concat(const Expr<O,OO...>& o) const->const decltype(o.cons(*this)) {return o.cons(*this);}
@@ -65,6 +66,7 @@ struct Expr<H,T,TT...>:App {
   cex Expr(const H& h,const Tail& t):head(h),tail(t) {}
   cex Expr(const H& h,const T& t,const TT&... tt):head(h),tail(t,tt...) {}
   template<typename O> cex const Expr<O,H,T,TT...> cons(const O& o) const {return {o,*this};}
+  cex const Expr<H,T,TT...,const char*> operator()(const char* o) const {return tail(o).cons(head);}
   template<typename O> cex const Expr<H,T,TT...,O> operator()(const O& o) const {return tail(o).cons(head);}
   template<typename O> cex const Expr<H,TT...,O> _concat(const Expr<O>& o) const {return operator()(o.head);}
   template<typename O,typename... OO> cex auto _concat(const Expr<O,OO...>& o) const->const decltype(tail._concat(o).cons(head)) {return tail._concat(o).cons(head);}
@@ -129,7 +131,8 @@ template<typename O,typename... OO> cex auto beta(const Expr<O,OO...> o)->const 
 //// combinators //////////////////////////////////////////////
 template<typename Fn>
 struct Combinator {
-  template<typename O> cex const Expr<Fn,O> operator()(const O& o) const {return {*(Fn*)this,o};}
+  cex const Expr<Fn,const char*> operator()(const char* o) const {return {*(Fn*)this,o};}
+  template<typename O> cex const When<!is_array<O>::value,Expr<Fn,O>> operator()(O const& o) const {return {*(Fn*)this,o};}
 };
 
 struct I:Combinator<I> {
@@ -166,7 +169,7 @@ template<typename O> void steps(const O o) {
 
 /////////////////////////////////////////////////////////
 int main() {
-  cout<<_I("ok")<<endl;
+  cout<<_I("ok")("zZz")<<endl;
   // test(_I("ok"));
   // step(_S(_I)(_I)(_I));
   cout<<"end"<<endl;
