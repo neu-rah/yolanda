@@ -9,22 +9,29 @@ using namespace std;
 
 template<typename F,typename S>
 struct Pair {
-  using Fst=F;
-  using Snd=S;
-  const Fst fst;
-  const Snd snd;
-  cex Pair(const Fst f,const Snd s):fst(f),snd(s){}
+  using Fst=const F&;
+  using Snd=const S&;
+  Fst fst;
+  Snd snd;
+  cex Pair(Fst f,Snd s):fst(f),snd(s){}
 };
 
 template<typename F,typename S>
-cex const Pair<F,S> _pair(const F f,const S s) {return {f,s};}
+cex const Pair<F,S> _pair(F& f,S& s) {return {f,s};}
 
 template<typename Out,typename F,typename S>
-Out& operator<<(Out& out,const Pair<F,S> o) {return out<<"[@"<<&o<<"{"<<&o.fst<<"|"<<sizeof(o.fst)<<"}"<<o.fst<<" "<<o.snd<<"]"<<endl;}
+Out& operator<<(Out& out,const Pair<F,S> o) {return out<<o.fst<<" "<<o.snd;}
 
 int main() {
   cout<<"yolanda/refs"<<endl;
-  const auto a=_pair("Rui Azevedo",1967);
-  cout<<_pair(a,a)<<endl;
+  auto f="Rui Azevedo";
+  auto s=1967;
+  auto a=_pair(f,s);
+  auto p=_pair(a,a);
+  cout<<&p.fst<<" "<<&p.snd<<endl;
+  cout<<&p.fst.fst<<" "<<&p.fst.snd<<endl<<&p.snd.fst<<" "<<&p.snd.snd<<endl;
+  p.snd.snd=11;
+  cout<<&p.fst.fst<<" "<<&p.fst.snd<<endl<<&p.snd.fst<<" "<<&p.snd.snd<<endl;
+  cout<<s<<endl;
   return 0;
 }
