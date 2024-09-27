@@ -48,6 +48,7 @@ struct Expr<H>:App {
   using Tail=Empty;
   const Head head;
   const Tail tail;
+  cex Expr():head(H{}),tail(Tail{}) {}
   cex Expr(const H& h):head(h),tail(empty) {}
   template<typename O> cex const Expr<O,H> cons(const O& o) const {return {o,head};}
   cex const Expr<H,const char*> operator()(const char* o) const {return {head,o};}
@@ -64,6 +65,7 @@ struct Expr<H,T,TT...>:App {
   using Tail=Expr<T,TT...>;
   const Head head;
   const Tail tail;
+  cex Expr():head(H{}),tail(Tail{}) {}
   cex Expr(const H& h,const Tail& t):head(h),tail(t) {}
   cex Expr(const H& h,const T& t,const TT&... tt):head(h),tail(t,tt...) {}
   template<typename O> cex const Expr<O,H,T,TT...> cons(const O& o) const {return {o,*this};}
@@ -134,7 +136,7 @@ template<typename O,typename... OO> cex auto beta(const Expr<O,OO...> o)->const 
 template<typename Fn>
 struct Combinator {
   cex const Expr<Fn,const char*> operator()(const char* o) const {return {*(Fn*)this,o};}
-  template<typename O> cex const When<!is_array<O>::value,Expr<Fn,O>> operator()(O const& o) const {return {*(Fn*)this,o};}
+  template<typename O> cex const Expr<Fn,O> operator()(O const& o) const {return {*(Fn*)this,o};}
 };
 
 struct I:Combinator<I> {
@@ -155,6 +157,17 @@ struct S:Combinator<S> {
 cex const S _S;
 template<typename Out> Out& operator<<(Out& out,const S&) {return out<<"S";}
 
+
+// using C=decltype( (_S( (_S (_K( (_S(_K(_S))) (_K)) ))(_S) )) (_K(_K)) );
+struct C:Combinator<C> {
+  template<typename F,typename A,typename B> static cex auto beta(const F& f,const A& a,const B& b)->const decltype(f(b)(a)) {return f(b)(a);}
+};
+cex const C _C;
+template<typename Out> Out& operator<<(Out& out,const C&) {return out<<"C";}
+
+using B=decltype((_S(_K(_S)))(_K));
+cex const B _B;
+
 //// test ///////////////////////////////////////////////////////////////
 template<typename E> void show(const E e) {cout<<e<<endl;}
 template<typename E> void show(const E e,const E) {cout<<e<<" -> irreducible."<<endl;}
@@ -173,7 +186,8 @@ template<typename O> void steps(const O o) {
 int main() {
   // cout<<_concat(expr(1,2),3)<<endl;
   // test(_I("ok")("zZz"));
-  steps(_S(_I)(_I)(_I)("ok")("x"));
+  // steps(_S(_I)(_I)(_I)("ok")("x"));
+  steps(_C(_K)("fail")("ok"));
   cout<<"end"<<endl;
   return 0;
 }
