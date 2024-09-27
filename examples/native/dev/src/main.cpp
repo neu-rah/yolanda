@@ -168,8 +168,21 @@ struct C:Combinator<C> {
 cex const C _C;
 template<typename Out> Out& operator<<(Out& out,const C&) {return out<<"C";}
 
-using B=decltype((_S(_K(_S)))(_K));
+// λabc.a(bc)
+//using B=decltype((_S(_K(_S)))(_K));
+struct B:Combinator<B> {
+  template<typename F,typename A,typename B> static cex auto beta(const F& f,const A& a,const B& b)->const decltype(f(b(a))) {return f(b(a));}
+};
 cex const B _B;
+template<typename Out> Out& operator<<(Out& out,const B&) {return out<<"B";}
+
+// λf.ff
+// ((S((SK)K))((SK)K))
+struct M:Combinator<M> {
+  template<typename F> static cex auto beta(const F& f)->const decltype(f(f)) {return f(f);}
+};
+cex const M _M;
+template<typename Out> Out& operator<<(Out& out,const M&) {return out<<"M";}
 
 //// test ///////////////////////////////////////////////////////////////
 template<typename E> void show(const E e) {cout<<e<<endl;}
