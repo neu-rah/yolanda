@@ -15,7 +15,7 @@ namespace yo {
   struct Curry<Func<R,O,OO...>,f>:Combinator<Curry<Func<R,O,OO...>,f>> {
     using This=Curry<Func<R,O,OO...>,f>;
     template<typename P,typename... PP>
-    static cex auto beta(const P o,const PP... oo)
+    static cex auto beta(const P& o,const PP&... oo)
       ->const When< Count<P,PP...>::value==Count<O,OO...>::value,decltype(f(yo::beta(o),yo::beta(oo)...))>
       {return f(yo::beta(o),yo::beta(oo)...);}
   };
@@ -37,7 +37,7 @@ namespace yo {
     #define CurryTemplateFunction(f)\
       struct f##TemplateCaller:Combinator<f##TemplateCaller> {\
         template<typename... OO>\
-        static cex auto beta(const OO... oo)\
+        static cex auto beta(const OO&... oo)\
           ->const decltype(f(yo::beta(oo)...))\
           {return f(yo::beta(oo)...);}\
       };\

@@ -10,15 +10,15 @@
 
 namespace yo {
   // λo.o
-  struct I:Combinator<I> {template<typename O> static cex const O beta(const O o) {return o;}};
+  struct I:Combinator<I> {template<typename O> static cex const O beta(const O& o) {return o;}};
 
   // λab.a
-  struct K:Combinator<K> {template<typename O,typename P> static cex const O beta(const O o,const P p) {return o;}};
+  struct K:Combinator<K> {template<typename O,typename P> static cex const O beta(const O& o,const P& p) {return o;}};
 
   // λfgo.fo(go)
   struct S:Combinator<S> {
     template<typename F,typename G,typename O>
-    static cex auto beta(const F f,const G g,const O o)
+    static cex auto beta(const F& f,const G& g,const O& o)
       ->const decltype(f(o)(g(o)))
       {return          f(o)(g(o));}
   };
@@ -26,7 +26,7 @@ namespace yo {
   // λfgo.f(go)
   struct B:Combinator<B> {
     template<typename F,typename G,typename O>
-    static cex auto beta(const F f,const G g, const O o)
+    static cex auto beta(const F& f,const G& g, const O& o)
       ->decltype(f(g(o)))
       {return    f(g(o));}
   };
@@ -34,31 +34,31 @@ namespace yo {
   // λfab.fba
   struct C:Combinator<C> {
     template<typename F,typename A,typename B>
-    static cex auto beta(const F f,const A a, const B b)->decltype(f(b)(a)) {return f(b)(a);}
+    static cex auto beta(const F& f,const A& a, const B& b)->decltype(f(b)(a)) {return f(b)(a);}
   };
 
   // λop.opp
   struct W:Combinator<W> {
     template<typename O,typename P>
-    static cex auto beta(const O o,const P p)->decltype(o(p)(p)) {return o(p)(p);}
+    static cex auto beta(const O& o,const P& p)->decltype(o(p)(p)) {return o(p)(p);}
   };
 
   // λof.fo
   struct T:Combinator<T> {
     template<typename O,typename F>
-    static cex auto beta(const O o,const F f)->decltype(f(o)) {return f(o);}
+    static cex auto beta(const O& o,const F& f)->decltype(f(o)) {return f(o);}
   };
 
   // λabf.fab
   struct V:Combinator<V> {
     template<typename O,typename P,typename F>
-    static cex auto beta(const O o,const P p,const F f)->decltype(f(o)(p)) {return f(o)(p);}
+    static cex auto beta(const O& o,const P& p,const F& f)->decltype(f(o)(p)) {return f(o)(p);}
   };
 
   // λf.ff
   struct M:Combinator<M> {
     template<typename F>
-    static cex auto beta(const F f)->decltype(f(f)) {return f(f);}
+    static cex auto beta(const F& f)->decltype(f(f)) {return f(f);}
   };
 
   cex const I _I;

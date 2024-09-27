@@ -42,7 +42,7 @@ namespace yo {
 
   struct FromBool:Combinator<FromBool> {
     template<typename B,typename O,typename P>
-    static auto beta(const B b,const O o,const P p)->const decltype(b?o:p) {return b?o:p;}
+    static auto beta(const B& b,const O& o,const P& p)->const decltype(b?o:p) {return b?o:p;}
   };
 
   constexpr const FromBool fromBool;

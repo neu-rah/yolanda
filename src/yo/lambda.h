@@ -64,13 +64,6 @@ namespace yo {
     template<typename O,typename... OO> cex auto _concat(const Expr<O,OO...>& o) const->const decltype(tail._concat(o).cons(head)) {return tail._concat(o).cons(head);}
     };
 
-    // #ifdef YO_VERB
-    // template<typename Out,typename... OO> Out& operator<<(Out& out,const Expr<OO...> o) {return out<<"("<<o.head<<" "<<o.tail<<")";}
-    // #else
-    // template<typename Out,typename O,typename... OO> When<!isApp<O>(),Out>& operator<<(Out& out,const Expr<O,OO...>& o) {return out<<o.head<<" "<<o.tail;}
-    // template<typename Out,typename O,typename... OO> When< isApp<O>(),Out>& operator<<(Out& out,const Expr<O,OO...>& o) {return out<<"("<<o.head<<") "<<o.tail;}
-    // #endif
-
     template<typename... OO> cex const Expr<OO...> expr(const OO... oo) {return {oo...};}
 
     template<typename O> cex const O& _concat(const O& o,const Empty) {return o;}
