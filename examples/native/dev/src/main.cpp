@@ -52,8 +52,9 @@ struct Expr<H>:App {
   template<typename O> cex const Expr<O,H> cons(const O& o) const {return {o,head};}
   cex const Expr<H,const char*> operator()(const char* o) const {return {head,o};}
   template<typename O> cex const Expr<H,O> operator()(const O& o) const {return {head,o};}
+  template<typename O> cex const Expr<H,O> _concat(const O& o) const {return operator()(o);}
   template<typename O> cex const Expr<H,O> _concat(const Expr<O>& o) const {return operator()(o.head);}
-  template<typename O,typename... OO> cex auto _concat(const Expr<O,OO...>& o) const->const decltype(o.cons(*this)) {return o.cons(*this);}
+  template<typename O,typename... OO> cex auto _concat(const Expr<O,OO...>& o) const->const decltype(o.cons(head)) {return o.cons(head);}
 };
 
 template<typename H,typename T,typename... TT>
@@ -68,7 +69,8 @@ struct Expr<H,T,TT...>:App {
   template<typename O> cex const Expr<O,H,T,TT...> cons(const O& o) const {return {o,*this};}
   cex const Expr<H,T,TT...,const char*> operator()(const char* o) const {return tail(o).cons(head);}
   template<typename O> cex const Expr<H,T,TT...,O> operator()(const O& o) const {return tail(o).cons(head);}
-  template<typename O> cex const Expr<H,TT...,O> _concat(const Expr<O>& o) const {return operator()(o.head);}
+  template<typename O> cex auto _concat(const O& o) const->const decltype(operator()(o)) {return operator()(o);}
+  template<typename O> cex const Expr<H,T,TT...,O> _concat(const Expr<O>& o) const {return operator()(o.head);}
   template<typename O,typename... OO> cex auto _concat(const Expr<O,OO...>& o) const->const decltype(tail._concat(o).cons(head)) {return tail._concat(o).cons(head);}
 };
 
@@ -89,25 +91,25 @@ template<typename A, typename B> cex auto _concat(const A& a,const B& b)->const 
 //// beta reduction
 
 //beta steps--
-template<typename C,typename O,typename... OO>
-cex auto step(const Expr<C,O,OO...> o)
-  -> const decltype(_concat(C::beta(o.tail.head),o.tail.tail))
-  {return           _concat(C::beta(o.tail.head),o.tail.tail);}
+// template<typename C,typename O,typename... OO>
+// cex auto step(const Expr<C,O,OO...> o)
+//   -> const decltype(_concat(C::beta(o.tail.head),o.tail.tail))
+//   {return           _concat(C::beta(o.tail.head),o.tail.tail);}
 
-template<typename C,typename O,typename P,typename... OO>
-cex auto step(const Expr<C,O,P,OO...> o)
-  -> const decltype(_concat(C::beta(o.tail.head,o.tail.tail.head),o.tail.tail.tail))
-  {return           _concat(C::beta(o.tail.head,o.tail.tail.head),o.tail.tail.tail);}
+// template<typename C,typename O,typename P,typename... OO>
+// cex auto step(const Expr<C,O,P,OO...> o)
+//   -> const decltype(_concat(C::beta(o.tail.head,o.tail.tail.head),o.tail.tail.tail))
+//   {return           _concat(C::beta(o.tail.head,o.tail.tail.head),o.tail.tail.tail);}
 
 template<typename C,typename O,typename P,typename Q,typename... OO>
 cex auto step(const Expr<C,O,P,Q,OO...> o)
   -> const decltype(_concat(C::beta(o.tail.head, o.tail.tail.head, o.tail.tail.tail.head),o.tail.tail.tail.tail))
   {return           _concat(C::beta(o.tail.head, o.tail.tail.head, o.tail.tail.tail.head),o.tail.tail.tail.tail);}
 
-template<typename C,typename O,typename P,typename Q,typename R,typename... OO>
-cex auto step(const Expr<C,O,P,Q,R,OO...> o)
-  -> const decltype(_concat(C::beta(o.tail.head, o.tail.tail.head, o.tail.tail.tail.head, o.tail.tail.tail.tail.head), o.tail.tail.tail.tail.tail))
-  {return           _concat(C::beta(o.tail.head, o.tail.tail.head, o.tail.tail.tail.head, o.tail.tail.tail.tail.head), o.tail.tail.tail.tail.tail);}
+// template<typename C,typename O,typename P,typename Q,typename R,typename... OO>
+// cex auto step(const Expr<C,O,P,Q,R,OO...> o)
+//   -> const decltype(_concat(C::beta(o.tail.head, o.tail.tail.head, o.tail.tail.tail.head, o.tail.tail.tail.tail.head), o.tail.tail.tail.tail.tail))
+//   {return           _concat(C::beta(o.tail.head, o.tail.tail.head, o.tail.tail.tail.head, o.tail.tail.tail.tail.head), o.tail.tail.tail.tail.tail);}
 
 template<typename O> cex const None step(const O) {return none;}
 
@@ -169,9 +171,11 @@ template<typename O> void steps(const O o) {
 
 /////////////////////////////////////////////////////////
 int main() {
-  cout<<_I("ok")("zZz")<<endl;
-  // test(_I("ok"));
-  // step(_S(_I)(_I)(_I));
+  // cout<<_concat(expr(1,2),3)<<endl;
+  // test(_I("ok")("zZz"));
+  // static cex const auto r=step(_S(_I)(_I)(_I)("ok")("x"));
+  // cout<<r<<endl;
+  cout<<expr(1,expr(2,3))._concat(expr(4,5))<<endl;
   cout<<"end"<<endl;
   return 0;
 }
