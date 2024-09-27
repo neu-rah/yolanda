@@ -139,25 +139,28 @@ struct Combinator {
   template<typename O> cex const Expr<Fn,O> operator()(O const& o) const {return {*(Fn*)this,o};}
 };
 
+// λo.o
 struct I:Combinator<I> {
   template<typename O> static cex const O& beta(const O& o) {return o;}
 };
 cex const I _I;
 template<typename Out> Out& operator<<(Out& out,const I&) {return out<<"I";}
 
+// λab.a
 struct K:Combinator<K> {
   template<typename O,typename P> static cex const O& beta(const O& o,const P&) {return o;}
 };
 cex const K _K;
 template<typename Out> Out& operator<<(Out& out,const K&) {return out<<"K";}
 
+// λfgo.fo(go)
 struct S:Combinator<S> {
   template<typename F,typename G,typename O> static cex auto beta(const F& f,const G& g,const O& o)->const decltype(f(o)(g(o))) {return f(o)(g(o));}
 };
 cex const S _S;
 template<typename Out> Out& operator<<(Out& out,const S&) {return out<<"S";}
 
-
+// λfab.fba
 // using C=decltype( (_S( (_S (_K( (_S(_K(_S))) (_K)) ))(_S) )) (_K(_K)) );
 struct C:Combinator<C> {
   template<typename F,typename A,typename B> static cex auto beta(const F& f,const A& a,const B& b)->const decltype(f(b)(a)) {return f(b)(a);}
