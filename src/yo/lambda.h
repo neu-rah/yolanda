@@ -58,7 +58,7 @@ namespace yo {
     cex Expr(const H& h,const T& t,const TT&... tt):head(h),tail(t,tt...) {}
     template<typename O> cex const Expr<O,H,T,TT...> cons(const O& o) const {return {o,*this};}
     cex const Expr<H,T,TT...,const char*> operator()(const char* o) const {return tail(o).cons(head);}
-    template<typename O> cex const Expr<H,T,TT...,O> operator()(const O& o) const {return tail(o).cons(head);}
+    template<typename O> cex auto operator()(const O& o) const->const decltype(tail(o).cons(head)) {return tail(o).cons(head);}
     template<typename O> cex auto _concat(const O& o) const->const decltype(operator()(o)) {return operator()(o);}
     template<typename O> cex const Expr<H,T,TT...,O> _concat(const Expr<O>& o) const {return operator()(o.head);}
     template<typename O,typename... OO> cex auto _concat(const Expr<O,OO...>& o) const->const decltype(tail._concat(o).cons(head)) {return tail._concat(o).cons(head);}
