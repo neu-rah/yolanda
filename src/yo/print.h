@@ -16,12 +16,12 @@ namespace yo {
   //   operator<<(Serial_& out,const O o)      {out.print(o);return out;}
   // #endif
 
-  #ifdef ARDUINO
-    template<typename O>
-    typename enable_if<!yo::isApp<O>()&&!yo::isLambda<O>()&&!yo::isEmpty<O>()&&!isNone<O>(),Serial_>::type&
-    operator<<(Serial_& out,const O o)
-      {out.print(o);return out;}
-  #endif
+  // #ifdef ARDUINO
+  //   template<typename O>
+  //   typename enable_if<!yo::isApp<O>()&&!yo::isLambda<O>()&&!yo::isEmpty<O>()&&!isNone<O>(),Serial_>::type&
+  //   operator<<(Serial_& out,const O o)
+  //     {out.print(o);return out;}
+  // #endif
 
   #ifdef YO_PRINT
     template<typename Out> Out& operator<<(Out& out, const None&) {return out<<"⊥";}

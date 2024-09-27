@@ -44,7 +44,7 @@ void run() {
   // static cex const auto e6=_W(_true)("ok")("zZz");
   // static cex const auto e7=_T("ok")(id)("zZz");
   // static cex const auto e8=_V("ok")("fail")(_true)("zZz");
-  // static cex const auto e9=toInt(head(range(n1)(n2)));
+  static cex const auto e9=toInt(head(range(n1)(n2)));
   // static cex const auto e10=_add(3)(5);
   // static cex const auto e11=is0(length(nil))("yes")("no");
   // static cex const auto e12=Expr<Is0,Expr<Length,Nil>>{}("yes")("no");
@@ -72,7 +72,7 @@ void run() {
   // test(e6);
   // test(e7);
   // test(e8);
-  // test(e9);
+  steps(e9);
   // test(e10);
   // test(e11);
   // test(e12);
@@ -98,13 +98,13 @@ void run() {
   // cout<<beta(toInt(n2))*3<<endl;
   // cout<<beta(toInt(mul(n2)(n3)))*3<<endl;
 
-  cout<<"end"<<endl;
+  // cout<<"end"<<endl;
 }
 
-void rnd() {
-  const auto x=_S(_K)(_K)("ok")("zZz");
-  steps(x);
-}
+// void rnd() {
+//   const auto x=_S(_K)(_K)("ok")("zZz");
+//   steps(x);
+// }
 
 #ifdef ARDUINO
   void setup() {
@@ -114,15 +114,16 @@ void rnd() {
     Serial.println("Yolanda 0.3.x");
   }
   void loop() {
-    steps(_C(_K)("fail")("ok"));
-    // run();
+    // static cex const auto e=_C(_K)("fail")("ok");
+    // steps(e);
+    run();
     // rnd();
     delay(1000);
   }
 #else
   int main() {
-    steps(_C(_K)("fail")("ok"));
-    // run();
+    // steps(_C(_K)("fail")("ok"));
+    run();
     // rnd();
     return  0;
   } 

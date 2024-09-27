@@ -116,7 +116,7 @@ namespace yo {
     //alias (for printing)--
     template<typename Fn> struct Alt:Fn {
     cex operator const Alias() const {return Alias{};}
-    // template<typename O> cex const Expr<Alt<Fn>,O> operator()(const O o) const {return {*this,o};}
+    // template<typename O> cex const Expr<Alt<Fn>,O> operator()(const O& o) const {return {*this,o};}
     };
 
     //combinator base --
