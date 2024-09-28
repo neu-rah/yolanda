@@ -50,14 +50,26 @@ struct Expr<H,TT...> {
 
 template<typename... OO> cex const Expr<OO...> expr(const OO... oo) {return {oo...};}
 
-template<typename Out,typename... OO> Out& operator<<(Out& out,const Expr<OO...>& o) {return out<<"("<<o.head<<"@ "<<&o.head<<" "<<o.tail<<")";}
+template<typename Out,typename... OO> Out& operator<<(Out& out,const Expr<OO...>& o) {return out<<"("<<o.head<<" "<<o.tail<<")";}
 
-template<typename A,typename B,typename C>
-Expr<A,C,B> test(const A a,const B b,const C c) {return {a,c,b};}
+template<typename Fn> struct Combinator {};
+
+struct I:Combinator<I> {
+  template<typename O> static cex const O beta(const O o) {return o;}
+};
+cex const I _I;
+template<typename Out> Out& operator<<(Out& out,const I) {return out<<"I";}
+
+struct K:Combinator<K> {
+  template<typename O,typename P> static cex const O beta(const O o,const P) {return o;}
+};
+cex const K _K;
+template<typename Out> Out& operator<<(Out& out,const K) {return out<<"K";}
 
 int main() {
   cout<<"start!"<<endl;
-  cout<<test(0,3,"ok")<<endl;
+  cout<<_I.beta("ok")<<endl;
+  cout<<_K.beta("ok","fail")<<endl;
   cout<<"end"<<endl;
   return  0;
 } 
