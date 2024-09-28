@@ -30,7 +30,7 @@ struct App {
   cex App(const H& h,const T& t):head(h),tail(t) {}
 };
 
-template<typename Out,typename H,typename T> Out& operator<<(Out& out,const App<H,T> o) {return out<<o.head<<" "<<o.tail;}
+template<typename Out,typename H,typename T> Out& operator<<(Out& out,const App<H,T>& o) {return out<<"("<<o.head<<"@"<<&o.head<<" "<<o.tail<<"@"<<&o.tail<<")";}
 
 cex const int year=1967;
 cex const char* name="rui";
@@ -38,6 +38,8 @@ cex const App<int,const char*> a0{year,name};
 
 int main() {
   cout<<"start!"<<endl;
+  cout<<year<<"@"<<&year<<endl;
+  cout<<name<<"@"<<&name<<endl;
   cout<<a0<<endl;
   cout<<"end"<<endl;
   return  0;
