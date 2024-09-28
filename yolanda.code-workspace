@@ -11,7 +11,8 @@
     "settings": {
         "files.associations": {
             "ostream": "cpp",
-            "iostream": "cpp"
+            "iostream": "cpp",
+            "type_traits": "cpp"
         }
     }
 }

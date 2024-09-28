@@ -35,7 +35,11 @@ template<> struct Expr<> {
 };
 using Empty=Expr<>;
 cex const Empty empty;
-template<typename Out> Out& operator<<(Out& out,const Empty&) {return out<<"ø";}
+#ifdef YO_VERB
+  template<typename Out> Out& operator<<(Out& out,const Empty& o) {return out<<"ø@ "<<&o;}
+#else
+  template<typename Out> Out& operator<<(Out& out,const Empty&) {return out;}
+#endif
 
 template<typename O> constexpr bool isNone() {return is_same<O,None>::value;}
 template<typename O> constexpr bool isEmpty() {return is_same<O,Empty>::value;}
@@ -47,7 +51,7 @@ template<typename H>
 struct Expr<H>:App {
   using Head=H;
   using Tail=Empty;
-  const Head head;
+  const Head& head;
   const Tail& tail;
   cex Expr() {}
   cex Expr(const H& h):head(h),tail(empty) {}
@@ -59,29 +63,50 @@ struct Expr<H>:App {
   template<typename O,typename... OO> cex auto _concat(const Expr<O,OO...>& o) const->const decltype(o.cons(head)) {return o.cons(head);}
 };
 
-template<typename H,typename... TT>
-struct Expr<H,TT...>:App {
+template<typename H,typename T>
+struct Expr<H,T>:App {
   using Head=H;
-  using Tail=Expr<TT...>;
-  const Head head;
+  using Tail=Expr<T>;
+  const Head& head;
+  const Tail& tail;
+  cex Expr() {}
+  cex Expr(const H& h,const T& t):head(h),tail(t) {}
+  template<typename O> cex const Expr<O,H,T> cons(const O& o) const {return {o,*this};}
+  cex const Expr<H,T,const char*> operator()(const char* o) const {return {head,tail,o};}
+  template<typename O> cex const Expr<H,T,O> operator()(const O& o) const {return tail(o).cons(head);}
+  template<typename O> cex const Expr<H,T,O> _concat(const O& o) const {return operator()(o);}
+  template<typename O> cex const Expr<H,T,O> _concat(const Expr<O>& o) const {return operator()(o.head);}
+  template<typename O,typename... OO> cex auto _concat(const Expr<O,OO...>& o) const->const decltype(o.cons(tail).cons(head)) {return o.cons(tail).cons(head);}
+};
+
+template<typename H,typename T,typename... TT>
+struct Expr<H,T,TT...>:App {
+  using Head=H;
+  using Tail=Expr<T,TT...>;
+  const Head& head;
   const Tail tail;
   cex Expr() {}
   cex Expr(const H& h,const Tail& t):head(h),tail(t) {}
-  cex Expr(const H& h,const TT&... tt):head(h),tail(tt...) {}
-  template<typename O> cex const Expr<O,H,TT...> cons(const O& o) const {return {o,*this};}
-  cex const Expr<H,TT...,const char*> operator()(const char* o) const {return tail(o).cons(head);}
+  cex Expr(const H& h,const T& t,const TT&... tt):head(h),tail(t,tt...) {}
+  template<typename O> cex const Expr<O,H,T,TT...> cons(const O& o) const {return {o,*this};}
+  cex const Expr<H,T,TT...,const char*> operator()(const char* o) const {return tail(o).cons(head);}
   template<typename O> cex auto operator()(const O& o) const->const decltype(tail(o).cons(head)) {return tail(o).cons(head);}
   template<typename O> cex auto _concat(const O& o) const->const decltype(operator()(o)) {return operator()(o);}
-  template<typename O> cex const Expr<H,TT...,O> _concat(const Expr<O>& o) const {return operator()(o.head);}
+  template<typename O> cex const Expr<H,T,TT...,O> _concat(const Expr<O>& o) const {return operator()(o.head);}
   template<typename O,typename... OO> cex auto _concat(const Expr<O,OO...>& o) const->const decltype(tail._concat(o).cons(head)) {return tail._concat(o).cons(head);}
 };
 
-template<typename... OO> cex const Expr<OO...> expr(const OO... oo) {return {oo...};}
+template<typename... OO> cex const Expr<OO...> expr(const OO&... oo) {return {oo...};}
 
-template<typename Out,typename O,typename... OO> When<!isApp<O>(),Out>& operator<<(Out& out,const Expr<O,OO...>& o) {return out<<o.head<<" "<<o.tail;}
-template<typename Out,typename O,typename... OO> When< isApp<O>(),Out>& operator<<(Out& out,const Expr<O,OO...>& o) {return out<<"("<<o.head<<") "<<o.tail;}
+#ifdef YO_VERB
+  template<typename Out,typename O,typename... OO> When<true||!isApp<O>(),Out>& operator<<(Out& out,const Expr<O,OO...>& o) {return out<<"("<<o.head<<"@ "<<&o.head<<"| "<<o.tail<<")";}
+  // template<typename Out,typename O,typename... OO> When< isApp<O>(),Out>& operator<<(Out& out,const Expr<O,OO...>& o) {return out<<"("<<o.head<<" "<<o.tail<<")";}
+#else
+  template<typename Out,typename O,typename... OO> When<!isApp<O>(),Out>& operator<<(Out& out,const Expr<O,OO...>& o) {return out<<o.head<<" "<<o.tail;}
+  template<typename Out,typename O,typename... OO> When< isApp<O>(),Out>& operator<<(Out& out,const Expr<O,OO...>& o) {return out<<"("<<o.head<<") "<<o.tail;}
+#endif
 
-template<typename O> cex const O& _concat(const O& o,const Empty) {return o;}
+template<typename O> cex const O _concat(const O& o,const Empty) {return o;}
 template<typename A, typename B> cex const When<!isApp<A>()&&!isApp<B>(),Expr<A,B>> _concat(const A& a,const B& b) {return {a,b};}
 template<typename A, typename B> cex auto _concat(const A& a,const B& b)->const When< isApp<A>(),decltype(a._concat(b))> {return a._concat(b);}
 template<typename A, typename B> cex auto _concat(const A& a,const B& b)->const When<!isApp<A>()&&isApp<B>(),decltype(b.cons(a))> {return b.cons(a);}
@@ -129,17 +154,26 @@ template<typename O,typename... OO> cex auto beta(const Expr<O,OO...> o)->const 
 template<typename O,typename... OO> cex auto beta(const Expr<O,OO...> o)->const When< isApp<O>(),decltype(beta(o.head._concat(o.tail)))> {return beta(o.head._concat(o.tail));}
 
 ////////////////////////////////////////////////////////////////
-template<typename Fn> struct Combinator:Lambda {template<typename O> cex const Expr<Fn,O> operator()(const O o) const {return {*(Fn*)this,o};}};
+template<typename Fn>
+struct Combinator:Lambda {
+  template<typename O> cex const Expr<Fn,O> operator()(const O& o) const {return {*(Fn*)this,o};}
+};
 
-struct I:Combinator<I> {template<typename O> static cex const O beta(const O& o) {return o;}};
+struct I:Combinator<I> {
+  template<typename O> static cex const O beta(const O& o) {return o;}
+};
 cex const I _I;
 template<typename Out> Out& operator<<(Out& out,const I) {return out<<"I";}
 
-struct K:Combinator<K> {template<typename O,typename P> static cex const O beta(const O& o,const P&) {return o;}};
+struct K:Combinator<K> {
+  template<typename O,typename P> static cex const O beta(const O& o,const P&) {return o;}
+};
 cex const K _K;
 template<typename Out> Out& operator<<(Out& out,const K) {return out<<"K";}
 
-struct S:Combinator<S> {template<typename F,typename G,typename O> static cex auto beta(const F& f,const G& g,const O& o)->const decltype(f(o)(g(o))) {return f(o)(g(o));}};
+struct S:Combinator<S> {
+  template<typename F,typename G,typename O> static cex auto beta(const F& f,const G& g,const O& o)->const decltype(f(o)(g(o))) {return f(o)(g(o));}
+};
 cex const S _S;
 template<typename Out> Out& operator<<(Out& out,const S) {return out<<"S";}
 
@@ -159,9 +193,21 @@ template<typename O> void steps(const O o) {
 
 int main() {
   cout<<"start!"<<endl;
-  test(_I("ok")("zZz"));
-  test(_K("ok")("fail")("zZz"));
-  test(_S(_I)(_I)(_I)("ok")("zZz"));
+  // test(_I("ok")("zZz"));
+  // test(_K("ok")("fail")("zZz"));
+  // test(_S(_I)(_I)(_I)("ok")("zZz"));
+  // cout<<_I(_I)<<" "<<&_I<<endl;
+  // static cex const auto e1=_S(_I)(_I)(_I);//("ok")("zZz");
+  // cout<<e1<<endl;
+  // cout<<step(e1)<<endl;
+  // steps(e1);
+  const auto a=expr(_I,_I);
+  const auto b=expr(_I,_I);
+  const auto c=a(b);
+
+  cout<<a<<endl;
+  cout<<b<<endl;
+  cout<<c<<endl;
   cout<<"end"<<endl;
   return  0;
 } 
