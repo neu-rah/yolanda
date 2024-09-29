@@ -25,6 +25,7 @@ struct Data {
   using Type=T;
   const Type data;
   cex Data(const T& o):data(o) {}
+  operator const Type&() const {return data;}
 };
 
 template<typename O> cex const Data<const O&> data(const O&  o) {return {o};}
@@ -36,9 +37,10 @@ cex const auto b{data(11)};
 
 int main() {
   cout<<"start!"<<endl;
-  cout<<&y<<endl;
-  cout<<&a.data<<endl;
-  cout<<&b.data<<endl;
+  cout<<"y:"<<&y<<endl;
+  cout<<"ref:"<<&a.data<<endl;
+  cout<<a<<endl;
+  cout<<&b<<endl;
   cout<<&data(y).data<<endl;
   cout<<&data(11).data<<endl;
   cout<<&data(23).data<<endl;
