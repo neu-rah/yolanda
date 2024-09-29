@@ -43,6 +43,9 @@ int main() {
   cout<<&data(y).data<<endl;
   cout<<&data(11).data<<endl;
   cout<<&data(23).data<<endl;
+  cout<<data(y).data<<endl;
+  cout<<data(11).data<<endl;
+  cout<<data(23).data<<endl;
   cout<<"end."<<endl;
   return  0;
 } 
