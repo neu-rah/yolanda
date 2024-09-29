@@ -29,23 +29,55 @@ struct Data {
 };
 
 template<typename O> cex const Data<const O&> data(const O&  o) {return {o};}
-template<typename O> cex const Data<O>  data(const O&& o) {return Data<O>{forward<const O>(o)};}
+template<typename O> cex const Data<const O>  data(const O&& o) {return {forward<const O>(o)};}
+
+template<typename...> struct Expr;
+
+template<> struct Expr<> {};
+using Empty=Expr<>;
+cex const Empty empty;
+
+template<typename H>
+struct Expr<H> {
+  using Head=Data<H>;
+  using Tail=Empty;
+  const Head head;
+  const Tail& tail;
+  Expr(const H& h):head(h),tail(empty){}
+};
+
+// template<typename... OO> cex const Expr<OO...> expr(const OO&... oo) {return {oo...};}
+// template<typename... OO> cex const Expr<OO...> expr(const OO&&... oo) {return {oo...};}
+template<typename... OO> cex const Expr<OO...> expr(const OO... oo) {return {oo...};}
+
+template<typename H,typename... TT>
+struct Expr<H,TT...> {
+  using Head=Data<H>;
+  using Tail=Expr<TT...>;
+  const Head head;
+  const Tail tail;
+  // Expr(const H&& h,const TT&&... tt):head(h),tail(expr(tt...)){}
+  // Expr(const H& h,const TT&... tt):head(h),tail(expr(tt...)){}
+  Expr(const H h,const TT... tt):head(h),tail(expr(tt...)){}
+};
+
+struct Test {};
+template<typename Out> Out& operator<<(Out& out,const Test o) {return out<<"ŧ"<<&o;}
+
+template<typename Out> Out& operator<<(Out& out,const Empty) {return out<<"ø";}
+template<typename Out,typename... OO> Out& operator<<(Out& out,const Expr<OO...>& o) {return out<<o.head<<" "<<o.tail;}
 
 cex const int y=1967;
-cex const auto a{data(y)};
-cex const auto b{data(11)};
+cex const Test z{};
 
 int main() {
   cout<<"start!"<<endl;
-  cout<<"y:"<<&y<<endl;
-  cout<<" &"<<&a.data<<endl;
-  cout<<"&&"<<&b.data<<endl;
-  cout<<&data(y).data<<endl;
-  cout<<&data(11).data<<endl;
-  cout<<&data(23).data<<endl;
-  cout<<data(y).data<<endl;
-  cout<<data(11).data<<endl;
-  cout<<data(23).data<<endl;
+  cout<<&y<<endl;
+  // cout<<&expr(y).head<<endl;
+  cout<<expr(Test{})<<endl;
+  cout<<&z<<"->";
+  cout<<expr(z)<<endl;
+  cout<<expr(1,2)<<endl;
   cout<<"end."<<endl;
   return  0;
 } 
