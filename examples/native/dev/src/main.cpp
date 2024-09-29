@@ -29,7 +29,7 @@ struct Data {
 };
 
 template<typename O> cex const Data<const O&> data(const O&  o) {return {o};}
-template<typename O> cex const Data<O>  data(const O&& o) {return Data<O>{o};}
+template<typename O> cex const Data<O>  data(const O&& o) {return Data<O>{forward<const O>(o)};}
 
 cex const int y=1967;
 cex const auto a{data(y)};
@@ -38,9 +38,8 @@ cex const auto b{data(11)};
 int main() {
   cout<<"start!"<<endl;
   cout<<"y:"<<&y<<endl;
-  cout<<"ref:"<<&a.data<<endl;
-  cout<<a<<endl;
-  cout<<&b<<endl;
+  cout<<" &"<<&a.data<<endl;
+  cout<<"&&"<<&b.data<<endl;
   cout<<&data(y).data<<endl;
   cout<<&data(11).data<<endl;
   cout<<&data(23).data<<endl;
