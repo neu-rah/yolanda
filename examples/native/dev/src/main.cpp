@@ -35,20 +35,32 @@ struct Expr<H> {
   cex Expr(const Head& h):head(h),tail(empty) {}
 };
 
+template<typename H,typename... TT>
+struct Expr<H,TT...> {
+  using Head=H;
+  using Tail=Expr<TT...>;
+  const Head head;
+  const Tail tail;
+  cex Expr(const Head& h,const TT&... tt):head(h),tail(tt...) {}
+};
+
 template<typename Out> Out& operator<<(Out& out,const Empty& o) {return out<<"ø";}
-template<typename Out,typename... OO> Out& operator<<(Out& out,const Expr<OO...> o) {return out<<o.head<<" "<<o.tail;}
+template<typename Out,typename... OO> Out& operator<<(Out& out,const Expr<OO...>& o) {return out<<o.head<<" "<<o.tail;}
 
 template<typename... OO> cex const Expr<const OO&...> expr(const OO&... oo) {return {oo...};}
 
 cex const int y=1967;
 cex const auto a{expr(y)};
+cex const auto b{expr(y,"ok")};
 
 int main() {
   cout<<"start!"<<endl;
   cout<<&y<<endl;
+  cout<<&empty<<endl;
   cout<<&expr(y).head<<endl;
   cout<<&expr(1).head<<endl;
   cout<<a<<"->"<<&a.head<<endl;
+  cout<<b<<"->"<<&b.head<<" "<<&b.tail<<" "<<&b.tail.tail<<endl;
   cout<<"end."<<endl;
   return  0;
 } 
