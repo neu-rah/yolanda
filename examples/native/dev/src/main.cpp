@@ -20,27 +20,28 @@
 
 template<bool chk,typename T> using When=typename enable_if<chk,T>::type;
 
-template<typename H,typename T>
-struct App {
-  using Head=H;
-  using Tail=T;
-  const Head& head;
-  const Tail& tail;
-  cex App(){}
-  cex App(const H& h,const T& t):head(h),tail(t) {}
+template<typename T>
+struct Data {
+  using Type=T;
+  const Type data;
+  cex Data(const T& o):data(o) {}
 };
 
-template<typename Out,typename H,typename T> Out& operator<<(Out& out,const App<H,T>& o) {return out<<"("<<o.head<<"@"<<&o.head<<" "<<o.tail<<"@"<<&o.tail<<")";}
+template<typename O> cex const Data<const O&> data(const O&  o) {return {o};}
+template<typename O> cex const Data<O>  data(const O&& o) {return Data<O>{o};}
 
-cex const int year=1967;
-cex const char* name="rui";
-cex const App<int,const char*> a0{year,name};
+cex const int y=1967;
+cex const auto a{data(y)};
+cex const auto b{data(11)};
 
 int main() {
   cout<<"start!"<<endl;
-  cout<<year<<"@"<<&year<<endl;
-  cout<<name<<"@"<<&name<<endl;
-  cout<<a0<<endl;
-  cout<<"end"<<endl;
+  cout<<&y<<endl;
+  cout<<&a.data<<endl;
+  cout<<&b.data<<endl;
+  cout<<&data(y).data<<endl;
+  cout<<&data(11).data<<endl;
+  cout<<&data(23).data<<endl;
+  cout<<"end."<<endl;
   return  0;
 } 
