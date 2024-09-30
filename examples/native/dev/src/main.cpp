@@ -20,28 +20,78 @@
 
 template<bool chk,typename T> using When=typename enable_if<chk,T>::type;
 
-template<typename F,typename P>
-struct App {
-  const F lambda;
-  const P param;
-  cex App(const F f,const P p):lambda(f),param(p) {}
-   template<typename O> cex const App<O,App<F,P>> cons(const O o) const {return {o,*this};}
+struct App {};
+
+template<typename O> constexpr bool isApp() {return is_convertible<O,App>::value;}
+
+template<typename...> struct Expr;
+
+template<> struct Expr<>{};
+using Empty=Expr<>;
+cex const Empty empty;
+
+//termination--
+template<typename H>
+struct Expr<H>{
+  using This=Expr<H>;
+  using Head=H;
+  using Tail=Empty;
+  const Head& head;
+  const Tail& tail;
+  cex Expr(const Head& h):head(h),tail(::empty){}
+  cex Expr(const Head& h,const Empty& o):head(h),tail(o){}
+  template<typename O> cex const Expr<O,const This> cons(const O& o) const {return {o,*this};}
 };
 
-template<typename O> cex const O expr(const O o) {return o;}
-template<typename F, typename P> cex auto expr(const F f,const P p)->const App<F,P> {return {f,p};}
-template<typename O, typename... OO> cex auto expr(const O o,const OO... oo)->const App<O,decltype(expr(oo...))> {return {o,expr(oo...)};}
+//continuity--
+template<typename H,typename T>
+struct Expr<H,Expr<T>>{
+  using This=Expr<H,Expr<T>>;
+  using Head=H;
+  using Tail=T;
+  const Head& head;
+  const Tail& tail;
+  cex Expr(const Head& h,const T& t):head(h),tail(t){}
+  template<typename O> cex const Expr<O,const This> cons(const O& o) const {return {o,*this};}
+};
 
-template<typename Out,typename F,typename P> Out& operator<<(Out& out,const App<F,P>& o) {return out<<"("<<o.lambda<<","<<o.param<<")";}
+//expression
+template<typename H,typename... TT>
+struct Expr<H,TT...>{
+  using This=Expr<H,TT...>;
+  using Head=H;
+  using Tail=Expr<TT...>;
+  const Head& head;
+  const Tail tail;
+  cex Expr(const Head& h,const TT&... t):head(h),tail(t...){}
+  template<typename O> cex const Expr<O,const This> cons(const O& o) const {return {o,*this};}
+};
+
+cex const Empty& expr() {return ::empty;}
+template<typename O> cex const Expr<const O> expr(const O& o) {return {o};}
+template<typename O, typename... OO> cex auto expr(const O& o,const OO&... tt)->const Expr<O,decltype(expr(tt...))> {return {o,expr(tt...)};}
+
+#ifdef YO_VERB
+  template<typename Out> Out& operator<<(Out& out,const Empty& o) {return out<<"ø@"<<&o;}
+  template<typename Out,typename O,typename... OO> When<!isApp<O>(),Out>& operator<<(Out& out,const Expr<O,OO...> &o) {return out<<"("<<&o<<":"<<o.head<<"@"<<&o.head<<" "<<o.tail<<")";}
+  template<typename Out,typename O,typename... OO> When< isApp<O>(),Out>& operator<<(Out& out,const Expr<O,OO...> &o) {return out<<"["<<&o<<":("<<o.head<<"@"<<&o.head<<") "<<o.tail<<"]";}
+#else
+  template<typename Out> Out& operator<<(Out& out,const Empty&) {return out<<"ø";}
+  template<typename Out,typename O,typename... OO> When<!isApp<O>(),Out>& operator<<(Out& out,const Expr<O,OO...> &o) {return out<<o.head<<" "<<o.tail;}
+  template<typename Out,typename O,typename... OO> When< isApp<O>(),Out>& operator<<(Out& out,const Expr<O,OO...> &o) {return out<<"("<<o.head<<") "<<o.tail;}
+#endif
+
+cex const char*n="rui";
+cex const int y=1967;
+cex const auto a{expr(n)};
+cex const auto b{a.cons(y)};
+cex const auto c{b.cons("ok")};
 
 int main() {
   cout<<"start!"<<endl;
-  // cout<<x<<endl;
-  cout<<expr(1967)<<endl;
-  cout<<expr(1,2,3)<<endl;
-  cout<<expr(1,expr(expr(2,3)))<<endl;
-  cout<<expr(1,2,3).param<<endl;
-  cout<<expr(1,expr(expr(2,3))).param<<endl;
+  cout<<a<<endl;
+  cout<<b<<endl;
+  cout<<c<<endl;
   cout<<"end."<<endl;
   return  0;
 } 
