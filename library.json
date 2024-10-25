@@ -1,7 +1,7 @@
 {
     "name": "Yolanda",
-    "version": "0.2.0",
-    "keywords": "functional lazy c++ compiler",
+    "version": "0.3.4",
+    "keywords": "functional lazy c++ compiler language compiled lambda calculus",
     "description": "micro lambda",
     "homepage": "https://github.com/neu-rah/yolanda",
     "license": "MIT",
@@ -11,5 +11,12 @@
     },
     "frameworks": "*",
     "platforms": "*",
-    "headers": "yolanda.h"
+    "headers": "yolanda.h",
+    "dependencies": [
+      {
+        "owner": "neu-rah",
+        "name": "streamFlow",
+        "version": "https://github.com/neu-rah/streamFlow.git"
+      }
+    ] 
   }
